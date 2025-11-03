@@ -1,0 +1,326 @@
+// Octo Worker Database Schema
+// Version: 0.4.0
+// Date: 2025-11-03
+// Database: PostgreSQL 13+
+
+// 이 파일을 dbdiagram.io에서 열어서 시각화할 수 있습니다.
+// URL: https://dbdiagram.io/d
+
+Project OctoWorker {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Octo Worker Database Schema
+
+    LangGraph 1.0 기반 멀티 에이전트 챗봇 시스템
+    - PostgreSQL Checkpoint 저장
+    - 세션 상태 관리
+    - HITL (Human-in-the-Loop) 지원
+  '''
+}
+
+// ============================================
+// LangGraph Checkpointer Tables
+// ============================================
+
+Table checkpoints {
+  thread_id varchar(255) [not null, note: '세션 식별자 (session_id와 동일)']
+  checkpoint_ns varchar(255) [not null, default: '', note: '체크포인트 네임스페이스']
+  checkpoint_id varchar(255) [not null, note: '체크포인트 고유 ID (UUID)']
+  parent_checkpoint_id varchar(255) [note: '부모 체크포인트 ID']
+  type varchar(50) [note: '체크포인트 타입']
+  checkpoint bytea [not null, note: '상태 데이터 (직렬화된 Python 객체)']
+  metadata bytea [note: '메타데이터 (직렬화된 딕셔너리)']
+  created_at timestamp [default: `now()`, note: '생성 시간']
+
+  indexes {
+    (thread_id, checkpoint_ns, checkpoint_id) [pk]
+    thread_id [name: 'idx_checkpoints_thread_id']
+    checkpoint_id [name: 'idx_checkpoints_checkpoint_id']
+    created_at [name: 'idx_checkpoints_created_at']
+  }
+
+  Note: '''
+    LangGraph StateGraph의 체크포인트 저장소
+    - 각 노드 실행 후 상태 저장
+    - 타임 트래블 및 세션 복원 지원
+    - thread_id로 세션 격리
+  '''
+}
+
+Table checkpoint_writes {
+  thread_id varchar(255) [not null, note: '세션 식별자']
+  checkpoint_ns varchar(255) [not null, default: '', note: '체크포인트 네임스페이스']
+  checkpoint_id varchar(255) [not null, note: '체크포인트 ID']
+  task_id varchar(255) [not null, note: '태스크 고유 ID']
+  idx integer [not null, note: '쓰기 순서 인덱스']
+  channel varchar(255) [not null, note: '채널명 (상태 키)']
+  type varchar(50) [note: '쓰기 타입 (update, replace 등)']
+  value bytea [note: '쓰기 값 (직렬화)']
+  created_at timestamp [default: `now()`, note: '생성 시간']
+
+  indexes {
+    (thread_id, checkpoint_ns, checkpoint_id, task_id, idx) [pk]
+    thread_id [name: 'idx_writes_thread_id']
+    checkpoint_id [name: 'idx_writes_checkpoint_id']
+    (thread_id, checkpoint_id) [name: 'idx_writes_thread_checkpoint']
+  }
+
+  Note: '''
+    체크포인트 쓰기 로그
+    - 상태 변경 추적
+    - 채널별 값 업데이트 기록
+  '''
+}
+
+// ============================================
+// Session Management Tables (Optional)
+// ============================================
+
+Table sessions {
+  thread_id varchar(255) [pk, note: '세션 고유 ID']
+  user_id varchar(255) [note: '사용자 ID (옵션)']
+  status varchar(50) [not null, default: 'active', note: 'active, waiting_human, in_progress, completed, failed']
+  is_waiting_human boolean [default: false, note: 'HITL 대기 상태']
+  last_checkpoint_id varchar(255) [note: '마지막 체크포인트 ID']
+  session_metadata jsonb [note: '세션 메타데이터 (JSON)']
+  created_at timestamp [default: `now()`, note: '생성 시간']
+  updated_at timestamp [default: `now()`, note: '마지막 업데이트 시간']
+  expires_at timestamp [note: '만료 시간 (옵션)']
+
+  indexes {
+    user_id [name: 'idx_sessions_user_id']
+    status [name: 'idx_sessions_status']
+    is_waiting_human [name: 'idx_sessions_waiting_human']
+    created_at [name: 'idx_sessions_created_at']
+    expires_at [name: 'idx_sessions_expires_at']
+  }
+
+  Note: '''
+    세션 메타데이터 관리 (현재 메모리 기반, 추후 DB 저장 가능)
+    - 세션 상태 추적
+    - HITL 대기 상태 관리
+    - 사용자별 세션 조회
+  '''
+}
+
+Table session_messages {
+  id bigserial [pk, note: '메시지 고유 ID']
+  thread_id varchar(255) [not null, ref: > sessions.thread_id, note: '세션 ID']
+  message_type varchar(50) [not null, note: 'HumanMessage, AIMessage, SystemMessage 등']
+  content text [not null, note: '메시지 내용']
+  message_metadata jsonb [note: '메시지 메타데이터']
+  sequence_number integer [not null, note: '메시지 순서']
+  created_at timestamp [default: `now()`, note: '생성 시간']
+
+  indexes {
+    thread_id [name: 'idx_messages_thread_id']
+    (thread_id, sequence_number) [name: 'idx_messages_thread_seq']
+    created_at [name: 'idx_messages_created_at']
+  }
+
+  Note: '''
+    메시지 히스토리 (옵션)
+    - 현재는 checkpoint에 포함되어 저장
+    - 빠른 히스토리 조회를 위해 분리 가능
+  '''
+}
+
+// ============================================
+// Agent Execution Logs (Optional)
+// ============================================
+
+Table agent_executions {
+  id bigserial [pk, note: '실행 로그 ID']
+  thread_id varchar(255) [not null, ref: > sessions.thread_id, note: '세션 ID']
+  checkpoint_id varchar(255) [note: '관련 체크포인트 ID']
+  agent_name varchar(100) [not null, note: '에이전트 이름 (search, web, contract 등)']
+  node_name varchar(100) [not null, note: '노드 이름']
+  status varchar(50) [not null, note: 'started, completed, failed, interrupted']
+  input_data jsonb [note: '입력 데이터']
+  output_data jsonb [note: '출력 데이터']
+  error_message text [note: '에러 메시지 (실패 시)']
+  execution_time_ms integer [note: '실행 시간 (밀리초)']
+  started_at timestamp [not null, default: `now()`, note: '시작 시간']
+  completed_at timestamp [note: '완료 시간']
+
+  indexes {
+    thread_id [name: 'idx_executions_thread_id']
+    agent_name [name: 'idx_executions_agent_name']
+    status [name: 'idx_executions_status']
+    started_at [name: 'idx_executions_started_at']
+    (thread_id, started_at) [name: 'idx_executions_thread_started']
+  }
+
+  Note: '''
+    에이전트 실행 로그 (옵션)
+    - 모니터링 및 디버깅용
+    - 성능 분석
+    - 에러 추적
+  '''
+}
+
+Table hitl_approvals {
+  id bigserial [pk, note: '승인 요청 ID']
+  thread_id varchar(255) [not null, ref: > sessions.thread_id, note: '세션 ID']
+  checkpoint_id varchar(255) [not null, note: '체크포인트 ID']
+  agent_name varchar(100) [note: 'HITL을 요청한 에이전트']
+  approval_type varchar(50) [not null, note: 'contract, payment, sensitive_data 등']
+  request_message text [not null, note: '승인 요청 메시지']
+  request_context jsonb [note: '요청 컨텍스트 (JSON)']
+  status varchar(50) [not null, default: 'pending', note: 'pending, approved, rejected']
+  response_message text [note: '사용자 응답 메시지']
+  requested_at timestamp [default: `now()`, note: '요청 시간']
+  responded_at timestamp [note: '응답 시간']
+
+  indexes {
+    thread_id [name: 'idx_approvals_thread_id']
+    status [name: 'idx_approvals_status']
+    approval_type [name: 'idx_approvals_type']
+    requested_at [name: 'idx_approvals_requested_at']
+  }
+
+  Note: '''
+    HITL 승인 요청 이력
+    - 승인/거부 추적
+    - 컴플라이언스 감사 로그
+  '''
+}
+
+// ============================================
+// User Management (Future Enhancement)
+// ============================================
+
+Table users {
+  user_id varchar(255) [pk, note: '사용자 고유 ID']
+  username varchar(100) [unique, note: '사용자명']
+  email varchar(255) [unique, note: '이메일']
+  full_name varchar(255) [note: '전체 이름']
+  api_key_hash varchar(255) [note: 'API 키 해시 (인증용)']
+  role varchar(50) [default: 'user', note: 'user, admin, developer']
+  is_active boolean [default: true, note: '활성 상태']
+  created_at timestamp [default: `now()`, note: '생성 시간']
+  last_login_at timestamp [note: '마지막 로그인']
+
+  indexes {
+    username [name: 'idx_users_username']
+    email [name: 'idx_users_email']
+    api_key_hash [name: 'idx_users_api_key']
+  }
+
+  Note: '''
+    사용자 관리 (향후 기능)
+    - API 키 기반 인증
+    - 역할 기반 접근 제어
+  '''
+}
+
+// ============================================
+// Relationships
+// ============================================
+
+Ref: checkpoints.thread_id - sessions.thread_id [note: '체크포인트는 세션에 속함']
+Ref: checkpoint_writes.thread_id > checkpoints.thread_id [note: '쓰기는 체크포인트에 속함']
+Ref: checkpoint_writes.checkpoint_id > checkpoints.checkpoint_id [note: '쓰기는 특정 체크포인트와 연결']
+
+Ref: sessions.user_id > users.user_id [note: '세션은 사용자에 속함']
+
+// ============================================
+// Enums
+// ============================================
+
+Enum session_status {
+  active [note: '활성 세션']
+  waiting_human [note: 'HITL 대기 중']
+  in_progress [note: '실행 중']
+  completed [note: '완료됨']
+  failed [note: '실패']
+  expired [note: '만료됨']
+}
+
+Enum message_type {
+  HumanMessage [note: '사용자 메시지']
+  AIMessage [note: 'AI 응답']
+  SystemMessage [note: '시스템 메시지']
+  ToolMessage [note: '도구 실행 결과']
+}
+
+Enum agent_execution_status {
+  started [note: '시작됨']
+  completed [note: '완료됨']
+  failed [note: '실패']
+  interrupted [note: 'HITL에 의해 중단']
+}
+
+Enum hitl_approval_status {
+  pending [note: '승인 대기']
+  approved [note: '승인됨']
+  rejected [note: '거부됨']
+  expired [note: '만료됨 (타임아웃)']
+}
+
+Enum user_role {
+  user [note: '일반 사용자']
+  admin [note: '관리자']
+  developer [note: '개발자']
+}
+
+// ============================================
+// Table Groups (Visual Organization)
+// ============================================
+
+TableGroup "LangGraph Core" {
+  checkpoints
+  checkpoint_writes
+}
+
+TableGroup "Session Management" {
+  sessions
+  session_messages
+}
+
+TableGroup "Monitoring & Logs" {
+  agent_executions
+  hitl_approvals
+}
+
+TableGroup "User Management" {
+  users
+}
+
+// ============================================
+// Notes
+// ============================================
+
+Note implementation_status {
+  '''
+  ## 구현 상태
+
+  ### ✅ 구현 완료
+  - checkpoints: LangGraph AsyncPostgresSaver
+  - checkpoint_writes: LangGraph AsyncPostgresSaver
+
+  ### 🔄 부분 구현
+  - sessions: 현재 메모리 기반 (SessionManager)
+
+  ### 📋 향후 구현 예정
+  - session_messages: 빠른 히스토리 조회
+  - agent_executions: 모니터링 및 분석
+  - hitl_approvals: 컴플라이언스 로그
+  - users: 인증 및 권한 관리
+
+  ## 데이터 흐름
+
+  1. 사용자 요청 → sessions 생성
+  2. Graph 실행 → checkpoints 저장
+  3. 각 노드 실행 → checkpoint_writes 기록
+  4. HITL 발생 → hitl_approvals 생성 (옵션)
+  5. 에이전트 실행 → agent_executions 로깅 (옵션)
+
+  ## 성능 최적화
+
+  - thread_id에 인덱스: 빠른 세션 조회
+  - checkpoint_id에 인덱스: 빠른 복원
+  - created_at에 인덱스: 시간 기반 쿼리
+  - 파티셔닝: 시간 기반 파티셔닝 가능 (대용량 처리)
+  '''
+}

@@ -11,7 +11,13 @@
       "Bash(tree:*)",
       "Bash(uv run pytest:*)",
       "Bash(uv pip install:*)",
-      "Bash(timeout /t 5)"
+      "Bash(timeout /t 5)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill /F /PID 34476)",
+      "Bash(cmd /c \"taskkill /F /PID 34476\")",
+      "Bash(powershell -Command \"Stop-Process -Id 34476 -Force\")",
+      "Bash(if not exist \"C:\\kdy\\Projects\\Octo_worker\\beta_v002\\manual\" mkdir \"C:\\kdy\\Projects\\Octo_worker\\beta_v002\\manual\")"
     ],
     "deny": [],
     "ask": []
