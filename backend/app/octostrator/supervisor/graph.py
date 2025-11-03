@@ -1,24 +1,38 @@
 """Supervisor Graph 정의
 
 LangGraph 1.0을 사용한 메인 그래프
-Phase 2: Intent Understanding + Planning Agent 추가
+Phase 3: Executor + Agents 추가 (완전한 Execution Loop)
 """
 from typing import Optional
 from langgraph.graph import StateGraph, START, END
 from langchain_openai import ChatOpenAI
 from backend.app.octostrator.states.supervisor_state import SupervisorState
 from backend.app.octostrator.contexts.app_context import AppContext
-from backend.app.octostrator.nodes import intent_understanding_node, planning_node
+from backend.app.octostrator.nodes import (
+    intent_understanding_node,
+    planning_node,
+    executor_node,
+    hitl_handler_node,
+)
+from backend.app.octostrator.agents import (
+    search_agent_node,
+    validation_agent_node,
+    analysis_agent_node,
+    comparison_agent_node,
+    document_agent_node,
+)
 from backend.app.config.system import config
 
 
 def build_supervisor_graph(context: Optional[AppContext] = None):
     """Supervisor Graph 생성
 
-    Phase 2: Intent Understanding + Planning Agent 추가
+    Phase 3: 완전한 Execution Loop 구현
     - Intent Understanding: 사용자 의도 파악
     - Planning: 작업을 Task 리스트로 분해
-    - Supervisor: 계획 실행 (Phase 3에서 Executor로 변경 예정)
+    - Executor: 계획에 따라 Agent 순차 실행 (Command 기반 동적 라우팅)
+    - Agents: 실제 작업 수행 (search, validation, analysis, comparison, document)
+    - HITL Handler: 사용자 승인 처리 (Phase 3: 자동 승인, Phase 4: 실제 대기)
 
     Args:
         context: AppContext (선택적)
@@ -49,52 +63,53 @@ def build_supervisor_graph(context: Optional[AppContext] = None):
         """Planning 노드"""
         return await planning_node(state, llm)
 
-    # === Phase 1 Supervisor Node (Phase 3에서 Executor로 변경 예정) ===
+    # === Phase 3: Executor Node (Command 기반 동적 라우팅) ===
+    # Executor는 Command를 반환하므로 그대로 사용
+    # executor_node는 이미 async 함수이므로 wrapper 불필요
 
-    async def supervisor_node(state: SupervisorState) -> dict:
-        """Supervisor 노드 - Phase 3에서 Executor로 변경 예정
+    # === Phase 3: Agent Nodes ===
+    # Agent 노드들도 이미 async 함수이므로 그대로 사용
 
-        현재는 계획 결과를 출력하고 종료
-
-        Args:
-            state: SupervisorState 현재 상태
-
-        Returns:
-            dict: 업데이트할 상태 (messages 키 포함)
-        """
-        # Phase 2: 계획이 있으면 출력
-        plan = state.get("plan", [])
-        if plan:
-            plan_summary = "\n".join([
-                f"Step {step['step_id']}: [{step['agent']}] {step['description']}"
-                for step in plan
-            ])
-            from langchain_core.messages import AIMessage
-            return {
-                "messages": [
-                    AIMessage(
-                        content=f"[Supervisor] 계획 실행 준비 완료\n\n"
-                                f"다음 단계에서 실행될 계획:\n{plan_summary}\n\n"
-                                f"(Phase 3에서 실제 Executor 구현 예정)"
-                    )
-                ]
-            }
-
-        # Fallback: 계획이 없으면 기본 LLM 호출
-        messages = state["messages"]
-        response = await llm.ainvoke(messages)
-        return {"messages": [response]}
+    # === Phase 3: HITL Handler ===
+    # HITL Handler도 이미 async 함수이므로 그대로 사용
 
     # === 노드 추가 ===
+
+    # 1. Intent & Planning
     workflow.add_node("intent", intent_node)
     workflow.add_node("planning", planning_node_wrapper)
-    workflow.add_node("supervisor", supervisor_node)
 
-    # === 엣지 정의: START → intent → planning → supervisor → END ===
+    # 2. Executor (Command 사용, ends 명시 필수)
+    workflow.add_node("executor", executor_node, ends=[
+        "search", "validation", "analysis", "comparison", "document", "hitl_handler", END
+    ])
+
+    # 3. Agents (교체 가능)
+    workflow.add_node("search", search_agent_node)
+    workflow.add_node("validation", validation_agent_node)
+    workflow.add_node("analysis", analysis_agent_node)
+    workflow.add_node("comparison", comparison_agent_node)
+    workflow.add_node("document", document_agent_node)
+
+    # 4. HITL Handler
+    workflow.add_node("hitl_handler", hitl_handler_node)
+
+    # === 엣지 정의 ===
+
+    # 플로우: START → intent → planning → executor → (Agents | HITL | END)
     workflow.add_edge(START, "intent")
     workflow.add_edge("intent", "planning")
-    workflow.add_edge("planning", "supervisor")
-    workflow.add_edge("supervisor", END)
+    workflow.add_edge("planning", "executor")
+
+    # 모든 Agent → executor로 복귀 (다음 Task 실행)
+    workflow.add_edge("search", "executor")
+    workflow.add_edge("validation", "executor")
+    workflow.add_edge("analysis", "executor")
+    workflow.add_edge("comparison", "executor")
+    workflow.add_edge("document", "executor")
+
+    # HITL → executor로 복귀 (Phase 3: 자동 승인 후 복귀)
+    workflow.add_edge("hitl_handler", "executor")
 
     # 그래프 컴파일
     return workflow.compile()

@@ -40,6 +40,7 @@ class SupervisorState(TypedDict, total=False):
     """Supervisor State with Plan Management
 
     Phase 2: Planning-Based Multi-Agent Execution을 위한 확장된 State
+    Phase 3.5: Aggregator + Generator를 위한 State 확장
 
     Attributes:
         messages: 대화 메시지 히스토리
@@ -49,6 +50,8 @@ class SupervisorState(TypedDict, total=False):
         is_planning: 계획 수립 중인가?
         is_executing: 실행 중인가?
         is_waiting_human: HITL 대기 중인가?
+        aggregated_data: Aggregator가 생성한 구조화된 데이터 (Phase 3.5)
+        output_format: 출력 형식 ("chat", "graph", "report") (Phase 3.5)
         final_result: 최종 결과 (모든 작업 완료 후)
     """
     # 필수 필드
@@ -63,6 +66,10 @@ class SupervisorState(TypedDict, total=False):
     is_planning: bool
     is_executing: bool
     is_waiting_human: bool
+
+    # Phase 3.5: Aggregation & Generation (선택적)
+    aggregated_data: Optional[dict]
+    output_format: str
 
     # Results (선택적)
     final_result: Optional[str]
