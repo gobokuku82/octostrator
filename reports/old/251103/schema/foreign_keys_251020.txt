@@ -1,0 +1,283 @@
+================================================================================
+Foreign Key 관계 확인 - Phase 0.1 Step 5
+생성일시: 2025-10-20
+데이터베이스: real_estate (PostgreSQL)
+================================================================================
+
+쿼리:
+SELECT
+    tc.table_name,
+    kcu.column_name,
+    ccu.table_name AS foreign_table_name,
+    ccu.column_name AS foreign_column_name,
+    rc.update_rule,
+    rc.delete_rule
+FROM information_schema.table_constraints AS tc
+JOIN information_schema.key_column_usage AS kcu
+    ON tc.constraint_name = kcu.constraint_name
+    AND tc.table_schema = kcu.table_schema
+JOIN information_schema.constraint_column_usage AS ccu
+    ON ccu.constraint_name = tc.constraint_name
+    AND ccu.table_schema = tc.table_schema
+JOIN information_schema.referential_constraints AS rc
+    ON tc.constraint_name = rc.constraint_name
+WHERE tc.constraint_type = 'FOREIGN KEY'
+  AND tc.table_schema = 'public'
+  AND (tc.table_name IN ('chat_sessions', 'chat_messages')
+       OR ccu.table_name IN ('chat_sessions', 'chat_messages'))
+ORDER BY tc.table_name, kcu.column_name;
+
+결과:
+table_name   | column_name | foreign_table_name | foreign_column_name | update_rule | delete_rule
+---------------+-------------+--------------------+---------------------+-------------+-------------
+ chat_messages | session_id  | chat_sessions      | session_id          | NO ACTION   | CASCADE
+ chat_sessions | user_id     | users              | id                  | NO ACTION   | CASCADE
+(2개 행)
+
+================================================================================
+Foreign Key 관계 다이어그램
+================================================================================
+
+users (id)
+  ↓ ON DELETE CASCADE
+chat_sessions (user_id, session_id, metadata)
+  ↓ ON DELETE CASCADE
+chat_messages (session_id, structured_data)
+
+================================================================================
+상세 분석
+================================================================================
+
+1. chat_sessions.user_id → users.id
+   ----------------------------------------
+   - 제약: chat_sessions는 반드시 유효한 users.id를 참조
+   - UPDATE: NO ACTION (users.id 변경 시 에러)
+   - DELETE: CASCADE (사용자 삭제 → 해당 사용자의 모든 세션 자동 삭제)
+   - 의미:
+     * 사용자가 삭제되면 해당 사용자의 모든 채팅 세션이 자동 삭제됨
+     * 고아(orphan) 세션 방지
+     * Memory 데이터도 함께 삭제됨 (metadata 포함)
+
+2. chat_messages.session_id → chat_sessions.session_id
+   ----------------------------------------
+   - 제약: chat_messages는 반드시 유효한 chat_sessions.session_id를 참조
+   - UPDATE: NO ACTION (chat_sessions.session_id 변경 시 에러)
+   - DELETE: CASCADE (세션 삭제 → 해당 세션의 모든 메시지 자동 삭제)
+   - 의미:
+     * 세션이 삭제되면 해당 세션의 모든 메시지가 자동 삭제됨
+     * 고아(orphan) 메시지 방지
+     * 데이터 무결성 보장
+
+================================================================================
+Cascading Delete 시나리오
+================================================================================
+
+시나리오 1: 사용자 삭제
+-----------------------
+DELETE FROM users WHERE id = 'user123';
+
+→ 자동 실행되는 작업:
+  1. chat_sessions WHERE user_id = 'user123' 삭제
+  2. chat_messages WHERE session_id IN (user123의 모든 세션) 삭제
+
+결과:
+- 사용자 1명 삭제 시 해당 사용자의 모든 대화 기록 완전 삭제
+- Memory 데이터(chat_sessions.metadata)도 함께 삭제
+
+시나리오 2: 세션 삭제
+-----------------------
+DELETE FROM chat_sessions WHERE session_id = 'session-abc';
+
+→ 자동 실행되는 작업:
+  1. chat_messages WHERE session_id = 'session-abc' 삭제
+
+결과:
+- 세션 1개 삭제 시 해당 세션의 모든 메시지 삭제
+- Memory 데이터(metadata의 conversation_summary)도 함께 삭제
+
+시나리오 3: 메시지만 삭제
+-----------------------
+DELETE FROM chat_messages WHERE id = 'msg123';
+
+→ 영향 없음:
+  - chat_sessions는 그대로 유지
+  - 다른 메시지도 그대로 유지
+
+================================================================================
+Memory Service 구현 시 고려사항
+================================================================================
+
+1. load_recent_memories 메서드:
+   ✅ 장점:
+   - 삭제된 사용자/세션의 메모리는 자동으로 로드되지 않음
+   - 별도 정리 로직 불필요
+
+   ⚠️ 주의:
+   - 세션이 삭제되면 metadata도 함께 삭제됨
+   - 장기 보관이 필요한 데이터는 Phase 2에서 별도 테이블로 이동 필요
+
+2. save_conversation 메서드:
+   ✅ 안전:
+   - user_id와 session_id가 유효한 경우에만 저장 가능
+   - 외래 키 제약으로 데이터 무결성 보장
+
+   ⚠️ 에러 처리:
+   - 존재하지 않는 session_id에 저장 시도 시 에러 처리 필요
+   - 트랜잭션 중 세션이 삭제될 가능성 고려
+
+3. 데이터 보존 정책 (Phase 2 고려):
+   현재 구조:
+   - 사용자 삭제 = 모든 대화 기록 삭제
+   - 세션 삭제 = 해당 세션의 모든 메시지 + 메모리 삭제
+
+   Phase 2 옵션:
+   - conversation_memories 테이블에 별도 보관
+   - soft delete 구현 (deleted_at 컬럼 추가)
+   - 보관 기간 설정 (예: 90일)
+
+================================================================================
+SimpleMemoryService 코드 안전성 확보
+================================================================================
+
+1. save_conversation 안전 코드:
+   ```python
+   async def save_conversation(
+       self,
+       user_id: str,
+       session_id: str,
+       messages: List[dict],
+       summary: str
+   ) -> None:
+       try:
+           # 세션 존재 확인 + user_id 일치 확인
+           query = select(ChatSession).where(
+               ChatSession.session_id == session_id,
+               ChatSession.user_id == user_id
+           )
+           result = await self.db.execute(query)
+           session = result.scalar_one_or_none()
+
+           if not session:
+               logger.warning(
+                   f"Session not found or user mismatch: "
+                   f"session_id={session_id}, user_id={user_id}"
+               )
+               return  # 조용히 실패 (또는 예외 발생)
+
+           # metadata 업데이트
+           if session.session_metadata is None:
+               session.session_metadata = {}
+
+           session.session_metadata["conversation_summary"] = summary
+           session.session_metadata["last_updated"] = datetime.now().isoformat()
+
+           flag_modified(session, "session_metadata")
+           await self.db.commit()
+
+       except Exception as e:
+           logger.error(f"Failed to save conversation: {e}")
+           await self.db.rollback()
+           raise
+   ```
+
+2. load_recent_memories 안전 코드:
+   ```python
+   async def load_recent_memories(
+       self,
+       user_id: str,
+       limit: int = 5,
+       relevance_filter: str = "ALL",
+       session_id: Optional[str] = None
+   ) -> List[dict]:
+       try:
+           # 유효한 세션만 로드 (외래 키로 자동 보장)
+           query = select(ChatSession).where(
+               ChatSession.user_id == user_id,
+               ChatSession.session_metadata.isnot(None)
+           )
+
+           # 현재 진행 중인 세션 제외
+           if session_id:
+               query = query.where(ChatSession.session_id != session_id)
+
+           query = query.order_by(ChatSession.updated_at.desc()).limit(limit)
+
+           result = await self.db.execute(query)
+           sessions = result.scalars().all()
+
+           memories = []
+           for session in sessions:
+               metadata = session.session_metadata
+               if metadata and "conversation_summary" in metadata:
+                   memories.append({
+                       "session_id": session.session_id,
+                       "summary": metadata["conversation_summary"],
+                       "timestamp": session.updated_at.isoformat()
+                   })
+
+           return memories
+
+       except Exception as e:
+           logger.error(f"Failed to load recent memories: {e}")
+           return []  # 에러 시 빈 리스트 반환
+   ```
+
+================================================================================
+Phase 0.1 완료 체크리스트
+================================================================================
+
+✅ Step 1: Memory 관련 테이블 스키마 추출
+   - chat_sessions, chat_messages, users
+   - 파일: DB_SCHEMA_SNAPSHOT_251020.md
+
+✅ Step 2: 전체 테이블 목록 추출
+   - 17개 테이블 확인
+   - 파일: all_tables_251020.txt
+
+✅ Step 3: Memory 테이블 존재 여부 확인
+   - conversation_memories, entity_memories, user_preferences 부재 확인
+   - 파일: memory_tables_check_251020.txt
+
+✅ Step 4: JSONB 컬럼 상세 정보
+   - chat_sessions.metadata 활용 전략 확정
+   - 파일: jsonb_columns_251020.txt
+
+✅ Step 5: Foreign Key 관계 확인
+   - CASCADE DELETE 설정 확인
+   - 데이터 무결성 보장 메커니즘 파악
+   - 파일: foreign_keys_251020.txt (현재 파일)
+
+================================================================================
+Phase 0.1 주요 발견사항 요약
+================================================================================
+
+1. DB 현황:
+   ✅ 17개 테이블 존재
+   ✅ chat_sessions.metadata (JSONB, NULL 허용)
+   ✅ chat_messages.structured_data (JSONB, NULL 허용)
+   ❌ Memory 전용 테이블 없음 (Phase 2에서 생성 예정)
+
+2. 외래 키 관계:
+   ✅ users → chat_sessions → chat_messages (CASCADE DELETE)
+   ✅ 데이터 무결성 자동 보장
+   ⚠️ 삭제 시 Memory 데이터도 함께 삭제됨
+
+3. Phase 1 구현 방향:
+   ✅ chat_sessions.metadata 활용
+   ✅ session_id 파라미터 추가
+   ✅ 안전한 에러 처리 구현
+
+4. Phase 2 고려사항:
+   - conversation_memories 테이블 생성
+   - 장기 보관 정책 수립
+   - JSONB 인덱스 추가
+
+================================================================================
+다음 단계: Phase 0.2
+================================================================================
+
+Models 검증:
+1. chat.py - ChatSession, ChatMessage 모델 검증
+2. users.py - User 모델 검증
+3. DB Schema와 Models 일치 여부 확인
+4. 불일치 항목 리스트 작성

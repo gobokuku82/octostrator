@@ -1,0 +1,602 @@
+2025-10-08 12:20:56,327 - app.service_agent.foundation.agent_adapter - INFO - Registering teams to Registry...
+2025-10-08 12:20:56,328 - app.service_agent.foundation.agent_registry - INFO - Agent 'search_team' registered successfully (team: search, enabled: True)
+2025-10-08 12:20:56,328 - app.service_agent.foundation.agent_adapter - INFO - SearchTeam registered successfully
+2025-10-08 12:20:56,328 - app.service_agent.foundation.agent_registry - INFO - Agent 'analysis_team' registered successfully (team: analysis, enabled: True)
+2025-10-08 12:20:56,328 - app.service_agent.foundation.agent_adapter - INFO - AnalysisTeam registered successfully
+2025-10-08 12:20:56,338 - app.service_agent.foundation.agent_registry - INFO - Agent 'document_team' registered successfully (team: document, enabled: True)
+2025-10-08 12:20:56,338 - app.service_agent.foundation.agent_adapter - INFO - DocumentTeam registered successfully
+2025-10-08 12:20:56,338 - app.service_agent.foundation.agent_adapter - INFO - Registration complete. Registered agents: ['search_team', 'analysis_team', 'document_team']
+2025-10-08 12:20:56,338 - app.service_agent.foundation.agent_adapter - INFO - Teams: ['search', 'analysis', 'document']
+2025-10-08 12:20:56,338 - app.service_agent.foundation.agent_adapter - INFO - Agent system initialized
+2025-10-08 12:20:56,759 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam available agents: {'search_agent': False}
+2025-10-08 12:20:56,760 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:01,162 - app.service_agent.tools.hybrid_legal_search - INFO - SQLite DB connected: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\sqlite_db\legal_metadata.db
+2025-10-08 12:21:01,504 - app.service_agent.tools.hybrid_legal_search - INFO - ChromaDB loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\chroma_db (1700 documents)
+2025-10-08 12:21:01,506 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-08 12:21:01,506 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:02,072 - app.service_agent.tools.hybrid_legal_search - INFO - Embedding model loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:02,072 - app.service_agent.tools.hybrid_legal_search - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:02,072 - app.service_agent.execution_agents.search_executor - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:02,073 - app.service_agent.tools.market_data_tool - INFO - Market data loaded: 6 regions
+2025-10-08 12:21:02,073 - app.service_agent.execution_agents.search_executor - INFO - MarketDataTool initialized successfully
+2025-10-08 12:21:02,073 - app.service_agent.tools.loan_data_tool - INFO - Loan data loaded: 3 loan types
+2025-10-08 12:21:02,073 - app.service_agent.execution_agents.search_executor - INFO - LoanDataTool initialized successfully
+2025-10-08 12:21:02,080 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam subgraph built successfully
+2025-10-08 12:21:02,081 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam available agents: {'document_agent': False, 'review_agent': False}
+2025-10-08 12:21:02,084 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam subgraph built successfully
+2025-10-08 12:21:02,084 - app.service_agent.tools.contract_analysis_tool - INFO - ContractAnalysisTool initialized
+2025-10-08 12:21:02,084 - app.service_agent.tools.market_analysis_tool - INFO - MarketAnalysisTool initialized
+2025-10-08 12:21:02,084 - app.service_agent.tools.roi_calculator_tool - INFO - ROICalculatorTool initialized
+2025-10-08 12:21:02,084 - app.service_agent.tools.loan_simulator_tool - INFO - LoanSimulatorTool initialized
+2025-10-08 12:21:02,085 - app.service_agent.tools.policy_matcher_tool - INFO - PolicyMatcherTool initialized with 11 policies
+2025-10-08 12:21:02,085 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:02,091 - app.service_agent.execution_agents.analysis_executor - INFO - AnalysisTeam subgraph built successfully
+2025-10-08 12:21:02,096 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built successfully
+2025-10-08 12:21:02,096 - app.service_agent.supervisor.team_supervisor - INFO - TeamBasedSupervisor initialized with 3 teams (checkpointing: True)
+2025-10-08 12:21:02,096 - __main__ - INFO - Running query with session_id: test_session_001
+2025-10-08 12:21:02,096 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 전세금 5% 인상 한도가 얼마인가요?...
+2025-10-08 12:21:02,096 - app.service_agent.supervisor.team_supervisor - INFO - Initializing AsyncSqliteSaver checkpointer...
+2025-10-08 12:21:02,097 - app.service_agent.supervisor.team_supervisor - INFO - Recompiling graph with checkpointer...
+2025-10-08 12:21:02,101 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built with checkpointer
+2025-10-08 12:21:02,101 - app.service_agent.supervisor.team_supervisor - INFO - Checkpointer initialized and graph recompiled successfully
+2025-10-08 12:21:02,101 - app.service_agent.supervisor.team_supervisor - INFO - Running with checkpointer (thread_id: test_session_001)
+2025-10-08 12:21:02,110 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:02,110 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:02,110 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 전세금 5% 인상 한도가 얼마인가요?...
+2025-10-08 12:21:02,110 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 법률상담
+2025-10-08 12:21:02,110 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:02,110 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:02,111 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:02,112 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:02,112 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: test_session_001
+2025-10-08 12:21:02,112 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:02,118 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:02,118 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:02,118 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:02,119 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:02,119 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:02,121 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:02,121 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:02,121 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='전세금 5% 인상 한도가 얼마인가요?', doc_type=None, category=None
+
+================================================================================
+  AsyncSqliteSaver Checkpoint + LLM Tool Selection Test Suite
+================================================================================
+
+================================================================================
+  Test 1: Checkpoint Save
+================================================================================
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.33it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.33it/s]
+2025-10-08 12:21:02,472 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 0 results
+2025-10-08 12:21:02,472 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 0 results
+2025-10-08 12:21:02,472 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:02,472 - app.service_agent.tools.market_data_tool - INFO - Market search - region: None, type: apartment
+2025-10-08 12:21:02,472 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 5 results
+2025-10-08 12:21:02,472 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:02,472 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: 전세자금대출, query: 전세금 5% 인상 한도가 얼마인가요?
+2025-10-08 12:21:02,473 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 0 results
+2025-10-08 12:21:02,484 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=25, success=True, time=354ms
+2025-10-08 12:21:02,485 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:02,485 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 5 results from 1 sources
+2025-10-08 12:21:02,485 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:02,485 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:02,496 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:02,496 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:02,496 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:02,497 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:02,497 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:02,498 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:02,498 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:02,505 - app.service_agent.supervisor.team_supervisor - INFO - Checkpointer context manager closed successfully
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_adapter - INFO - Registering teams to Registry...
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_registry - WARNING - Agent 'search_team' is already registered. Overwriting...
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_registry - INFO - Agent 'search_team' registered successfully (team: search, enabled: True)
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_adapter - INFO - SearchTeam registered successfully
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_registry - WARNING - Agent 'analysis_team' is already registered. Overwriting...
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_registry - INFO - Agent 'analysis_team' registered successfully (team: analysis, enabled: True)
+2025-10-08 12:21:02,507 - app.service_agent.foundation.agent_adapter - INFO - AnalysisTeam registered successfully
+2025-10-08 12:21:02,508 - app.service_agent.foundation.agent_registry - WARNING - Agent 'document_team' is already registered. Overwriting...
+2025-10-08 12:21:02,508 - app.service_agent.foundation.agent_registry - INFO - Agent 'document_team' registered successfully (team: document, enabled: True)
+2025-10-08 12:21:02,508 - app.service_agent.foundation.agent_adapter - INFO - DocumentTeam registered successfully
+2025-10-08 12:21:02,508 - app.service_agent.foundation.agent_adapter - INFO - Registration complete. Registered agents: ['search_team', 'analysis_team', 'document_team']
+2025-10-08 12:21:02,508 - app.service_agent.foundation.agent_adapter - INFO - Teams: ['search', 'analysis', 'document']
+2025-10-08 12:21:02,508 - app.service_agent.foundation.agent_adapter - INFO - Agent system initialized
+2025-10-08 12:21:02,508 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam available agents: {'search_agent': False}
+2025-10-08 12:21:02,508 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:02,508 - app.service_agent.tools.hybrid_legal_search - INFO - SQLite DB connected: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\sqlite_db\legal_metadata.db
+2025-10-08 12:21:02,536 - app.service_agent.tools.hybrid_legal_search - INFO - ChromaDB loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\chroma_db (1700 documents)
+2025-10-08 12:21:02,538 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-08 12:21:02,538 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:03,091 - app.service_agent.tools.hybrid_legal_search - INFO - Embedding model loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:03,091 - app.service_agent.tools.hybrid_legal_search - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:03,091 - app.service_agent.execution_agents.search_executor - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:03,091 - app.service_agent.tools.market_data_tool - INFO - Market data loaded: 6 regions
+2025-10-08 12:21:03,091 - app.service_agent.execution_agents.search_executor - INFO - MarketDataTool initialized successfully
+2025-10-08 12:21:03,091 - app.service_agent.tools.loan_data_tool - INFO - Loan data loaded: 3 loan types
+2025-10-08 12:21:03,091 - app.service_agent.execution_agents.search_executor - INFO - LoanDataTool initialized successfully
+2025-10-08 12:21:03,098 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam subgraph built successfully
+2025-10-08 12:21:03,098 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam available agents: {'document_agent': False, 'review_agent': False}
+2025-10-08 12:21:03,102 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam subgraph built successfully
+2025-10-08 12:21:03,102 - app.service_agent.tools.contract_analysis_tool - INFO - ContractAnalysisTool initialized
+2025-10-08 12:21:03,102 - app.service_agent.tools.market_analysis_tool - INFO - MarketAnalysisTool initialized
+2025-10-08 12:21:03,102 - app.service_agent.tools.roi_calculator_tool - INFO - ROICalculatorTool initialized
+2025-10-08 12:21:03,102 - app.service_agent.tools.loan_simulator_tool - INFO - LoanSimulatorTool initialized
+2025-10-08 12:21:03,102 - app.service_agent.tools.policy_matcher_tool - INFO - PolicyMatcherTool initialized with 11 policies
+2025-10-08 12:21:03,103 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:03,108 - app.service_agent.execution_agents.analysis_executor - INFO - AnalysisTeam subgraph built successfully
+2025-10-08 12:21:03,112 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built successfully
+2025-10-08 12:21:03,112 - app.service_agent.supervisor.team_supervisor - INFO - TeamBasedSupervisor initialized with 3 teams (checkpointing: True)
+2025-10-08 12:21:03,116 - __main__ - INFO - Continuing session: test_session_001
+2025-10-08 12:21:03,116 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 그럼 현재 강남구 아파트 시세는 얼마인가요?...
+2025-10-08 12:21:03,116 - app.service_agent.supervisor.team_supervisor - INFO - Initializing AsyncSqliteSaver checkpointer...
+2025-10-08 12:21:03,117 - app.service_agent.supervisor.team_supervisor - INFO - Recompiling graph with checkpointer...
+2025-10-08 12:21:03,120 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built with checkpointer
+2025-10-08 12:21:03,120 - app.service_agent.supervisor.team_supervisor - INFO - Checkpointer initialized and graph recompiled successfully
+2025-10-08 12:21:03,120 - app.service_agent.supervisor.team_supervisor - INFO - Running with checkpointer (thread_id: test_session_001)
+2025-10-08 12:21:03,125 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:03,125 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:03,125 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 그럼 현재 강남구 아파트 시세는 얼마인가요?...
+2025-10-08 12:21:03,125 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 시세조회
+2025-10-08 12:21:03,125 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:03,125 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:03,125 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:03,126 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:03,126 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: test_session_001
+2025-10-08 12:21:03,126 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:03,142 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:03,142 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:03,143 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:03,144 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:03,144 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:03,146 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:03,146 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:03,146 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='그럼 현재 강남구 아파트 시세는 얼마인가요?', doc_type=None, category=None
+[PASS] Query execution
+       Response type: summary
+[PASS] Checkpoint DB file created
+       Path: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\checkpoints\default_checkpoint.db
+[PASS] Checkpoint tables exist
+       Tables: checkpoints, writes
+[PASS] Checkpoint data saved
+       Checkpoint count for test_session_001: 42
+
+================================================================================
+  Test 2: Checkpoint Load
+================================================================================
+[PASS] Previous checkpoints found
+       Found 42 checkpoints for test_session_001
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.54it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.54it/s]
+2025-10-08 12:21:03,440 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 8 results
+2025-10-08 12:21:03,440 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 8 results
+2025-10-08 12:21:03,440 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:03,440 - app.service_agent.tools.market_data_tool - INFO - Market search - region: 강남구, type: apartment
+2025-10-08 12:21:03,440 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 1 results
+2025-10-08 12:21:03,440 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:03,440 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: None, query: 그럼 현재 강남구 아파트 시세는 얼마인가요?
+2025-10-08 12:21:03,440 - app.service_agent.tools.loan_data_tool - WARNING - Loan type not found or not specified, returning all types
+2025-10-08 12:21:03,440 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 4 results
+2025-10-08 12:21:03,453 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=26, success=True, time=295ms
+2025-10-08 12:21:03,454 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:03,454 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 13 results from 3 sources
+2025-10-08 12:21:03,454 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:03,455 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:03,467 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:03,467 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:03,467 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:03,468 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:03,468 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:03,468 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:03,468 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:03,475 - app.service_agent.supervisor.team_supervisor - INFO - Checkpointer context manager closed successfully
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - Registering teams to Registry...
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_registry - WARNING - Agent 'search_team' is already registered. Overwriting...
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_registry - INFO - Agent 'search_team' registered successfully (team: search, enabled: True)
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - SearchTeam registered successfully
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_registry - WARNING - Agent 'analysis_team' is already registered. Overwriting...
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_registry - INFO - Agent 'analysis_team' registered successfully (team: analysis, enabled: True)
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - AnalysisTeam registered successfully
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_registry - WARNING - Agent 'document_team' is already registered. Overwriting...
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_registry - INFO - Agent 'document_team' registered successfully (team: document, enabled: True)
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - DocumentTeam registered successfully
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - Registration complete. Registered agents: ['search_team', 'analysis_team', 'document_team']
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - Teams: ['search', 'analysis', 'document']
+2025-10-08 12:21:03,475 - app.service_agent.foundation.agent_adapter - INFO - Agent system initialized
+2025-10-08 12:21:03,475 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam available agents: {'search_agent': False}
+2025-10-08 12:21:03,476 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:03,476 - app.service_agent.tools.hybrid_legal_search - INFO - SQLite DB connected: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\sqlite_db\legal_metadata.db
+2025-10-08 12:21:03,517 - app.service_agent.tools.hybrid_legal_search - INFO - ChromaDB loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\chroma_db (1700 documents)
+2025-10-08 12:21:03,519 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-08 12:21:03,519 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:04,679 - app.service_agent.tools.hybrid_legal_search - INFO - Embedding model loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:04,680 - app.service_agent.tools.hybrid_legal_search - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:04,680 - app.service_agent.execution_agents.search_executor - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:04,680 - app.service_agent.tools.market_data_tool - INFO - Market data loaded: 6 regions
+2025-10-08 12:21:04,680 - app.service_agent.execution_agents.search_executor - INFO - MarketDataTool initialized successfully
+2025-10-08 12:21:04,681 - app.service_agent.tools.loan_data_tool - INFO - Loan data loaded: 3 loan types
+2025-10-08 12:21:04,681 - app.service_agent.execution_agents.search_executor - INFO - LoanDataTool initialized successfully
+2025-10-08 12:21:04,686 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam subgraph built successfully
+2025-10-08 12:21:04,686 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam available agents: {'document_agent': False, 'review_agent': False}
+2025-10-08 12:21:04,690 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam subgraph built successfully
+2025-10-08 12:21:04,690 - app.service_agent.tools.contract_analysis_tool - INFO - ContractAnalysisTool initialized
+2025-10-08 12:21:04,690 - app.service_agent.tools.market_analysis_tool - INFO - MarketAnalysisTool initialized
+2025-10-08 12:21:04,690 - app.service_agent.tools.roi_calculator_tool - INFO - ROICalculatorTool initialized
+2025-10-08 12:21:04,690 - app.service_agent.tools.loan_simulator_tool - INFO - LoanSimulatorTool initialized
+2025-10-08 12:21:04,690 - app.service_agent.tools.policy_matcher_tool - INFO - PolicyMatcherTool initialized with 11 policies
+2025-10-08 12:21:04,691 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:04,697 - app.service_agent.execution_agents.analysis_executor - INFO - AnalysisTeam subgraph built successfully
+2025-10-08 12:21:04,700 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built successfully
+2025-10-08 12:21:04,700 - app.service_agent.supervisor.team_supervisor - INFO - TeamBasedSupervisor initialized with 3 teams (checkpointing: False)
+2025-10-08 12:21:04,700 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 전세금 인상률 한도가 얼마인가요?...
+2025-10-08 12:21:04,700 - app.service_agent.supervisor.team_supervisor - INFO - Running without checkpointer
+2025-10-08 12:21:04,701 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:04,701 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:04,701 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 전세금 인상률 한도가 얼마인가요?...
+2025-10-08 12:21:04,701 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 법률상담
+2025-10-08 12:21:04,701 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:04,701 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:04,702 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:04,702 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:04,702 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: tool_test_3385777152768481667
+2025-10-08 12:21:04,702 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:04,703 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:04,703 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:04,703 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:04,704 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:04,704 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:04,717 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:04,717 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:04,717 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='전세금 인상률 한도가 얼마인가요?', doc_type=None, category=None
+[PASS] Continue session query
+       Response type: summary
+
+================================================================================
+  Test 3: LLM Tool Selection
+================================================================================
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.27it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.27it/s]
+2025-10-08 12:21:05,035 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 0 results
+2025-10-08 12:21:05,035 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 0 results
+2025-10-08 12:21:05,035 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:05,035 - app.service_agent.tools.market_data_tool - INFO - Market search - region: None, type: apartment
+2025-10-08 12:21:05,035 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 5 results
+2025-10-08 12:21:05,035 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:05,035 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: 전세자금대출, query: 전세금 인상률 한도가 얼마인가요?
+2025-10-08 12:21:05,035 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 0 results
+2025-10-08 12:21:05,050 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=27, success=True, time=330ms
+2025-10-08 12:21:05,050 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:05,050 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 5 results from 1 sources
+2025-10-08 12:21:05,051 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:05,051 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:05,051 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:05,051 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:05,051 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:05,051 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:05,051 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:05,051 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:05,051 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:05,052 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 강남구 아파트 시세 알려주세요...
+2025-10-08 12:21:05,052 - app.service_agent.supervisor.team_supervisor - INFO - Running without checkpointer
+2025-10-08 12:21:05,052 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:05,052 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:05,052 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 강남구 아파트 시세 알려주세요...
+2025-10-08 12:21:05,052 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 시세조회
+2025-10-08 12:21:05,052 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:05,052 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:05,053 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:05,053 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:05,053 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: tool_test_-4933323565644380464
+2025-10-08 12:21:05,053 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:05,054 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:05,054 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:05,054 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:05,055 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:05,055 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:05,059 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:05,059 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:05,059 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='강남구 아파트 시세 알려주세요', doc_type=None, category=None
+[PASS] Tool selection: 전세금 인상률 한도가 얼마인가요?...
+       Expected: ['legal_search']
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00, 10.40it/s]
+2025-10-08 12:21:05,165 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 10 results
+2025-10-08 12:21:05,165 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 10 results
+2025-10-08 12:21:05,165 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:05,165 - app.service_agent.tools.market_data_tool - INFO - Market search - region: 강남구, type: apartment
+2025-10-08 12:21:05,165 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 1 results
+2025-10-08 12:21:05,165 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:05,165 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: None, query: 강남구 아파트 시세 알려주세요
+2025-10-08 12:21:05,165 - app.service_agent.tools.loan_data_tool - WARNING - Loan type not found or not specified, returning all types
+2025-10-08 12:21:05,165 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 4 results
+2025-10-08 12:21:05,169 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=28, success=True, time=110ms
+2025-10-08 12:21:05,170 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:05,170 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 15 results from 3 sources
+2025-10-08 12:21:05,170 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:05,170 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:05,170 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:05,170 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:05,170 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:05,171 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:05,171 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:05,171 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:05,171 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:05,171 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 전세 계약할 때 시세와 법률 확인해주세요...
+2025-10-08 12:21:05,171 - app.service_agent.supervisor.team_supervisor - INFO - Running without checkpointer
+2025-10-08 12:21:05,172 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:05,172 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:05,172 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 전세 계약할 때 시세와 법률 확인해주세요...
+2025-10-08 12:21:05,172 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 법률상담
+2025-10-08 12:21:05,172 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:05,172 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:05,172 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:05,173 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:05,173 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: tool_test_-5718857493147305711
+2025-10-08 12:21:05,173 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:05,173 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:05,173 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:05,173 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:05,174 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:05,174 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:05,176 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:05,176 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:05,176 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='전세 계약할 때 시세와 법률 확인해주세요', doc_type=None, category=None
+[PASS] Tool selection: 강남구 아파트 시세 알려주세요...
+       Expected: ['market_data']
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00, 11.06it/s]
+2025-10-08 12:21:05,277 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 1 results
+2025-10-08 12:21:05,277 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 1 results
+2025-10-08 12:21:05,277 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:05,277 - app.service_agent.tools.market_data_tool - INFO - Market search - region: None, type: apartment
+2025-10-08 12:21:05,277 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 5 results
+2025-10-08 12:21:05,277 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:05,277 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: 전세자금대출, query: 전세 계약할 때 시세와 법률 확인해주세요
+2025-10-08 12:21:05,277 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 0 results
+2025-10-08 12:21:05,281 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=29, success=True, time=102ms
+2025-10-08 12:21:05,281 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:05,282 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 6 results from 2 sources
+2025-10-08 12:21:05,282 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:05,282 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:05,282 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:05,282 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:05,282 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:05,282 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:05,282 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:05,282 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:05,282 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - Registering teams to Registry...
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_registry - WARNING - Agent 'search_team' is already registered. Overwriting...
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_registry - INFO - Agent 'search_team' registered successfully (team: search, enabled: True)
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - SearchTeam registered successfully
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_registry - WARNING - Agent 'analysis_team' is already registered. Overwriting...
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_registry - INFO - Agent 'analysis_team' registered successfully (team: analysis, enabled: True)
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - AnalysisTeam registered successfully
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_registry - WARNING - Agent 'document_team' is already registered. Overwriting...
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_registry - INFO - Agent 'document_team' registered successfully (team: document, enabled: True)
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - DocumentTeam registered successfully
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - Registration complete. Registered agents: ['search_team', 'analysis_team', 'document_team']
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - Teams: ['search', 'analysis', 'document']
+2025-10-08 12:21:05,283 - app.service_agent.foundation.agent_adapter - INFO - Agent system initialized
+2025-10-08 12:21:05,283 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam available agents: {'search_agent': False}
+2025-10-08 12:21:05,284 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:05,284 - app.service_agent.tools.hybrid_legal_search - INFO - SQLite DB connected: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\sqlite_db\legal_metadata.db
+2025-10-08 12:21:05,328 - app.service_agent.tools.hybrid_legal_search - INFO - ChromaDB loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\chroma_db (1700 documents)
+2025-10-08 12:21:05,330 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-08 12:21:05,330 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:05,875 - app.service_agent.tools.hybrid_legal_search - INFO - Embedding model loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:05,875 - app.service_agent.tools.hybrid_legal_search - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:05,875 - app.service_agent.execution_agents.search_executor - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:05,875 - app.service_agent.tools.market_data_tool - INFO - Market data loaded: 6 regions
+2025-10-08 12:21:05,875 - app.service_agent.execution_agents.search_executor - INFO - MarketDataTool initialized successfully
+2025-10-08 12:21:05,875 - app.service_agent.tools.loan_data_tool - INFO - Loan data loaded: 3 loan types
+2025-10-08 12:21:05,875 - app.service_agent.execution_agents.search_executor - INFO - LoanDataTool initialized successfully
+2025-10-08 12:21:05,881 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam subgraph built successfully
+2025-10-08 12:21:05,881 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam available agents: {'document_agent': False, 'review_agent': False}
+2025-10-08 12:21:05,885 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam subgraph built successfully
+2025-10-08 12:21:05,885 - app.service_agent.tools.contract_analysis_tool - INFO - ContractAnalysisTool initialized
+2025-10-08 12:21:05,885 - app.service_agent.tools.market_analysis_tool - INFO - MarketAnalysisTool initialized
+2025-10-08 12:21:05,885 - app.service_agent.tools.roi_calculator_tool - INFO - ROICalculatorTool initialized
+2025-10-08 12:21:05,885 - app.service_agent.tools.loan_simulator_tool - INFO - LoanSimulatorTool initialized
+2025-10-08 12:21:05,885 - app.service_agent.tools.policy_matcher_tool - INFO - PolicyMatcherTool initialized with 11 policies
+2025-10-08 12:21:05,886 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:05,891 - app.service_agent.execution_agents.analysis_executor - INFO - AnalysisTeam subgraph built successfully
+2025-10-08 12:21:05,894 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built successfully
+2025-10-08 12:21:05,894 - app.service_agent.supervisor.team_supervisor - INFO - TeamBasedSupervisor initialized with 3 teams (checkpointing: False)
+2025-10-08 12:21:05,895 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:05,895 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 전세금 인상 가능한가요?...
+2025-10-08 12:21:05,895 - app.service_agent.supervisor.team_supervisor - INFO - Running without checkpointer
+2025-10-08 12:21:05,896 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:05,897 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:05,897 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 전세금 인상 가능한가요?...
+2025-10-08 12:21:05,897 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 법률상담
+2025-10-08 12:21:05,897 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:05,897 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:05,897 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:05,898 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:05,898 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: decision_log_test
+2025-10-08 12:21:05,898 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:05,898 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:05,898 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:05,899 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:05,899 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:05,899 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:05,912 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:05,913 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:05,913 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='전세금 인상 가능한가요?', doc_type=None, category=None
+[PASS] Tool selection: 전세 계약할 때 시세와 법률 확인해주세요...
+       Expected: ['legal_search', 'market_data']
+
+================================================================================
+  Test 4: Decision Logging
+================================================================================
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.93it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.92it/s]
+2025-10-08 12:21:06,180 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 0 results
+2025-10-08 12:21:06,180 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 0 results
+2025-10-08 12:21:06,180 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:06,180 - app.service_agent.tools.market_data_tool - INFO - Market search - region: None, type: apartment
+2025-10-08 12:21:06,180 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 5 results
+2025-10-08 12:21:06,180 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:06,180 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: 전세자금대출, query: 전세금 인상 가능한가요?
+2025-10-08 12:21:06,180 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 0 results
+2025-10-08 12:21:06,193 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=30, success=True, time=280ms
+2025-10-08 12:21:06,194 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:06,194 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 5 results from 1 sources
+2025-10-08 12:21:06,194 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:06,194 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:06,195 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:06,195 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:06,195 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:06,195 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:06,195 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:06,195 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:06,195 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - Registering teams to Registry...
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_registry - WARNING - Agent 'search_team' is already registered. Overwriting...
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_registry - INFO - Agent 'search_team' registered successfully (team: search, enabled: True)
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - SearchTeam registered successfully
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_registry - WARNING - Agent 'analysis_team' is already registered. Overwriting...
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_registry - INFO - Agent 'analysis_team' registered successfully (team: analysis, enabled: True)
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - AnalysisTeam registered successfully
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_registry - WARNING - Agent 'document_team' is already registered. Overwriting...
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_registry - INFO - Agent 'document_team' registered successfully (team: document, enabled: True)
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - DocumentTeam registered successfully
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - Registration complete. Registered agents: ['search_team', 'analysis_team', 'document_team']
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - Teams: ['search', 'analysis', 'document']
+2025-10-08 12:21:06,197 - app.service_agent.foundation.agent_adapter - INFO - Agent system initialized
+2025-10-08 12:21:06,197 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam available agents: {'search_agent': False}
+2025-10-08 12:21:06,198 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:06,198 - app.service_agent.tools.hybrid_legal_search - INFO - SQLite DB connected: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\sqlite_db\legal_metadata.db
+2025-10-08 12:21:06,222 - app.service_agent.tools.hybrid_legal_search - INFO - ChromaDB loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\storage\legal_info\chroma_db (1700 documents)
+2025-10-08 12:21:06,224 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-08 12:21:06,224 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:06,759 - app.service_agent.tools.hybrid_legal_search - INFO - Embedding model loaded: c:\kdy\Projects\holmesnyangz\beta_v001\backend\app\models\KURE_v1
+2025-10-08 12:21:06,759 - app.service_agent.tools.hybrid_legal_search - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:06,759 - app.service_agent.execution_agents.search_executor - INFO - HybridLegalSearch initialized successfully
+2025-10-08 12:21:06,759 - app.service_agent.tools.market_data_tool - INFO - Market data loaded: 6 regions
+2025-10-08 12:21:06,759 - app.service_agent.execution_agents.search_executor - INFO - MarketDataTool initialized successfully
+2025-10-08 12:21:06,759 - app.service_agent.tools.loan_data_tool - INFO - Loan data loaded: 3 loan types
+2025-10-08 12:21:06,759 - app.service_agent.execution_agents.search_executor - INFO - LoanDataTool initialized successfully
+2025-10-08 12:21:06,766 - app.service_agent.execution_agents.search_executor - INFO - SearchTeam subgraph built successfully
+2025-10-08 12:21:06,766 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam available agents: {'document_agent': False, 'review_agent': False}
+2025-10-08 12:21:06,770 - app.service_agent.execution_agents.document_executor - INFO - DocumentTeam subgraph built successfully
+2025-10-08 12:21:06,770 - app.service_agent.tools.contract_analysis_tool - INFO - ContractAnalysisTool initialized
+2025-10-08 12:21:06,770 - app.service_agent.tools.market_analysis_tool - INFO - MarketAnalysisTool initialized
+2025-10-08 12:21:06,770 - app.service_agent.tools.roi_calculator_tool - INFO - ROICalculatorTool initialized
+2025-10-08 12:21:06,770 - app.service_agent.tools.loan_simulator_tool - INFO - LoanSimulatorTool initialized
+2025-10-08 12:21:06,770 - app.service_agent.tools.policy_matcher_tool - INFO - PolicyMatcherTool initialized with 11 policies
+2025-10-08 12:21:06,771 - app.service_agent.foundation.decision_logger - INFO - DecisionLogger initialized: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+2025-10-08 12:21:06,777 - app.service_agent.execution_agents.analysis_executor - INFO - AnalysisTeam subgraph built successfully
+2025-10-08 12:21:06,781 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built successfully
+2025-10-08 12:21:06,781 - app.service_agent.supervisor.team_supervisor - INFO - TeamBasedSupervisor initialized with 3 teams (checkpointing: True)
+2025-10-08 12:21:06,781 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 전세금 인상률 한도를 알려주세요...
+2025-10-08 12:21:06,782 - app.service_agent.supervisor.team_supervisor - INFO - Initializing AsyncSqliteSaver checkpointer...
+2025-10-08 12:21:06,783 - app.service_agent.supervisor.team_supervisor - INFO - Recompiling graph with checkpointer...
+2025-10-08 12:21:06,787 - app.service_agent.supervisor.team_supervisor - INFO - Team-based workflow graph built with checkpointer
+2025-10-08 12:21:06,787 - app.service_agent.supervisor.team_supervisor - INFO - Checkpointer initialized and graph recompiled successfully
+2025-10-08 12:21:06,787 - app.service_agent.supervisor.team_supervisor - INFO - Running with checkpointer (thread_id: integrated_test_session)
+2025-10-08 12:21:06,792 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:06,792 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:06,792 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 전세금 인상률 한도를 알려주세요...
+2025-10-08 12:21:06,792 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 법률상담
+2025-10-08 12:21:06,792 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:06,792 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:06,793 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:06,793 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:06,793 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: integrated_test_session
+2025-10-08 12:21:06,793 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:06,800 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:06,800 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:06,800 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:06,801 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:06,801 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:06,803 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:06,803 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:06,803 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='전세금 인상률 한도를 알려주세요', doc_type=None, category=None
+[PASS] Decision DB file created
+       Path: c:\kdy\Projects\holmesnyangz\beta_v001\backend\data\system\agent_logging\decisions.db
+[PASS] Tool decisions logged
+       Total tool decisions: 30
+[PASS] Decision details
+       Agent: search, Tools: ["legal_search", "market_data", "loan_data"], Confidence: 0.3
+[PASS] Tool usage statistics
+       Total: 30, Success rate: 1.00
+
+================================================================================
+  Test 5: Integrated Test
+================================================================================
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.70it/s]Batches: 100%|##########| 1/1 [00:00<00:00,  3.70it/s]
+2025-10-08 12:21:07,086 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 0 results
+2025-10-08 12:21:07,086 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 0 results
+2025-10-08 12:21:07,086 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:07,086 - app.service_agent.tools.market_data_tool - INFO - Market search - region: None, type: apartment
+2025-10-08 12:21:07,086 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 5 results
+2025-10-08 12:21:07,086 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:07,086 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: 전세자금대출, query: 전세금 인상률 한도를 알려주세요
+2025-10-08 12:21:07,086 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 0 results
+2025-10-08 12:21:07,099 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=31, success=True, time=284ms
+2025-10-08 12:21:07,100 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:07,100 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 5 results from 1 sources
+2025-10-08 12:21:07,100 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:07,100 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:07,111 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:07,111 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:07,111 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:07,111 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:07,112 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:07,112 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:07,112 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:07,117 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Processing query: 강남구 아파트 시세도 확인해주세요...
+2025-10-08 12:21:07,117 - app.service_agent.supervisor.team_supervisor - INFO - Running with checkpointer (thread_id: integrated_test_session)
+2025-10-08 12:21:07,119 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Initializing
+2025-10-08 12:21:07,119 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Planning phase
+2025-10-08 12:21:07,119 - app.service_agent.cognitive_agents.planning_agent - INFO - Analyzing intent for query: 강남구 아파트 시세도 확인해주세요...
+2025-10-08 12:21:07,119 - app.service_agent.cognitive_agents.planning_agent - INFO - Creating execution plan for intent: 시세조회
+2025-10-08 12:21:07,119 - app.service_agent.cognitive_agents.planning_agent - INFO - Selected agents/teams for execution: ['search_team']
+2025-10-08 12:21:07,119 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Plan created: 1 steps, 1 teams
+2025-10-08 12:21:07,120 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Routing to execute - 1 steps found
+2025-10-08 12:21:07,120 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing teams
+2025-10-08 12:21:07,121 - app.service_agent.foundation.separated_states - INFO - Creating shared state for session: integrated_test_session
+2025-10-08 12:21:07,121 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Executing 1 teams sequentially
+2025-10-08 12:21:07,124 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Preparing search
+2025-10-08 12:21:07,124 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Search scope: ['legal']
+2025-10-08 12:21:07,124 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Routing search
+2025-10-08 12:21:07,125 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing searches
+2025-10-08 12:21:07,125 - app.service_agent.execution_agents.search_executor - WARNING - LLM service not available, using fallback
+2025-10-08 12:21:07,128 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] LLM selected tools: ['legal_search', 'market_data', 'loan_data'], confidence: 0.3
+2025-10-08 12:21:07,128 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing legal search
+2025-10-08 12:21:07,128 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search: query='강남구 아파트 시세도 확인해주세요', doc_type=None, category=None
+[PASS] Step 1: Legal query
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|##########| 1/1 [00:00<00:00, 11.43it/s]
+2025-10-08 12:21:07,225 - app.service_agent.tools.hybrid_legal_search - INFO - Hybrid search completed: 10 results
+2025-10-08 12:21:07,225 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Legal search completed: 10 results
+2025-10-08 12:21:07,225 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing real estate search
+2025-10-08 12:21:07,225 - app.service_agent.tools.market_data_tool - INFO - Market search - region: 강남구, type: apartment
+2025-10-08 12:21:07,225 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Real estate search completed: 1 results
+2025-10-08 12:21:07,225 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Executing loan search
+2025-10-08 12:21:07,225 - app.service_agent.tools.loan_data_tool - INFO - Loan search - type: None, query: 강남구 아파트 시세도 확인해주세요
+2025-10-08 12:21:07,225 - app.service_agent.tools.loan_data_tool - WARNING - Loan type not found or not specified, returning all types
+2025-10-08 12:21:07,225 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Loan search completed: 4 results
+2025-10-08 12:21:07,228 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Logged execution results: decision_id=32, success=True, time=99ms
+2025-10-08 12:21:07,228 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregating results
+2025-10-08 12:21:07,228 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Aggregated 15 results from 3 sources
+2025-10-08 12:21:07,229 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Finalizing
+2025-10-08 12:21:07,229 - app.service_agent.execution_agents.search_executor - INFO - [SearchTeam] Completed with status: completed
+2025-10-08 12:21:07,240 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Team 'search' completed
+2025-10-08 12:21:07,240 - app.service_agent.foundation.separated_states - INFO - Merging results from team: search
+2025-10-08 12:21:07,240 - app.service_agent.foundation.separated_states - INFO - Team search completed successfully
+2025-10-08 12:21:07,240 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregating results
+2025-10-08 12:21:07,240 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Aggregation complete: 1/0 succeeded
+2025-10-08 12:21:07,241 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Generating response
+2025-10-08 12:21:07,241 - app.service_agent.supervisor.team_supervisor - INFO - [TeamSupervisor] Response generation complete
+2025-10-08 12:21:07,250 - app.service_agent.supervisor.team_supervisor - INFO - Checkpointer context manager closed successfully
+[PASS] Step 2: Market query
+[PASS] Step 3: Checkpoints saved
+       Count: 56
+[PASS] Step 4: Decisions logged
+       Count: 32
+
+================================================================================
+  Test Summary
+================================================================================
+
+Total Tests: 17
+Passed: 17 (100.0%)
+Failed: 0
+
+================================================================================

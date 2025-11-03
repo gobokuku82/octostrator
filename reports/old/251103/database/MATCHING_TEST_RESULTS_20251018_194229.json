@@ -1,0 +1,450 @@
+{
+  "test_date": "2025-10-18T19:42:44.498070",
+  "phase1_basic_consistency": {
+    "faiss_count": 1643,
+    "sqlite_count": 1643,
+    "count_match": true,
+    "matching_success": 1643,
+    "matching_fail": 0,
+    "matching_rate": 100.0,
+    "failed_items": []
+  },
+  "phase2_question_search": {
+    "total_questions": 200,
+    "law_match_count": 50,
+    "law_match_rate": 25.0,
+    "sqlite_match_count": 600,
+    "sqlite_match_expected": 600,
+    "sqlite_match_rate": 100.0,
+    "category_stats": {
+      "1_공통 매매_임대차": {
+        "total": 50,
+        "law_match": 29
+      },
+      "2_임대차_전세_월세": {
+        "total": 50,
+        "law_match": 19
+      },
+      "3_공급_및_관리_매매_분양": {
+        "total": 50,
+        "law_match": 1
+      },
+      "4_기타": {
+        "total": 50,
+        "law_match": 1
+      }
+    },
+    "difficulty_stats": {
+      "기초": {
+        "total": 47,
+        "law_match": 12
+      },
+      "중급": {
+        "total": 112,
+        "law_match": 26
+      },
+      "고급": {
+        "total": 41,
+        "law_match": 12
+      }
+    },
+    "law_frequency": {
+      "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)": 351,
+      "부동산등기규칙(대법원규칙)(제03169호)(20250801)": 47,
+      "공인중개사법 시행령(대통령령)(제34401호)(20240710)": 68,
+      "공인중개사법(법률)(제19841호)(20241227)": 73,
+      "부동산_용어_95가지": 14,
+      "부동산 거래신고 등에 관한 법률(법률)(제20194호)(20240517)": 7,
+      "주택임대차보호법(법률)(제19356호)(20230719)": 13,
+      "부동산 거래신고 등에 관한 법률 시행규칙(국토교통부령)(제01294호)(20240101)": 14,
+      "민간임대주택에 관한 특별법 시행령(대통령령)(제35581호)(20250604)": 4,
+      "민간임대주택에 관한 특별법 시행규칙(국토교통부령)(제01491호)(20250604)": 3,
+      "부동산등기법(법률)(제20435호)(20250131)": 1,
+      "주택법(법률)(제20048호)(20240717)": 1,
+      "주택법 시행규칙(국토교통부령)(제01373호)(20250203)": 3,
+      "부동산 가격공시에 관한 법률 시행령(대통령령)(제35058호)(20241210)": 1
+    },
+    "detailed_results": [
+      {
+        "id": 1,
+        "question": "공인중개사가 되려면 어떤 자격이 필요한가요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "기초",
+        "topic": "자격요건",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제4조",
+            "article_title": "중개사무소 개설등록의 신청",
+            "doc_type": "시행규칙",
+            "distance": 0.5871421098709106,
+            "chunk_id": "article_4"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제5조",
+            "article_title": "등록증의 교부 및 재교부",
+            "doc_type": "시행규칙",
+            "distance": 0.6350338459014893,
+            "chunk_id": "article_5"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제6조",
+            "article_title": "등록사항 등의 통지",
+            "doc_type": "시행규칙",
+            "distance": 0.669450044631958,
+            "chunk_id": "article_6"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "question": "공인중개사 자격시험에 응시할 수 있는 조건은 무엇인가요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "기초",
+        "topic": "자격시험",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제4조",
+            "article_title": "중개사무소 개설등록의 신청",
+            "doc_type": "시행규칙",
+            "distance": 0.5723873376846313,
+            "chunk_id": "article_4"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제8조",
+            "article_title": "개업공인중개사의 고용인의 신고",
+            "doc_type": "시행규칙",
+            "distance": 0.6821044683456421,
+            "chunk_id": "article_8"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제5조",
+            "article_title": "등록증의 교부 및 재교부",
+            "doc_type": "시행규칙",
+            "distance": 0.6896339058876038,
+            "chunk_id": "article_5"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "question": "공인중개사 자격증을 다른 사람에게 대여하는 것이 가능한가요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "기초",
+        "topic": "금지행위",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제7조",
+            "article_title": "분사무소설치신고서의 서식 등",
+            "doc_type": "시행규칙",
+            "distance": 0.5117000937461853,
+            "chunk_id": "article_7"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제19조",
+            "article_title": "보증의 변경신고",
+            "doc_type": "시행규칙",
+            "distance": 0.6283774375915527,
+            "chunk_id": "article_19"
+          },
+          {
+            "rank": 3,
+            "law_title": "부동산등기규칙(대법원규칙)(제03169호)(20250801)",
+            "article_number": "제90조",
+            "article_title": "별도의 등기가 있다는 뜻의 기록",
+            "doc_type": "대법원규칙",
+            "distance": 0.7304590940475464,
+            "chunk_id": "article_90"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "question": "중개사무소를 개설하기 위한 등록 요건은 무엇인가요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "중급",
+        "topic": "등록요건",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제13조",
+            "article_title": "일반중개계약서의 서식",
+            "doc_type": "시행규칙",
+            "distance": 0.46286195516586304,
+            "chunk_id": "article_13"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제9조",
+            "article_title": "인장등록 등",
+            "doc_type": "시행규칙",
+            "distance": 0.48871737718582153,
+            "chunk_id": "article_9"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제4조",
+            "article_title": "중개사무소 개설등록의 신청",
+            "doc_type": "시행규칙",
+            "distance": 0.5537596344947815,
+            "chunk_id": "article_4"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "question": "공인중개사가 할 수 없는 금지행위에는 어떤 것들이 있나요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "중급",
+        "topic": "금지행위",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행령(대통령령)(제34401호)(20240710)",
+            "article_number": "제33조",
+            "article_title": "공제사업의 범위",
+            "doc_type": "시행령",
+            "distance": 0.6005939245223999,
+            "chunk_id": "article_33"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제7조",
+            "article_title": "분사무소설치신고서의 서식 등",
+            "doc_type": "시행규칙",
+            "distance": 0.6452100276947021,
+            "chunk_id": "article_7"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제18조",
+            "article_title": "보증의 설정신고",
+            "doc_type": "시행규칙",
+            "distance": 0.6890777349472046,
+            "chunk_id": "article_18"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "question": "중개보수는 어떻게 정해지나요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "기초",
+        "topic": "중개보수",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제27조의2",
+            "article_title": "교육기관의 인력 및 시설 기준",
+            "doc_type": "시행규칙",
+            "distance": 0.6071245074272156,
+            "chunk_id": "article_27_2"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제20조",
+            "article_title": "중개보수 및 실비의 한도 등",
+            "doc_type": "시행규칙",
+            "distance": 0.6394444704055786,
+            "chunk_id": "article_20"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행령(대통령령)(제34401호)(20240710)",
+            "article_number": "제32조",
+            "article_title": "협회의 보고의무",
+            "doc_type": "시행령",
+            "distance": 0.6614375114440918,
+            "chunk_id": "article_32"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "question": "공인중개사가 중개대상물에 대해 설명해야 할 의무사항은 무엇인가요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "중급",
+        "topic": "설명의무",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제21조",
+            "article_title": "공인중개사자격증의 반납",
+            "doc_type": "시행규칙",
+            "distance": 0.5186293125152588,
+            "chunk_id": "article_21"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제25조",
+            "article_title": "업무정지의 기준",
+            "doc_type": "시행규칙",
+            "distance": 0.5486353635787964,
+            "chunk_id": "article_25"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법(법률)(제19841호)(20241227)",
+            "article_number": "제18조의2",
+            "article_title": "중개대상물의 표시ㆍ광고",
+            "doc_type": "법률",
+            "distance": 0.5862711668014526,
+            "chunk_id": "article_18_2"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "question": "거래계약서 작성 시 공인중개사의 의무는 무엇인가요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "중급",
+        "topic": "계약서작성",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "부동산_용어_95가지",
+            "article_number": "term_sale_10",
+            "article_title": "",
+            "doc_type": "용어집",
+            "distance": 0.5501872301101685,
+            "chunk_id": "term_sale_10"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제26조",
+            "article_title": "협회의 설립인가신청시 제출서류",
+            "doc_type": "시행규칙",
+            "distance": 0.6035610437393188,
+            "chunk_id": "article_26"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제22조",
+            "article_title": "자격정지의 기준",
+            "doc_type": "시행규칙",
+            "distance": 0.6581902503967285,
+            "chunk_id": "article_22"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "question": "공인중개사의 손해배상책임 보장 의무는 어떻게 되나요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "고급",
+        "topic": "손해배상책임",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행령(대통령령)(제34401호)(20240710)",
+            "article_number": "제30조",
+            "article_title": "협회의 설립",
+            "doc_type": "시행령",
+            "distance": 0.4804977476596832,
+            "chunk_id": "article_30"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제11조",
+            "article_title": "중개사무소의 이전신고 등",
+            "doc_type": "시행규칙",
+            "distance": 0.5286200642585754,
+            "chunk_id": "article_11"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제24조",
+            "article_title": "중개사무소등록증의 반납",
+            "doc_type": "시행규칙",
+            "distance": 0.6316783428192139,
+            "chunk_id": "article_24"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "question": "중개사무소 등록증을 분실했을 때 어떻게 해야 하나요?",
+        "related_law": "공인중개사법",
+        "category": "1_공통 매매_임대차",
+        "difficulty": "기초",
+        "topic": "등록증관리",
+        "law_matched": true,
+        "search_results": [
+          {
+            "rank": 1,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제24조",
+            "article_title": "중개사무소등록증의 반납",
+            "doc_type": "시행규칙",
+            "distance": 0.5704269409179688,
+            "chunk_id": "article_24"
+          },
+          {
+            "rank": 2,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제11조",
+            "article_title": "중개사무소의 이전신고 등",
+            "doc_type": "시행규칙",
+            "distance": 0.6396252512931824,
+            "chunk_id": "article_11"
+          },
+          {
+            "rank": 3,
+            "law_title": "공인중개사법 시행규칙(국토교통부령)(제01349호)(20240710)",
+            "article_number": "제5조",
+            "article_title": "등록증의 교부 및 재교부",
+            "doc_type": "시행규칙",
+            "distance": 0.65924072265625,
+            "chunk_id": "article_5"
+          }
+        ]
+      }
+    ]
+  }
+}

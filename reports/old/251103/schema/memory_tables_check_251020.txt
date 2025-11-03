@@ -1,0 +1,80 @@
+================================================================================
+Memory 테이블 존재 여부 확인 - Phase 0.1 Step 3
+생성일시: 2025-10-20
+데이터베이스: real_estate (PostgreSQL)
+================================================================================
+
+쿼리:
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+  AND table_name IN ('conversation_memories', 'entity_memories', 'user_preferences')
+ORDER BY table_name;
+
+결과:
+table_name
+------------
+(0개 행)
+
+================================================================================
+확인 결과
+================================================================================
+
+❌ conversation_memories 테이블: 존재하지 않음
+❌ entity_memories 테이블: 존재하지 않음
+❌ user_preferences 테이블: 존재하지 않음
+
+================================================================================
+계획 확정
+================================================================================
+
+이 결과를 바탕으로 다음과 같이 구현 전략이 확정됩니다:
+
+✅ Phase 1 (Quick Fix - 빠른 수정):
+   - 기존 chat_sessions.metadata (JSONB) 컬럼 활용
+   - SimpleMemoryService에 load_recent_memories, save_conversation 구현
+   - session_id 파라미터 추가하여 현재 세션 제외 로직 구현
+   - 새 테이블 생성 없이 즉시 동작 가능
+
+✅ Phase 2 (Enhanced - 향상된 기능):
+   - 3개 Memory 테이블 생성:
+     * conversation_memories (대화 요약 저장)
+     * entity_memories (엔티티 추출 정보)
+     * user_preferences (사용자 선호도)
+   - EnhancedMemoryService 구현
+   - 마이그레이션 스크립트 작성
+
+✅ Phase 3 (Complete - 완전한 시스템):
+   - 벡터 검색 기능 추가
+   - CompleteMemoryService 구현
+   - 고급 메모리 관리 기능
+
+================================================================================
+DB Schema as SSOT (Single Source of Truth) 원칙 적용
+================================================================================
+
+이 확인 결과는 다음을 의미합니다:
+
+1. 현재 DB 상태:
+   - chat_sessions.metadata (JSONB) ✅ 존재
+   - chat_messages.structured_data (JSONB) ✅ 존재
+   - Memory 전용 테이블 ❌ 없음
+
+2. 코드와 DB의 불일치:
+   - simple_memory_service.py는 메서드 시그니처만 있고 구현 없음
+   - team_supervisor.py는 load_recent_memories 호출하지만 동작 안 함
+   - 계획서는 Memory 테이블 생성을 가정했지만 실제로는 생성되지 않음
+
+3. Bottom-Up 접근법 확정:
+   - DB Schema (현재 상태) → Models 검증 → Code 수정 → Documentation 업데이트
+   - 존재하는 리소스(chat_sessions.metadata)를 먼저 활용
+   - 필요시 새 리소스 추가 (Phase 2의 Memory 테이블)
+
+================================================================================
+다음 단계 (Step 4)
+================================================================================
+
+JSONB 컬럼 상세 정보 확인:
+- chat_sessions.metadata의 현재 데이터 구조 파악
+- chat_messages.structured_data의 현재 사용 현황 파악
+- 기본값, 제약조건, 인덱스 확인

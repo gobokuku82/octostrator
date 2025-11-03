@@ -1,0 +1,13 @@
+{
+  "test_date": "2025-10-18T18:39:52.849605",
+  "phase1_basic_consistency": {
+    "faiss_count": 1643,
+    "sqlite_count": 1643,
+    "count_match": true,
+    "matching_success": 1643,
+    "matching_fail": 0,
+    "matching_rate": 100.0,
+    "failed_items": []
+  },
+  "phase2_question_search": null
+}

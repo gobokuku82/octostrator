@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv sync:*)",
+      "Bash(uv run python:*)",
+      "Bash(uv run uvicorn:*)",
+      "Bash(timeout /t 3)",
+      "Bash(nul)",
+      "Bash(ping:*)",
+      "Bash(curl:*)",
+      "Bash(tree:*)",
+      "Bash(uv run pytest:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

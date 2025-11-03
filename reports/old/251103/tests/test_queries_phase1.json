@@ -1,0 +1,335 @@
+{
+  "test_metadata": {
+    "phase": "Phase 1 - Query Decomposition Test",
+    "date": "2025-10-05",
+    "total_queries": 40,
+    "categories": {
+      "single_task": 20,
+      "dual_task": 20
+    }
+  },
+  "single_task_queries": [
+    {
+      "id": "S001",
+      "query": "전세금 5% 인상 제한이 언제까지인가요?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    },
+    {
+      "id": "S002",
+      "query": "강남구 아파트 전세 시세 알려주세요",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agent": "search_team",
+      "category": "시세"
+    },
+    {
+      "id": "S003",
+      "query": "전세자금대출 한도가 얼마나 되나요?",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agent": "search_team",
+      "category": "대출"
+    },
+    {
+      "id": "S004",
+      "query": "임대차계약서 작성해주세요",
+      "expected_intent": "CONTRACT_CREATION",
+      "expected_agent": "document_team",
+      "category": "문서작성"
+    },
+    {
+      "id": "S005",
+      "query": "계약 갱신 거부 가능한가요?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    },
+    {
+      "id": "S006",
+      "query": "서초구 아파트 매매 시세는?",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agent": "search_team",
+      "category": "시세"
+    },
+    {
+      "id": "S007",
+      "query": "LTV 비율이 뭔가요?",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agent": "search_team",
+      "category": "대출"
+    },
+    {
+      "id": "S008",
+      "query": "보증금 반환 보증 가입 방법은?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    },
+    {
+      "id": "S009",
+      "query": "송파구 아파트 가격 동향 알려주세요",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agent": "search_team",
+      "category": "시세"
+    },
+    {
+      "id": "S010",
+      "query": "주택담보대출 금리 비교해주세요",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agent": "search_team",
+      "category": "대출"
+    },
+    {
+      "id": "S011",
+      "query": "임대차보호법 적용 대상은?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    },
+    {
+      "id": "S012",
+      "query": "마포구 오피스텔 전세 시세는?",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agent": "search_team",
+      "category": "시세"
+    },
+    {
+      "id": "S013",
+      "query": "DSR 규제가 뭔가요?",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agent": "search_team",
+      "category": "대출"
+    },
+    {
+      "id": "S014",
+      "query": "묵시적 갱신이 뭔가요?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    },
+    {
+      "id": "S015",
+      "query": "용산구 아파트 실거래가 조회",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agent": "search_team",
+      "category": "시세"
+    },
+    {
+      "id": "S016",
+      "query": "신혼부부 특례 대출 조건은?",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agent": "search_team",
+      "category": "대출"
+    },
+    {
+      "id": "S017",
+      "query": "계약금 환불 가능한가요?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    },
+    {
+      "id": "S018",
+      "query": "성동구 빌라 전세 시세 알려주세요",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agent": "search_team",
+      "category": "시세"
+    },
+    {
+      "id": "S019",
+      "query": "생애최초 주택 구매 대출 한도는?",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agent": "search_team",
+      "category": "대출"
+    },
+    {
+      "id": "S020",
+      "query": "전입신고 기간은 얼마나 되나요?",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agent": "search_team",
+      "category": "법률"
+    }
+  ],
+  "dual_task_queries": [
+    {
+      "id": "D001",
+      "query": "강남구 아파트 시세 확인하고 대출 가능 금액 계산해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+계산"
+    },
+    {
+      "id": "D002",
+      "query": "서초동 전세 시세 알려주고 법적 주의사항도 알려줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+법률"
+    },
+    {
+      "id": "D003",
+      "query": "이 계약서 검토하고 위험 요소 분석해줘",
+      "expected_intent": "CONTRACT_REVIEW",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "검토+분석"
+    },
+    {
+      "id": "D004",
+      "query": "송파구 시세 조회하고 투자 가치 평가해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+평가"
+    },
+    {
+      "id": "D005",
+      "query": "전세금 인상 가능 여부 확인하고 관련 법조항 찾아줘",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agents": ["search_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "법률+검색"
+    },
+    {
+      "id": "D006",
+      "query": "대출 한도 조회하고 금리 비교해줘",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "대출+비교"
+    },
+    {
+      "id": "D007",
+      "query": "마포구 아파트 시세 알려주고 계약서 작성해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "document_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+문서"
+    },
+    {
+      "id": "D008",
+      "query": "전세 시세 확인하고 리스크 평가해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+리스크"
+    },
+    {
+      "id": "D009",
+      "query": "임대차보호법 내용 찾고 적용 가능 여부 판단해줘",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "법률+판단"
+    },
+    {
+      "id": "D010",
+      "query": "용산구 매매 시세 조회하고 전세 전환 계산해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+계산"
+    },
+    {
+      "id": "D011",
+      "query": "주택담보대출 조건 확인하고 한도 계산해줘",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "대출+계산"
+    },
+    {
+      "id": "D012",
+      "query": "계약 갱신 청구권 확인하고 행사 방법 알려줘",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agents": ["search_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "법률+절차"
+    },
+    {
+      "id": "D013",
+      "query": "강남 전세 시세 확인하고 월세 전환 비교해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+비교"
+    },
+    {
+      "id": "D014",
+      "query": "보증금 반환 절차 알려주고 법적 보호 방법도 설명해줘",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agents": ["search_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "법률+절차"
+    },
+    {
+      "id": "D015",
+      "query": "서초 아파트 가격 조회하고 상승률 분석해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+분석"
+    },
+    {
+      "id": "D016",
+      "query": "전세자금대출 상품 찾고 금리 비교해줘",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "대출+비교"
+    },
+    {
+      "id": "D017",
+      "query": "계약서 특약사항 검토하고 수정안 제시해줘",
+      "expected_intent": "CONTRACT_REVIEW",
+      "expected_agents": ["search_team", "document_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "검토+문서"
+    },
+    {
+      "id": "D018",
+      "query": "성동구 시세 알려주고 투자 수익률 계산해줘",
+      "expected_intent": "MARKET_INQUIRY",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "시세+계산"
+    },
+    {
+      "id": "D019",
+      "query": "임대차 계약 해지 조건 확인하고 위약금 계산해줘",
+      "expected_intent": "LEGAL_CONSULT",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "법률+계산"
+    },
+    {
+      "id": "D020",
+      "query": "LTV, DTI 규제 확인하고 대출 가능액 산정해줘",
+      "expected_intent": "LOAN_CONSULT",
+      "expected_agents": ["search_team", "analysis_team"],
+      "expected_decomposition": true,
+      "expected_tasks": 2,
+      "category": "대출+계산"
+    }
+  ]
+}
