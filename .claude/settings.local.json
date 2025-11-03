@@ -9,7 +9,9 @@
       "Bash(ping:*)",
       "Bash(curl:*)",
       "Bash(tree:*)",
-      "Bash(uv run pytest:*)"
+      "Bash(uv run pytest:*)",
+      "Bash(uv pip install:*)",
+      "Bash(timeout /t 5)"
     ],
     "deny": [],
     "ask": []

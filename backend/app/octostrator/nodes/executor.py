@@ -47,24 +47,11 @@ async def executor_node(state: SupervisorState) -> Command:
 
     # 모든 단계 완료 확인
     if current_step >= len(plan):
-        # 최종 결과 생성
-        final_result = "\n".join([
-            f"✓ Step {s['step_id']}: [{s['agent']}] {s['description']} - {s['status']}"
-            for s in plan
-        ])
-
-        from langchain_core.messages import AIMessage
+        # Phase 3.5: 모든 단계 완료 시 Aggregator로 이동
+        # Aggregator가 최종 결과 생성 담당
         return Command(
-            update={
-                "final_result": final_result,
-                "is_executing": False,
-                "messages": [
-                    AIMessage(
-                        content=f"[Executor] 모든 작업이 완료되었습니다!\n\n{final_result}"
-                    )
-                ]
-            },
-            goto=END
+            update={"is_executing": False},
+            goto="aggregator"
         )
 
     # 현재 단계 가져오기
