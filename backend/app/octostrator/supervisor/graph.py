@@ -12,15 +12,15 @@ from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from langchain_openai import ChatOpenAI
 from backend.app.octostrator.states.supervisor_state import SupervisorState
 from backend.app.octostrator.contexts.app_context import AppContext
-from backend.app.octostrator.nodes import (
+from backend.app.octostrator.supervisor.nodes import (
     intent_understanding_node,
     planning_node,
     executor_node,
     hitl_handler_node,
 )
-from backend.app.octostrator.nodes.aggregator import aggregator_node
-from backend.app.octostrator.nodes.router import output_router_node
-from backend.app.octostrator.nodes.generators import (
+from backend.app.octostrator.supervisor.nodes.aggregator import aggregator_node
+from backend.app.octostrator.supervisor.nodes.router import output_router_node
+from backend.app.octostrator.supervisor.nodes.generators import (
     chat_generator_node,
     graph_generator_node,
     report_generator_node,
