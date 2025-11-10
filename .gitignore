@@ -65,3 +65,6 @@ htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Frontend (React)
+frontend/node_modules/

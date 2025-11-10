@@ -19,6 +19,7 @@ class SystemConfig(BaseSettings):
 
     # OpenAI API
     openai_api_key: str
+    openai_model: str = "gpt-4o-mini"  # Phase 3: Agent 기본 모델 (Context API로 대체 권장)
 
     # PostgreSQL
     postgres_url: str = "postgresql://user:password@localhost:5432/octo_chatbot"

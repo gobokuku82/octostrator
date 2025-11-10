@@ -1,0 +1,568 @@
+// AI PT Manager - Business Tables Only
+// Phase 5 구현용: 실제 PostgreSQL에 생성할 비즈니스 테이블
+// Date: 2025-11-07
+// How to use:
+//   1. dbdiagram.io에서 시각화
+//   2. Export → PostgreSQL SQL
+//   3. 또는 Alembic migration으로 생성 (권장)
+
+//=============================================================================
+// ENUMS
+//=============================================================================
+
+Enum InquiryType {
+  pricing
+  schedule
+  program
+  facility
+}
+
+Enum AppointmentStatus {
+  scheduled
+  completed
+  cancelled
+  no_show
+}
+
+Enum AppointmentType {
+  consultation
+  trial
+  assessment
+}
+
+Enum LeadStatus {
+  new
+  contacted
+  scheduled
+  converted
+  lost
+}
+
+Enum PostStatus {
+  draft
+  scheduled
+  posted
+  failed
+}
+
+Enum EventStatus {
+  planned
+  active
+  completed
+  cancelled
+}
+
+Enum ProgramStatus {
+  active
+  completed
+  paused
+}
+
+Enum WorkoutType {
+  pt_session
+  group_class
+  self_workout
+}
+
+Enum RiskLevel {
+  low
+  medium
+  high
+  critical
+}
+
+//=============================================================================
+// CORE TABLES
+//=============================================================================
+
+Table users {
+  id serial [pk, increment]
+  name varchar(100) [not null]
+  email varchar(255) [unique]
+  phone varchar(20)
+  goal varchar(50) [note: 'weight_loss, muscle_gain, fitness']
+  level varchar(20) [note: 'beginner, intermediate, advanced']
+  created_at timestamp [default: `now()`]
+
+  Note: '사용자/회원 기본 정보'
+}
+
+//=============================================================================
+// FRONTDESK AGENT TABLES
+//=============================================================================
+
+Table leads {
+  id serial [pk, increment]
+  name varchar(100) [not null]
+  phone varchar(20)
+  email varchar(255)
+  source varchar(50) [note: 'website, phone, walk_in, referral']
+  interest varchar(100) [note: 'weight_loss, muscle_gain, fitness']
+  score int [default: 0, note: 'Lead scoring: 0-100']
+  status LeadStatus [default: 'new']
+  notes text
+  created_at timestamp [default: `now()`]
+
+  Note: '리드 정보 (잠재 고객)'
+}
+
+Table inquiries {
+  id serial [pk, increment]
+  lead_id int [not null, ref: > leads.id]
+  inquiry_text text [not null]
+  response_text text
+  inquiry_type InquiryType
+  handled_by varchar(100) [note: 'staff name or "AI Agent"']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    lead_id
+  }
+
+  Note: '문의 내역'
+}
+
+Table appointments {
+  id serial [pk, increment]
+  lead_id int [not null, ref: > leads.id]
+  appointment_date timestamp [not null]
+  appointment_type AppointmentType
+  status AppointmentStatus [default: 'scheduled']
+  notes text
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    lead_id
+    appointment_date
+  }
+
+  Note: '상담 예약'
+}
+
+//=============================================================================
+// ASSESSOR AGENT TABLES
+//=============================================================================
+
+Table inbody_data {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  measurement_date timestamp [not null]
+  weight decimal(5,2)
+  muscle_mass decimal(5,2)
+  body_fat_mass decimal(5,2)
+  body_fat_percentage decimal(4,2)
+  bmr int [note: 'Basal Metabolic Rate']
+  visceral_fat_level int
+  body_water decimal(5,2)
+  protein decimal(5,2)
+  mineral decimal(5,2)
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    measurement_date
+  }
+
+  Note: 'InBody 측정 데이터'
+}
+
+Table posture_analysis {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  analysis_date timestamp [not null]
+  front_image_url varchar(500)
+  side_image_url varchar(500)
+  back_image_url varchar(500)
+  shoulder_alignment varchar(50) [note: 'balanced, left_high, right_high']
+  hip_alignment varchar(50) [note: 'balanced, left_high, right_high']
+  spine_curvature varchar(50) [note: 'normal, kyphosis, lordosis, scoliosis']
+  issues jsonb [note: 'JSON: [{"area": "shoulder", "issue": "rounded", "severity": "moderate"}]']
+  recommendations jsonb [note: 'JSON: [{"exercise": "wall_angels", "sets": 3, "reps": 10}]']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    analysis_date
+  }
+
+  Note: '자세 분석 결과'
+}
+
+//=============================================================================
+// PROGRAM DESIGNER AGENT TABLES
+//=============================================================================
+
+Table programs {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  program_type varchar(20) [note: 'workout, diet, combined']
+  goal varchar(100) [note: 'weight_loss, muscle_gain, strength, endurance']
+  duration_weeks int
+  workout_plan jsonb [note: 'JSON: workout routine details']
+  diet_plan jsonb [note: 'JSON: meal plan details']
+  template_id varchar(50) [note: 'Reference to template used']
+  customizations jsonb [note: 'JSON: custom modifications']
+  status ProgramStatus [default: 'active']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    status
+  }
+
+  Note: '운동/식단 프로그램'
+}
+
+Table meal_logs {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  date timestamp [not null]
+  meal_type varchar(20) [note: 'breakfast, lunch, dinner, snack']
+  foods jsonb [note: 'JSON: [{"name": "계란", "quantity": 2, "unit": "개"}]']
+  nutrition jsonb [note: 'JSON: {"calories": 300, "protein": 24, ...}']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    date
+  }
+
+  Note: '식단 기록'
+}
+
+Table workout_routines {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  date timestamp [not null]
+  muscle_group varchar(50) [note: 'legs, chest, back, shoulders, arms']
+  exercises jsonb [note: 'JSON: [{"name": "스쿼트", "sets": 4, "reps": 10, ...}]']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    date
+  }
+
+  Note: '운동 루틴'
+}
+
+//=============================================================================
+// MANAGER AGENT TABLES
+//=============================================================================
+
+Table attendance {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  check_in_time timestamp [not null]
+  check_out_time timestamp
+  workout_type WorkoutType
+  trainer_id int [ref: > users.id]
+  notes varchar(500)
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    check_in_time
+  }
+
+  Note: '출석 기록'
+}
+
+Table churn_risks {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  risk_score decimal(3,2) [note: '0.0 - 1.0']
+  risk_level RiskLevel
+  factors jsonb [note: 'JSON: [{"factor": "low_attendance", "weight": 0.3}]']
+  last_attendance timestamp
+  days_since_visit int
+  membership_end_date timestamp
+  recommended_actions jsonb [note: 'JSON: suggested retention strategies']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    risk_level
+  }
+
+  Note: '회원 이탈 위험도'
+}
+
+Table schedules {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  trainer_id int [not null, ref: > users.id]
+  date timestamp [not null]
+  duration_minutes int [default: 60]
+  status varchar(20) [note: 'confirmed, cancelled, completed']
+  notes varchar(500)
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    trainer_id
+    date
+  }
+
+  Note: 'PT 스케줄'
+}
+
+//=============================================================================
+// MARKETING AGENT TABLES
+//=============================================================================
+
+Table social_media_posts {
+  id serial [pk, increment]
+  platform varchar(50) [note: 'instagram, facebook, blog, youtube']
+  content text [not null]
+  media_urls jsonb [note: 'JSON: ["url1", "url2"]']
+  hashtags varchar(500)
+  scheduled_time timestamp
+  posted_time timestamp
+  status PostStatus [default: 'draft']
+  engagement_metrics jsonb [note: 'JSON: {"likes": 120, "comments": 15, "shares": 8}']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    platform
+    status
+    scheduled_time
+  }
+
+  Note: 'SNS 게시물'
+}
+
+Table events {
+  id serial [pk, increment]
+  title varchar(200) [not null]
+  description text
+  event_type varchar(50) [note: 'promotion, challenge, workshop, open_house']
+  start_date timestamp [not null]
+  end_date timestamp [not null]
+  target_audience varchar(100) [note: 'new_members, existing, prospects']
+  participants jsonb [note: 'JSON: [user_ids]']
+  budget decimal(10,2)
+  revenue decimal(10,2)
+  status EventStatus [default: 'planned']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    status
+    start_date
+  }
+
+  Note: '마케팅 이벤트'
+}
+
+//=============================================================================
+// OWNER ASSISTANT TABLES
+//=============================================================================
+
+Table revenue {
+  id serial [pk, increment]
+  date timestamp [not null]
+  revenue_type varchar(50) [note: 'membership, pt_session, product, event']
+  amount decimal(10,2) [not null]
+  user_id int [ref: > users.id]
+  trainer_id int [ref: > users.id]
+  description varchar(500)
+  payment_method varchar(50) [note: 'card, cash, transfer']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    date
+    revenue_type
+  }
+
+  Note: '매출 데이터'
+}
+
+Table member_progress {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  date timestamp [not null]
+  weight decimal(5,2)
+  body_fat_percentage decimal(4,2)
+  muscle_mass decimal(5,2)
+  notes varchar(500)
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    date
+  }
+
+  Note: '회원 진행률/체중 추이'
+}
+
+//=============================================================================
+// TRAINER EDUCATION TABLES
+//=============================================================================
+
+Table trainer_skills {
+  id serial [pk, increment]
+  trainer_id int [not null, ref: > users.id]
+  skill_category varchar(50) [note: 'technique, communication, program_design, sales']
+  skill_name varchar(100) [not null]
+  proficiency_level int [note: '1-5']
+  assessment_date timestamp [not null]
+  assessor varchar(100) [note: 'Who assessed the skill']
+  notes text
+  improvement_plan jsonb [note: 'JSON: training recommendations']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    trainer_id
+    skill_category
+  }
+
+  Note: '트레이너 스킬 평가'
+}
+
+//=============================================================================
+// SHARED TABLES
+//=============================================================================
+
+Table exercise_db {
+  id serial [pk, increment]
+  name varchar(100) [not null]
+  muscle_group varchar(50) [note: 'legs, chest, back, shoulders, arms']
+  difficulty varchar(20) [note: 'beginner, intermediate, advanced']
+  equipment varchar(100) [note: 'barbell, dumbbell, bodyweight, machine']
+  description text
+  video_url varchar(500)
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    muscle_group
+    difficulty
+  }
+
+  Note: '운동 데이터베이스'
+}
+
+Table bookmarks {
+  id serial [pk, increment]
+  user_id int [not null, ref: > users.id]
+  title varchar(255)
+  url varchar(500)
+  category varchar(50) [note: 'video, article, research']
+  summary varchar(1000)
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    user_id
+    category
+  }
+
+  Note: '자료 북마크'
+}
+
+//=============================================================================
+// TABLE GROUPS
+//=============================================================================
+
+TableGroup Core {
+  users
+}
+
+TableGroup Frontdesk {
+  leads
+  inquiries
+  appointments
+}
+
+TableGroup Assessor {
+  inbody_data
+  posture_analysis
+}
+
+TableGroup ProgramDesigner {
+  programs
+  meal_logs
+  workout_routines
+}
+
+TableGroup Manager {
+  attendance
+  churn_risks
+  schedules
+}
+
+TableGroup Marketing {
+  social_media_posts
+  events
+}
+
+TableGroup OwnerAssistant {
+  revenue
+  member_progress
+}
+
+TableGroup TrainerEducation {
+  trainer_skills
+}
+
+TableGroup Shared {
+  exercise_db
+  bookmarks
+}
+
+//=============================================================================
+// NOTES
+//=============================================================================
+
+Note Implementation {
+  '''
+  # Business Tables Implementation Guide
+
+  ## 현재 상태
+  - SQLAlchemy 모델 정의됨: backend/database/relation_db/models.py
+  - PostgreSQL 테이블 미생성 (Alembic migration 필요)
+
+  ## 구현 방법
+
+  ### 옵션 1: Alembic Migration (권장)
+  ```bash
+  cd backend
+  alembic init alembic
+  alembic revision --autogenerate -m "Create business tables"
+  alembic upgrade head
+  ```
+
+  ### 옵션 2: dbdiagram.io Export
+  1. 이 DBML 파일을 dbdiagram.io에 붙여넣기
+  2. Export → PostgreSQL SQL
+  3. SQL 파일을 PostgreSQL에 실행
+
+  ## Agent 통합 순서
+  1. Frontdesk (leads, inquiries, appointments)
+  2. Assessor (inbody_data, posture_analysis)
+  3. ProgramDesigner (programs)
+  4. Manager (attendance, churn_risks)
+  5. Marketing (social_media_posts, events)
+  6. OwnerAssistant (revenue)
+  7. TrainerEducation (trainer_skills)
+
+  ## State 변경 예시
+  Before:
+  ```python
+  state["todos"] = [{
+    "lead_data": {"name": "홍길동", ...}  # 전체 데이터 저장
+  }]
+  ```
+
+  After:
+  ```python
+  # DB에 저장
+  lead = Lead(name="홍길동", ...)
+  session.add(lead)
+  await session.commit()
+
+  # State에는 ID만
+  state["todos"] = [{
+    "lead_id": lead.id  # ID만 저장
+  }]
+  ```
+  '''
+}

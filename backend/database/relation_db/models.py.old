@@ -1,0 +1,292 @@
+"""SQLite Database Models for Fitness PT Manager"""
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Text
+from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
+
+Base = declarative_base()
+
+
+class User(Base):
+    """사용자/회원 테이블"""
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(255), unique=True)
+    phone = Column(String(20))
+    goal = Column(String(50))  # weight_loss, muscle_gain, fitness
+    level = Column(String(20))  # beginner, intermediate, advanced
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class MealLog(Base):
+    """식단 기록 테이블"""
+    __tablename__ = "meal_logs"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(DateTime, nullable=False)
+    meal_type = Column(String(20))  # breakfast, lunch, dinner, snack
+    foods = Column(Text)  # JSON 문자열: [{"name": "계란", "quantity": 2, "unit": "개"}]
+    nutrition = Column(Text)  # JSON 문자열: {"calories": 300, "protein": 24, ...}
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class WorkoutRoutine(Base):
+    """운동 루틴 테이블"""
+    __tablename__ = "workout_routines"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(DateTime, nullable=False)
+    muscle_group = Column(String(50))  # legs, chest, back, shoulders, arms
+    exercises = Column(Text)  # JSON 문자열: [{"name": "스쿼트", "sets": 4, "reps": 10, ...}]
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Schedule(Base):
+    """PT 스케줄 테이블"""
+    __tablename__ = "schedules"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    trainer_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(DateTime, nullable=False)
+    duration_minutes = Column(Integer, default=60)
+    status = Column(String(20))  # confirmed, cancelled, completed
+    notes = Column(String(500))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class MemberProgress(Base):
+    """회원 진행률 테이블"""
+    __tablename__ = "member_progress"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(DateTime, nullable=False)
+    weight = Column(Float)
+    body_fat_percentage = Column(Float)
+    muscle_mass = Column(Float)
+    notes = Column(String(500))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Bookmark(Base):
+    """자료 북마크 테이블"""
+    __tablename__ = "bookmarks"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    title = Column(String(255))
+    url = Column(String(500))
+    category = Column(String(50))  # video, article, research
+    summary = Column(String(1000))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class ExerciseDB(Base):
+    """운동 데이터베이스 테이블"""
+    __tablename__ = "exercise_db"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), nullable=False)
+    muscle_group = Column(String(50))  # legs, chest, back, shoulders, arms
+    difficulty = Column(String(20))  # beginner, intermediate, advanced
+    equipment = Column(String(100))  # barbell, dumbbell, bodyweight, machine
+    description = Column(Text)
+    video_url = Column(String(500))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+# ==================== New Agent Tables ====================
+
+class Lead(Base):
+    """리드 정보 테이블 (Frontdesk Agent)"""
+    __tablename__ = "leads"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), nullable=False)
+    phone = Column(String(20))
+    email = Column(String(255))
+    source = Column(String(50))  # website, phone, walk_in, referral
+    interest = Column(String(100))  # weight_loss, muscle_gain, fitness
+    score = Column(Integer, default=0)  # Lead scoring: 0-100
+    status = Column(String(20), default="new")  # new, contacted, scheduled, converted, lost
+    notes = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Inquiry(Base):
+    """문의 내역 테이블 (Frontdesk Agent)"""
+    __tablename__ = "inquiries"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    lead_id = Column(Integer, ForeignKey("leads.id"))
+    inquiry_text = Column(Text, nullable=False)
+    response_text = Column(Text)
+    inquiry_type = Column(String(50))  # pricing, schedule, program, facility
+    handled_by = Column(String(100))  # staff name or "AI Agent"
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Appointment(Base):
+    """상담 예약 테이블 (Frontdesk Agent)"""
+    __tablename__ = "appointments"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    lead_id = Column(Integer, ForeignKey("leads.id"))
+    appointment_date = Column(DateTime, nullable=False)
+    appointment_type = Column(String(50))  # consultation, trial, assessment
+    status = Column(String(20), default="scheduled")  # scheduled, completed, cancelled, no_show
+    notes = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class InBodyData(Base):
+    """InBody 측정 데이터 테이블 (Assessor Agent)"""
+    __tablename__ = "inbody_data"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    measurement_date = Column(DateTime, nullable=False)
+    weight = Column(Float)
+    muscle_mass = Column(Float)
+    body_fat_mass = Column(Float)
+    body_fat_percentage = Column(Float)
+    bmr = Column(Integer)  # Basal Metabolic Rate
+    visceral_fat_level = Column(Integer)
+    body_water = Column(Float)
+    protein = Column(Float)
+    mineral = Column(Float)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class PostureAnalysis(Base):
+    """자세 분석 테이블 (Assessor Agent)"""
+    __tablename__ = "posture_analysis"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    analysis_date = Column(DateTime, nullable=False)
+    front_image_url = Column(String(500))
+    side_image_url = Column(String(500))
+    back_image_url = Column(String(500))
+    shoulder_alignment = Column(String(50))  # balanced, left_high, right_high
+    hip_alignment = Column(String(50))  # balanced, left_high, right_high
+    spine_curvature = Column(String(50))  # normal, kyphosis, lordosis, scoliosis
+    issues = Column(Text)  # JSON: [{"area": "shoulder", "issue": "rounded", "severity": "moderate"}]
+    recommendations = Column(Text)  # JSON: [{"exercise": "wall_angels", "sets": 3, "reps": 10}]
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Program(Base):
+    """운동/식단 프로그램 테이블 (Program Designer Agent)"""
+    __tablename__ = "programs"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    program_type = Column(String(20))  # workout, diet, combined
+    goal = Column(String(100))  # weight_loss, muscle_gain, strength, endurance
+    duration_weeks = Column(Integer)
+    workout_plan = Column(Text)  # JSON: workout routine details
+    diet_plan = Column(Text)  # JSON: meal plan details
+    template_id = Column(String(50))  # Reference to template used
+    customizations = Column(Text)  # JSON: custom modifications
+    status = Column(String(20), default="active")  # active, completed, paused
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Attendance(Base):
+    """출석 기록 테이블 (Manager Agent)"""
+    __tablename__ = "attendance"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    check_in_time = Column(DateTime, nullable=False)
+    check_out_time = Column(DateTime)
+    workout_type = Column(String(50))  # pt_session, group_class, self_workout
+    trainer_id = Column(Integer, ForeignKey("users.id"))
+    notes = Column(String(500))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class ChurnRisk(Base):
+    """이탈 위험도 테이블 (Manager Agent)"""
+    __tablename__ = "churn_risks"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    risk_score = Column(Float)  # 0.0 - 1.0
+    risk_level = Column(String(20))  # low, medium, high, critical
+    factors = Column(Text)  # JSON: [{"factor": "low_attendance", "weight": 0.3}]
+    last_attendance = Column(DateTime)
+    days_since_visit = Column(Integer)
+    membership_end_date = Column(DateTime)
+    recommended_actions = Column(Text)  # JSON: suggested retention strategies
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class SocialMediaPost(Base):
+    """SNS 게시물 테이블 (Marketing Agent)"""
+    __tablename__ = "social_media_posts"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    platform = Column(String(50))  # instagram, facebook, blog, youtube
+    content = Column(Text, nullable=False)
+    media_urls = Column(Text)  # JSON: ["url1", "url2"]
+    hashtags = Column(String(500))
+    scheduled_time = Column(DateTime)
+    posted_time = Column(DateTime)
+    status = Column(String(20), default="draft")  # draft, scheduled, posted, failed
+    engagement_metrics = Column(Text)  # JSON: {"likes": 120, "comments": 15, "shares": 8}
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Event(Base):
+    """이벤트 테이블 (Marketing Agent)"""
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(200), nullable=False)
+    description = Column(Text)
+    event_type = Column(String(50))  # promotion, challenge, workshop, open_house
+    start_date = Column(DateTime, nullable=False)
+    end_date = Column(DateTime, nullable=False)
+    target_audience = Column(String(100))  # new_members, existing, prospects
+    participants = Column(Text)  # JSON: [user_ids]
+    budget = Column(Float)
+    revenue = Column(Float)
+    status = Column(String(20), default="planned")  # planned, active, completed, cancelled
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Revenue(Base):
+    """매출 데이터 테이블 (Owner Assistant Agent)"""
+    __tablename__ = "revenue"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    date = Column(DateTime, nullable=False)
+    revenue_type = Column(String(50))  # membership, pt_session, product, event
+    amount = Column(Float, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    trainer_id = Column(Integer, ForeignKey("users.id"))
+    description = Column(String(500))
+    payment_method = Column(String(50))  # card, cash, transfer
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class TrainerSkill(Base):
+    """트레이너 스킬 테이블 (Trainer Education Agent)"""
+    __tablename__ = "trainer_skills"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    trainer_id = Column(Integer, ForeignKey("users.id"))
+    skill_category = Column(String(50))  # technique, communication, program_design, sales
+    skill_name = Column(String(100), nullable=False)
+    proficiency_level = Column(Integer)  # 1-5
+    assessment_date = Column(DateTime, nullable=False)
+    assessor = Column(String(100))  # Who assessed the skill
+    notes = Column(Text)
+    improvement_plan = Column(Text)  # JSON: training recommendations
+    created_at = Column(DateTime, default=datetime.utcnow)

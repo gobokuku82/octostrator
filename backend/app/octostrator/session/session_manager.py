@@ -152,13 +152,23 @@ def create_session(user_id: Optional[str] = None, metadata: Optional[dict] = Non
     return manager.create_session(user_id=user_id, metadata=metadata)
 
 
-def get_session_config(thread_id: str) -> dict:
+def get_session_config(thread_id: str, context: Optional[dict] = None) -> dict:
     """LangGraph Config 생성 (편의 함수)
+
+    Phase 3: Context API 지원 추가
+    - context가 제공되면 configurable에 포함
 
     Args:
         thread_id: 세션 thread_id
+        context: AppContext 인스턴스 (Phase 3, 선택적)
 
     Returns:
         dict: LangGraph config 객체
     """
-    return {"configurable": {"thread_id": thread_id}}
+    config = {"configurable": {"thread_id": thread_id}}
+
+    # Phase 3: Context API 지원
+    if context:
+        config["configurable"]["context"] = context
+
+    return config

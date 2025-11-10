@@ -15,9 +15,10 @@ if sys.platform == 'win32':
 load_dotenv()
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage
-from backend.app.octostrator.supervisor import build_supervisor_graph
+from backend.app.octostrator.supervisors.octostrator.octostrator_graph import build_octostrator_graph as build_supervisor_graph
 from backend.app.config.system import config
 
 # Phase 4.3: WebSocket 라우터 import
@@ -26,12 +27,25 @@ from backend.app.api.websocket import router as websocket_router
 # Phase 4.4: Session Management 라우터 import
 from backend.app.api.sessions import router as sessions_router
 
+# Phase 2: Todo & Agent Management 라우터 import (2025-11-06)
+from backend.app.api.todos import router as todos_router
+from backend.app.api.agents import router as agents_router
+
 
 # FastAPI 앱 생성
 app = FastAPI(
     title="LangGraph Chatbot",
-    version="0.4.0",
-    description="LangGraph 1.0 Supervisor Pattern 기반 멀티 에이전트 챗봇 (WebSocket + Session Management)"
+    version="0.5.0",
+    description="LangGraph 1.0 Supervisor Pattern 기반 멀티 에이전트 챗봇 (WebSocket + Session + Todo + Agent Management)"
+)
+
+# CORS 설정 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 개발 환경: 모든 origin 허용
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Phase 4.3: WebSocket 라우터 등록
@@ -39,6 +53,10 @@ app.include_router(websocket_router)
 
 # Phase 4.4: Session Management 라우터 등록
 app.include_router(sessions_router)
+
+# Phase 2: Todo & Agent Management 라우터 등록 (2025-11-06)
+app.include_router(todos_router)
+app.include_router(agents_router)
 
 # Supervisor Graph 초기화
 supervisor_graph = build_supervisor_graph()
@@ -84,17 +102,43 @@ async def chat(request: ChatRequest):
         HTTPException: 처리 중 에러 발생 시
     """
     try:
-        # Supervisor Graph 실행
+        # Octostrator Graph 실행
         result = await supervisor_graph.ainvoke({
-            "messages": [HumanMessage(content=request.message)]
+            # User input
+            "user_query": request.message,
+            "session_id": "default",
+            "output_format": "chat",
+
+            # Resources (will be set by nodes)
+            "llm": None,
+            "checkpointer": None,
+            "context": {"auto_approve": True},
+
+            # State tracking
+            "plan": {},
+            "todos": [],
+            "execution_results": {},
+            "final_response": "",
+
+            # Flags
+            "plan_valid": False,
+            "requires_approval": False,
+            "error": None
         })
 
-        # 마지막 메시지 추출
-        response_content = result["messages"][-1].content
+        # Extract final response
+        if "final_response" in result and result["final_response"]:
+            response_content = result["final_response"]
+        elif "error" in result and result["error"]:
+            response_content = f"처리 중 오류가 발생했습니다: {result['error']}"
+        else:
+            response_content = "응답을 생성할 수 없습니다."
 
         return ChatResponse(response=response_content)
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(
             status_code=500,
             detail=f"Error processing chat: {str(e)}"
