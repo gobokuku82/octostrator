@@ -18,7 +18,8 @@
       "Bash(cmd /c \"taskkill /F /PID 34476\")",
       "Bash(powershell -Command \"Stop-Process -Id 34476 -Force\")",
       "Bash(if not exist \"C:\\kdy\\Projects\\Octo_worker\\beta_v002\\manual\" mkdir \"C:\\kdy\\Projects\\Octo_worker\\beta_v002\\manual\")",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(if not exist \"C:\\kdy\\projects\\octostrator\\beta_v001\\reports\\base\" mkdir \"C:\\kdy\\projects\\octostrator\\beta_v001\\reports\\base\")"
     ],
     "deny": [],
     "ask": []
