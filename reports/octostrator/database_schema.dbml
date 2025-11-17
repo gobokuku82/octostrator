@@ -1,0 +1,344 @@
+// Octostrator Database Schema
+// dbdiagram.io code
+
+Project Octostrator {
+  database_type: 'PostgreSQL'
+  Note: 'LangGraph 1.0 기반 코딩 어시스턴트 데이터베이스 스키마'
+}
+
+// ==================== Core Tables ====================
+
+Table users {
+  id uuid [pk, default: `gen_random_uuid()`]
+  email varchar(255) [unique, not null]
+  username varchar(100) [unique]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp
+  preferences jsonb
+
+  indexes {
+    email
+    username
+  }
+}
+
+Table sessions {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  session_token varchar(255) [unique, not null]
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+  expires_at timestamp
+  metadata jsonb
+
+  indexes {
+    session_token
+    user_id
+    (user_id, is_active)
+  }
+}
+
+Table threads {
+  id uuid [pk, default: `gen_random_uuid()`]
+  session_id uuid [ref: > sessions.id, not null]
+  thread_id varchar(255) [unique, not null] // LangGraph thread ID
+  parent_thread_id varchar(255) [ref: > threads.thread_id]
+  graph_type varchar(50) [not null, note: 'main_graph, todo_graph, execution_graph']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp
+  metadata jsonb
+
+  indexes {
+    thread_id
+    session_id
+    parent_thread_id
+  }
+}
+
+// ==================== Intent & Context Management ====================
+
+Table conversation_intents {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  intent_type varchar(50) [not null, note: 'create, modify, query, execute, cancel']
+  intent_subtype varchar(50)
+  confidence float [not null]
+  detected_at timestamp [default: `now()`]
+  raw_input text
+  parsed_intent jsonb
+  is_active boolean [default: true]
+
+  indexes {
+    thread_id
+    intent_type
+    (thread_id, is_active)
+  }
+}
+
+Table conversation_context {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  context_key varchar(100) [not null]
+  context_value jsonb [not null]
+  context_type varchar(50) [note: 'user_preference, domain_knowledge, task_history']
+  ttl_seconds integer
+  created_at timestamp [default: `now()`]
+  expires_at timestamp
+
+  indexes {
+    thread_id
+    context_key
+    (thread_id, context_type)
+  }
+}
+
+// ==================== TODO Management ====================
+
+Table todos {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  parent_todo_id uuid [ref: > todos.id]
+  title varchar(500) [not null]
+  description text
+  status varchar(20) [not null, default: 'pending', note: 'pending, in_progress, completed, cancelled, failed']
+  priority varchar(10) [not null, default: 'medium', note: 'high, medium, low']
+  assigned_agent varchar(100)
+  estimated_time_minutes integer
+  actual_time_minutes integer
+  order_index integer [not null, default: 0]
+  metadata jsonb
+  created_at timestamp [default: `now()`]
+  started_at timestamp
+  completed_at timestamp
+  updated_at timestamp
+
+  indexes {
+    thread_id
+    parent_todo_id
+    status
+    (thread_id, status)
+    (thread_id, order_index)
+  }
+}
+
+Table todo_dependencies {
+  id uuid [pk, default: `gen_random_uuid()`]
+  todo_id uuid [ref: > todos.id, not null]
+  depends_on_todo_id uuid [ref: > todos.id, not null]
+  dependency_type varchar(20) [default: 'blocks', note: 'blocks, related, optional']
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    todo_id
+    depends_on_todo_id
+    (todo_id, depends_on_todo_id) [unique]
+  }
+}
+
+Table todo_history {
+  id uuid [pk, default: `gen_random_uuid()`]
+  todo_id uuid [ref: > todos.id, not null]
+  change_type varchar(50) [not null, note: 'created, status_changed, edited, assigned, completed']
+  old_value jsonb
+  new_value jsonb
+  changed_by varchar(100) [note: 'user or agent name']
+  changed_at timestamp [default: `now()`]
+
+  indexes {
+    todo_id
+    changed_at
+  }
+}
+
+// ==================== Agent Management ====================
+
+Table agents {
+  id uuid [pk, default: `gen_random_uuid()`]
+  agent_name varchar(100) [unique, not null]
+  agent_type varchar(50) [not null, note: 'planner, router, executor, validator']
+  executor_subtype varchar(50) [note: 'search, analysis, document, api']
+  capabilities jsonb
+  configuration jsonb
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp
+
+  indexes {
+    agent_name
+    agent_type
+  }
+}
+
+Table agent_executions {
+  id uuid [pk, default: `gen_random_uuid()`]
+  agent_id uuid [ref: > agents.id, not null]
+  thread_id uuid [ref: > threads.id, not null]
+  todo_id uuid [ref: > todos.id]
+  started_at timestamp [default: `now()`]
+  completed_at timestamp
+  status varchar(20) [not null, note: 'running, completed, failed, interrupted']
+  input_data jsonb
+  output_data jsonb
+  error_message text
+  execution_time_ms integer
+
+  indexes {
+    agent_id
+    thread_id
+    todo_id
+    status
+  }
+}
+
+// ==================== Interrupt & HITL ====================
+
+Table interrupts {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  interrupt_type varchar(50) [not null, note: 'user_esc, approval_required, error_handling, clarification']
+  interrupt_reason text
+  interrupt_data jsonb
+  created_at timestamp [default: `now()`]
+  resolved_at timestamp
+  resolution_type varchar(50) [note: 'approved, rejected, edited, cancelled']
+  resolution_data jsonb
+
+  indexes {
+    thread_id
+    interrupt_type
+    created_at
+  }
+}
+
+// ==================== Checkpointing (LangGraph) ====================
+
+Table checkpoints {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id varchar(255) [not null]
+  checkpoint_id varchar(255) [not null]
+  parent_checkpoint_id varchar(255)
+  checkpoint_data bytea [not null, note: 'Serialized graph state']
+  metadata jsonb
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    thread_id
+    checkpoint_id
+    (thread_id, checkpoint_id) [unique]
+  }
+}
+
+Table checkpoint_writes {
+  id uuid [pk, default: `gen_random_uuid()`]
+  checkpoint_id uuid [ref: > checkpoints.id, not null]
+  task_id varchar(255) [not null]
+  channel varchar(255) [not null]
+  value jsonb
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    checkpoint_id
+    task_id
+  }
+}
+
+// ==================== Memory Management ====================
+
+Table short_term_memory {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  memory_key varchar(255) [not null]
+  memory_value jsonb [not null]
+  memory_type varchar(50) [note: 'conversation, state, temporary']
+  created_at timestamp [default: `now()`]
+  expires_at timestamp
+
+  indexes {
+    thread_id
+    memory_key
+    (thread_id, memory_type)
+  }
+}
+
+// Note: Long-term memory는 Redis에 저장되므로 PostgreSQL 스키마에 포함되지 않음
+// Redis 구조:
+// - user:{user_id}:preferences (Hash)
+// - pattern:{type}:{timestamp} (String with JSON)
+// - session:{session_id}:state (String with JSON)
+// - context:vector:{embedding} (Vector search)
+
+// ==================== Messages & Streaming ====================
+
+Table messages {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  role varchar(20) [not null, note: 'user, assistant, system, tool']
+  content text
+  content_blocks jsonb [note: 'Structured content blocks for LangChain 1.0']
+  metadata jsonb
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    thread_id
+    created_at
+    role
+  }
+}
+
+Table streaming_events {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id, not null]
+  event_type varchar(50) [not null, note: 'token, state_update, interrupt, error']
+  event_data jsonb
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    thread_id
+    created_at
+    event_type
+  }
+}
+
+// ==================== Analytics & Logging ====================
+
+Table execution_logs {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id]
+  log_level varchar(20) [not null, note: 'debug, info, warning, error']
+  component varchar(100) [not null]
+  message text
+  context jsonb
+  created_at timestamp [default: `now()`]
+
+  indexes {
+    thread_id
+    created_at
+    log_level
+  }
+}
+
+Table performance_metrics {
+  id uuid [pk, default: `gen_random_uuid()`]
+  thread_id uuid [ref: > threads.id]
+  metric_name varchar(100) [not null]
+  metric_value float [not null]
+  metric_unit varchar(50)
+  measured_at timestamp [default: `now()`]
+
+  indexes {
+    thread_id
+    metric_name
+    measured_at
+  }
+}
+
+// ==================== Relationships Summary ====================
+
+// User -> Sessions -> Threads
+// Threads -> TODOs -> Dependencies
+// Threads -> Checkpoints -> Checkpoint Writes
+// Threads -> Messages
+// Threads -> Interrupts
+// Agents -> Executions
+// TODOs -> Agent Executions
+// Threads -> Conversation Context/Intents
