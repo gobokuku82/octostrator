@@ -39,12 +39,11 @@ print("\nPress Ctrl+C to stop the server\n")
 
 # Run the application
 import uvicorn
-from backend.app.main import app
 
 if __name__ == "__main__":
     try:
         uvicorn.run(
-            app,
+            "backend.app.main:app",
             host="127.0.0.1",
             port=8000,
             reload=True,

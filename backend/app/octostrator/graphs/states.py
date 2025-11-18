@@ -1,7 +1,8 @@
 """Graph state definitions for Octostrator"""
 
 from typing import TypedDict, List, Optional, Dict, Any, Annotated, Literal
-from langchain_core.messages import BaseMessage, add_messages
+from langchain_core.messages import BaseMessage
+from langgraph.graph.message import add_messages
 from datetime import datetime
 from uuid import UUID
 

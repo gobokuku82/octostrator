@@ -8,8 +8,7 @@ from typing import Any, Dict, Optional
 from datetime import datetime
 from pathlib import Path
 
-from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint
-from langgraph.checkpoint.serde import SerializerProtocol
+from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint, SerializerProtocol
 from loguru import logger
 
 

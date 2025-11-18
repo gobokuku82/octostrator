@@ -12,6 +12,7 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from loguru import logger
 
 from .states import MainGraphState, GraphState
+from .todo_graph import TodoGraph
 from backend.schema.todo import TodoItem, TodoStatus, TodoPriority
 
 
@@ -22,6 +23,7 @@ class MainGraph:
         """Initialize the main graph"""
         self.checkpointer = None
         self.graph = None
+        self.todo_graph = TodoGraph()
         self._initialized = False
 
     async def initialize(self):
@@ -154,38 +156,58 @@ class MainGraph:
         return state
 
     async def planner_node(self, state: GraphState) -> GraphState:
-        """TODO 계획 노드"""
-        logger.info("Planning TODOs")
+        """TODO 계획 노드 - 실제 TodoGraph 사용"""
+        logger.info("Planning TODOs with TodoGraph")
 
         user_query = state.get("user_query", "")
         if not user_query:
             state["error"] = "No user query for planning"
             return state
 
-        # Generate TODOs (Mock implementation)
-        todos = self._generate_todos(user_query)
+        # Use TodoGraph to generate TODOs
+        try:
+            todo_result = await self.todo_graph.invoke(
+                user_query=user_query,
+                thread_id=state.get("thread_id", ""),
+                session_id=state.get("session_id", "")
+            )
 
-        # Check if confirmation is needed
-        if len(todos) > 5 or any(t.priority == TodoPriority.HIGH for t in todos):
-            state["requires_confirmation"] = True
+            todos = todo_result.get("todos", [])
+            validation_passed = todo_result.get("validation_passed", False)
+            validation_errors = todo_result.get("validation_errors", [])
+            requires_confirmation = todo_result.get("requires_confirmation", False)
 
-            # HITL: Request user confirmation
-            user_response = interrupt({
-                "type": "todo_confirmation",
-                "message": "생성된 TODO 목록을 확인해주세요",
-                "todos": [t.dict() for t in todos],
-                "actions": ["approve", "edit", "cancel"]
-            })
-
-            if user_response.get("action") == "cancel":
-                state["error"] = "User cancelled TODO creation"
+            if not validation_passed:
+                state["error"] = f"TODO validation failed: {', '.join(validation_errors)}"
+                state["validation_errors"] = validation_errors
                 return state
-            elif user_response.get("action") == "edit":
-                # Handle edits (simplified)
-                todos = self._edit_todos(todos, user_response.get("feedback", ""))
 
-        state["todos"] = todos
-        logger.info(f"Generated {len(todos)} TODOs")
+            # Check if confirmation is needed
+            if requires_confirmation or len(todos) > 5:
+                state["requires_confirmation"] = True
+
+                # HITL: Request user confirmation
+                user_response = interrupt({
+                    "type": "todo_confirmation",
+                    "message": "생성된 TODO 목록을 확인해주세요",
+                    "todos": [t.dict() for t in todos],
+                    "actions": ["approve", "edit", "cancel"]
+                })
+
+                if user_response.get("action") == "cancel":
+                    state["error"] = "User cancelled TODO creation"
+                    return state
+                elif user_response.get("action") == "edit":
+                    # Handle edits (simplified)
+                    todos = self._edit_todos(todos, user_response.get("feedback", ""))
+
+            state["todos"] = todos
+            logger.info(f"Generated {len(todos)} TODOs using TodoGraph")
+
+        except Exception as e:
+            logger.error(f"Error in planner_node: {e}")
+            state["error"] = f"TODO planning failed: {str(e)}"
+
         return state
 
     async def router_node(self, state: GraphState) -> GraphState:
