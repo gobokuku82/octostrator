@@ -19,7 +19,9 @@
       "Bash(powershell -Command \"Stop-Process -Id 34476 -Force\")",
       "Bash(if not exist \"C:\\kdy\\Projects\\Octo_worker\\beta_v002\\manual\" mkdir \"C:\\kdy\\Projects\\Octo_worker\\beta_v002\\manual\")",
       "Bash(dir:*)",
-      "Bash(if not exist \"C:\\kdy\\projects\\octostrator\\beta_v001\\reports\\base\" mkdir \"C:\\kdy\\projects\\octostrator\\beta_v001\\reports\\base\")"
+      "Bash(if not exist \"C:\\kdy\\projects\\octostrator\\beta_v001\\reports\\base\" mkdir \"C:\\kdy\\projects\\octostrator\\beta_v001\\reports\\base\")",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

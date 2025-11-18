@@ -14,6 +14,7 @@ from loguru import logger
 from .states import MainGraphState, GraphState
 from .todo_graph import TodoGraph
 from backend.schema.todo import TodoItem, TodoStatus, TodoPriority
+from backend.app.octostrator.agents import AgentManager
 
 
 class MainGraph:
@@ -24,6 +25,7 @@ class MainGraph:
         self.checkpointer = None
         self.graph = None
         self.todo_graph = TodoGraph()
+        self.agent_manager = AgentManager()
         self._initialized = False
 
     async def initialize(self):
@@ -234,37 +236,35 @@ class MainGraph:
         logger.info(f"Routed {len(tasks)} tasks")
         return state
 
-    async def executor_node(self, state: GraphState) -> List[Send]:
-        """실행 노드 - Send API for parallel execution"""
-        logger.info("Executing tasks")
+    async def executor_node(self, state: GraphState) -> GraphState:
+        """실행 노드 - Execute tasks with AgentManager"""
+        logger.info("Executing tasks with AgentManager")
 
         tasks = state.get("pending_tasks", [])
         if not tasks:
+            logger.warning("No tasks to execute")
             return state
 
-        # For parallel execution (if more than one task)
-        if len(tasks) > 1:
-            sends = []
-            for task in tasks:
-                # Send to appropriate executor (mock)
-                sends.append(Send(
-                    "process_task",
-                    {
-                        "task": task,
-                        "session_id": state["session_id"],
-                        "thread_id": state["thread_id"]
-                    }
-                ))
-            return sends
-
-        # For single task, process directly (mock)
-        task = tasks[0]
-        result = self._execute_task(task)
-
+        # Execute tasks with AgentManager
         if "execution_results" not in state:
             state["execution_results"] = {}
-        state["execution_results"][task["id"]] = result
 
+        # Execute all tasks (sequentially for now, can be parallelized later)
+        for task in tasks:
+            try:
+                result = await self.agent_manager.execute_task(task)
+                state["execution_results"][task["id"]] = result
+                logger.info(f"Task {task['id']} executed: {result['status']}")
+
+            except Exception as e:
+                logger.error(f"Task {task['id']} execution error: {e}")
+                state["execution_results"][task["id"]] = {
+                    "status": "failure",
+                    "error": str(e),
+                    "task_id": task["id"]
+                }
+
+        logger.info(f"Executed {len(tasks)} tasks")
         return state
 
     async def validator_node(self, state: GraphState) -> GraphState:
