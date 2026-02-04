@@ -1,0 +1,54 @@
+name: dashboard_agent
+description: 분석 결과를 시각화하는 대시보드를 생성합니다
+tool_type: business
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.dashboard
+
+parameters:
+  - name: data
+    type: object
+    required: true
+    description: 시각화할 데이터
+  - name: charts
+    type: array
+    required: false
+    description: 생성할 차트 목록
+  - name: theme
+    type: string
+    required: false
+    default: "light"
+    description: 대시보드 테마 (light, dark)
+  - name: interactive
+    type: boolean
+    required: false
+    default: true
+    description: 인터랙티브 기능 활성화
+
+timeout_sec: 180
+max_retries: 2
+
+dependencies:
+  - sentiment_analyzer
+  - keyword_extractor
+produces:
+  - dashboard_url
+  - chart_images
+  - embed_code
+
+tags:
+  - dashboard
+  - visualization
+  - business
+  - analytics
+
+has_cost: false
+
+examples:
+  - input:
+      data:
+        sentiment: {positive: 70, negative: 20}
+      charts: ["pie", "trend"]
+    output:
+      dashboard_url: "/dashboard/20260202"

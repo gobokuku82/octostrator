@@ -1,0 +1,52 @@
+name: problem_classifier
+description: 리뷰에서 제품 문제점과 불만 사항을 분류합니다
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.problem
+
+parameters:
+  - name: reviews
+    type: array
+    required: true
+    description: 분석할 리뷰 목록
+  - name: categories
+    type: array
+    required: false
+    description: 분류할 문제 카테고리 (기본값 사용 시 자동 분류)
+  - name: threshold
+    type: number
+    required: false
+    default: 0.7
+    description: 분류 신뢰도 임계값
+
+timeout_sec: 120
+max_retries: 3
+
+dependencies:
+  - preprocessor
+produces:
+  - problem_categories
+  - issue_frequency
+  - severity_ranking
+
+tags:
+  - problem
+  - analysis
+  - classification
+  - nlp
+
+has_cost: false
+
+examples:
+  - input:
+      reviews: ["발림성이 안좋아요", "향이 너무 강해요"]
+    output:
+      problem_categories:
+        - category: "texture"
+          issue: "발림성"
+          frequency: 15
+        - category: "fragrance"
+          issue: "향"
+          frequency: 8

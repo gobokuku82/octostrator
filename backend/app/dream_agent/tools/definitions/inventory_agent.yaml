@@ -1,0 +1,51 @@
+name: inventory_agent
+description: 재고 관리 및 최적화를 수행합니다
+tool_type: business
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.inventory
+
+parameters:
+  - name: product_ids
+    type: array
+    required: true
+    description: 제품 ID 목록
+  - name: check_type
+    type: string
+    required: false
+    default: "optimization"
+    description: 분석 유형 (status, optimization, reorder)
+  - name: forecast_demand
+    type: boolean
+    required: false
+    default: true
+    description: 수요 예측 포함
+
+timeout_sec: 120
+max_retries: 2
+
+dependencies:
+  - sales_agent
+produces:
+  - inventory_status
+  - reorder_suggestions
+  - optimization_plan
+
+tags:
+  - inventory
+  - business
+  - operations
+  - supply_chain
+
+has_cost: false
+
+examples:
+  - input:
+      product_ids: ["PROD001", "PROD002"]
+      check_type: "optimization"
+    output:
+      reorder_suggestions:
+        - product_id: "PROD001"
+          reorder_quantity: 500
+          urgency: "high"

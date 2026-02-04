@@ -1,0 +1,58 @@
+{
+  "session_id": "_example",
+  "created_at": "2026-01-29T10:00:00",
+  "updated_at": "2026-01-29T10:05:00",
+  "user_input": "라네즈 리뷰를 분석해서 인사이트 뽑아줘",
+  "language": "KOR",
+  "status": "active",
+  "todos": [
+    {
+      "id": "todo_001",
+      "task": "라네즈 리뷰 수집",
+      "status": "completed",
+      "priority": 1,
+      "layer": "data",
+      "created_at": "2026-01-29T10:00:01",
+      "updated_at": "2026-01-29T10:02:00",
+      "result": {
+        "review_count": 150,
+        "source": "oliveyoung"
+      },
+      "error": null,
+      "metadata": {
+        "brand": "라네즈",
+        "tool": "review_collector"
+      }
+    },
+    {
+      "id": "todo_002",
+      "task": "감성 분석 수행",
+      "status": "in_progress",
+      "priority": 2,
+      "layer": "analysis",
+      "created_at": "2026-01-29T10:02:01",
+      "updated_at": "2026-01-29T10:03:00",
+      "result": null,
+      "error": null,
+      "metadata": {
+        "depends_on": ["todo_001"],
+        "tool": "sentiment_analyzer"
+      }
+    },
+    {
+      "id": "todo_003",
+      "task": "인사이트 생성",
+      "status": "pending",
+      "priority": 3,
+      "layer": "insight",
+      "created_at": "2026-01-29T10:02:02",
+      "updated_at": "2026-01-29T10:02:02",
+      "result": null,
+      "error": null,
+      "metadata": {
+        "depends_on": ["todo_002"],
+        "tool": "insight_generator"
+      }
+    }
+  ]
+}

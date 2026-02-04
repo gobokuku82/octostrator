@@ -1,0 +1,54 @@
+name: insight_generator
+description: 분석 결과를 종합하여 비즈니스 인사이트를 도출합니다
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.insight
+
+parameters:
+  - name: analysis_results
+    type: object
+    required: true
+    description: 분석 결과 데이터 (sentiment, keywords 등)
+  - name: context
+    type: object
+    required: false
+    description: 추가 컨텍스트 정보 (브랜드, 기간 등)
+  - name: insight_depth
+    type: string
+    required: false
+    default: "standard"
+    description: 인사이트 깊이 (basic, standard, detailed)
+
+timeout_sec: 120
+max_retries: 2
+
+dependencies:
+  - sentiment_analyzer
+  - keyword_extractor
+produces:
+  - insights
+  - recommendations
+  - action_items
+
+tags:
+  - insight
+  - analysis
+  - strategy
+  - recommendation
+
+has_cost: true
+estimated_cost: 0.03
+
+examples:
+  - input:
+      analysis_results:
+        sentiment: {positive: 70, negative: 20}
+        keywords: ["보습", "촉촉"]
+    output:
+      insights:
+        - "고객들은 보습력에 높은 만족도를 보임"
+        - "향 관련 불만이 20% 차지"
+      recommendations:
+        - "향 개선 R&D 검토"

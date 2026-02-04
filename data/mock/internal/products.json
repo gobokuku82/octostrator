@@ -1,0 +1,72 @@
+{
+  "source": "internal_db",
+  "updated_at": "2026-01-31T09:00:00",
+  "brand": "라네즈",
+  "products": [
+    {
+      "product_id": "LNZ001",
+      "name": "라네즈 워터슬리핑마스크",
+      "category": "마스크/팩",
+      "subcategory": "슬리핑마스크",
+      "price": 32000,
+      "original_price": 35000,
+      "volume": "70ml",
+      "launch_date": "2022-03-01",
+      "status": "active",
+      "stock": 1250,
+      "monthly_sales": 3500,
+      "rating": 4.7,
+      "review_count": 2840,
+      "main_ingredients": ["히알루론산", "미네랄워터", "프로바이오틱스"],
+      "target_skin_type": ["건성", "복합성", "일반"],
+      "key_benefits": ["수분공급", "피부진정", "톤업"]
+    },
+    {
+      "product_id": "LNZ002",
+      "name": "라네즈 립슬리핑마스크",
+      "category": "립케어",
+      "subcategory": "립마스크",
+      "price": 22000,
+      "original_price": 24000,
+      "volume": "20g",
+      "launch_date": "2020-05-01",
+      "status": "active",
+      "stock": 2100,
+      "monthly_sales": 5200,
+      "rating": 4.8,
+      "review_count": 4120,
+      "main_ingredients": ["베리콤플렉스", "비타민C", "히알루론산"],
+      "target_skin_type": ["모든피부"],
+      "key_benefits": ["입술보습", "각질케어", "윤기부여"],
+      "variants": [
+        {"name": "베리", "color": "#FF6B9D", "stock": 800},
+        {"name": "애플라임", "color": "#90EE90", "stock": 650},
+        {"name": "바닐라", "color": "#FFF8DC", "stock": 650}
+      ]
+    },
+    {
+      "product_id": "LNZ003",
+      "name": "라네즈 워터뱅크 블루히알루로닉 크림",
+      "category": "크림",
+      "subcategory": "수분크림",
+      "price": 38000,
+      "original_price": 42000,
+      "volume": "50ml",
+      "launch_date": "2023-09-01",
+      "status": "active",
+      "stock": 890,
+      "monthly_sales": 2100,
+      "rating": 4.5,
+      "review_count": 1560,
+      "main_ingredients": ["블루히알루론산", "녹차추출물", "판테놀"],
+      "target_skin_type": ["건성", "복합성"],
+      "key_benefits": ["깊은수분공급", "피부장벽강화", "촉촉함유지"]
+    }
+  ],
+  "category_summary": {
+    "total_products": 15,
+    "active_products": 12,
+    "top_seller": "LNZ002",
+    "categories": ["마스크/팩", "립케어", "크림", "세럼", "토너"]
+  }
+}

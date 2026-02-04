@@ -1,0 +1,53 @@
+name: preprocessor
+description: 수집된 리뷰 데이터를 전처리하고 정제합니다
+tool_type: data
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.preprocessor
+
+parameters:
+  - name: reviews
+    type: array
+    required: true
+    description: 전처리할 리뷰 데이터 목록
+  - name: clean_html
+    type: boolean
+    required: false
+    default: true
+    description: HTML 태그 제거 여부
+  - name: remove_emoji
+    type: boolean
+    required: false
+    default: false
+    description: 이모지 제거 여부
+  - name: normalize
+    type: boolean
+    required: false
+    default: true
+    description: 텍스트 정규화 (공백, 특수문자 등)
+
+timeout_sec: 120
+max_retries: 3
+
+dependencies:
+  - review_collector
+produces:
+  - processed_texts
+  - preprocessing_stats
+
+tags:
+  - data
+  - preprocessing
+  - nlp
+
+has_cost: false
+
+examples:
+  - input:
+      reviews:
+        - text: "<p>정말 좋아요!!!</p>"
+          rating: 5
+    output:
+      processed_texts:
+        - "정말 좋아요"

@@ -1,0 +1,49 @@
+name: report_generator
+description: 분석 결과를 기반으로 리포트를 생성합니다
+tool_type: content
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.report
+
+parameters:
+  - name: analysis_data
+    type: object
+    required: true
+    description: 분석 결과 데이터
+  - name: template
+    type: string
+    required: false
+    default: "standard"
+    description: 리포트 템플릿 (standard, detailed, executive)
+  - name: format
+    type: string
+    required: false
+    default: "markdown"
+    description: 출력 형식 (markdown, html, pdf)
+
+timeout_sec: 180
+max_retries: 2
+
+dependencies:
+  - sentiment_analyzer
+  - keyword_extractor
+produces:
+  - report_content
+  - report_path
+
+tags:
+  - report
+  - content
+  - generation
+
+has_cost: false
+
+examples:
+  - input:
+      analysis_data:
+        sentiment: {positive: 70, negative: 20, neutral: 10}
+        keywords: ["보습", "촉촉", "가성비"]
+      template: "standard"
+    output:
+      report_path: "/outputs/report_20260202.md"

@@ -1,0 +1,57 @@
+name: google_trends
+description: Google Trends에서 검색 트렌드 데이터를 수집합니다
+tool_type: data
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.trends
+
+parameters:
+  - name: keywords
+    type: array
+    required: true
+    description: 검색할 키워드 목록
+  - name: geo
+    type: string
+    required: false
+    default: "KR"
+    description: 지역 코드 (KR, US, JP 등)
+  - name: timeframe
+    type: string
+    required: false
+    default: "today 3-m"
+    description: 검색 기간 (today 1-m, today 3-m, today 12-m)
+  - name: category
+    type: integer
+    required: false
+    default: 0
+    description: Google 카테고리 ID (0=전체)
+
+timeout_sec: 180
+max_retries: 3
+
+dependencies: []
+produces:
+  - trend_data
+  - interest_over_time
+  - related_queries
+
+tags:
+  - data
+  - trends
+  - google
+  - market
+
+has_cost: true
+estimated_cost: 0.005
+
+examples:
+  - input:
+      keywords: ["라네즈", "설화수"]
+      geo: "KR"
+      timeframe: "today 3-m"
+    output:
+      interest_over_time:
+        - date: "2026-01-01"
+          라네즈: 75
+          설화수: 82

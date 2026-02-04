@@ -1,0 +1,63 @@
+name: insight_with_trends
+description: K-Beauty 트렌드 RAG를 활용한 글로벌 마케팅 인사이트 도출
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.insight_trends
+
+parameters:
+  - name: analysis_results
+    type: object
+    required: true
+    description: 기본 분석 결과 데이터
+  - name: market
+    type: string
+    required: false
+    default: "global"
+    description: 타겟 시장 (global, asia, americas, europe)
+  - name: trend_period
+    type: string
+    required: false
+    default: "3m"
+    description: 트렌드 분석 기간
+  - name: include_rag
+    type: boolean
+    required: false
+    default: true
+    description: RAG 기반 트렌드 데이터 포함 여부
+
+timeout_sec: 180
+max_retries: 2
+
+dependencies:
+  - insight_generator
+  - google_trends
+produces:
+  - trend_insights
+  - market_opportunities
+  - global_positioning
+
+tags:
+  - insight
+  - trends
+  - kbeauty
+  - global
+  - rag
+  - marketing
+
+has_cost: true
+estimated_cost: 0.05
+
+examples:
+  - input:
+      analysis_results:
+        keywords: ["glass skin", "K-beauty"]
+      market: "global"
+    output:
+      trend_insights:
+        - trend: "Glass Skin"
+          growth: "+45%"
+          regions: ["US", "EU"]
+      market_opportunities:
+        - "미국 Z세대 타겟 마케팅"

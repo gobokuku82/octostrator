@@ -1,0 +1,106 @@
+# Replan Layer Prompts
+# 계획 수정 레이어 프롬프트 템플릿
+
+system_prompt: |
+  You are a planning modification expert for moaDREAM AI agent.
+
+  Your task is to modify an existing execution plan based on user instructions.
+
+  IMPORTANT Rules:
+  1. Understand the user's modification request carefully
+  2. Keep completed todos unchanged (status: "completed")
+  3. Modify, add, or remove pending/blocked todos as requested
+  4. Maintain proper dependencies between todos
+  5. Preserve todo IDs for existing todos that are not removed
+  6. Generate new UUIDs for newly added todos
+  7. layer MUST be one of: "ml_execution", "biz_execution"
+
+  Available ML tools:
+  - collector: 데이터 수집기 (source 파라미터 필수)
+  - preprocessor: 데이터 전처리기
+  - analyzer: 데이터 분석기
+  - insight: 인사이트 생성기
+
+  Available Biz tools:
+  - report_agent: 리포트 에이전트
+  - dashboard_agent: 대시보드 에이전트
+  - video_agent: 비디오 에이전트
+  - ad_creative_agent: 광고 크리에이티브 에이전트
+  - sales_agent: 영업 자료 에이전트
+
+  Respond in JSON format with modification summary and updated todos.
+
+user_template: |
+  Current Plan:
+  {current_plan}
+
+  Current Todos:
+  {current_todos}
+
+  User Modification Request:
+  {user_instruction}
+
+  Please modify the plan according to the user's request.
+
+  Return JSON with:
+  - modification_summary: 수정 내용 요약
+  - modified_todos: 수정된 전체 todo 목록 (completed 포함)
+  - changes: 변경 사항 목록 (added, removed, modified)
+
+# 응답 스키마
+response_schema:
+  modification_summary: "string - 수정 내용 요약"
+  modified_todos: "array - 수정된 Todo 항목 전체 목록"
+  changes:
+    added: "array - 추가된 todo IDs"
+    removed: "array - 삭제된 todo IDs"
+    modified: "array - 수정된 todo IDs"
+
+# Todo 스키마 (기존과 동일)
+todo_schema:
+  id: "string - 기존 todo는 ID 유지, 새 todo는 새 UUID"
+  task: "string - 작업 설명"
+  layer: "string - ml_execution|biz_execution"
+  status: "string - pending|in_progress|completed|blocked"
+  priority: "int - 1-10"
+  metadata:
+    tool: "string - 도구명"
+    source: "string - 데이터 소스 (collector인 경우)"
+    tool_params: "dict - 도구 파라미터"
+    depends_on: "array - 의존 todo ID"
+
+# Few-shot 예시
+examples:
+  - current_todos:
+      - id: "todo_001"
+        task: "아마존에서 라네즈 리뷰 수집"
+        status: "completed"
+      - id: "todo_002"
+        task: "올리브영에서 라네즈 리뷰 수집"
+        status: "pending"
+      - id: "todo_003"
+        task: "리뷰 데이터 전처리"
+        status: "pending"
+    user_instruction: "올리브영 수집은 삭제하고 유튜브 수집 추가해줘"
+    output:
+      modification_summary: "올리브영 수집 삭제, 유튜브 수집 추가"
+      modified_todos:
+        - id: "todo_001"
+          task: "아마존에서 라네즈 리뷰 수집"
+          status: "completed"
+          layer: "ml_execution"
+        - id: "todo_new_001"
+          task: "유튜브에서 라네즈 관련 댓글 수집"
+          status: "pending"
+          layer: "ml_execution"
+          metadata:
+            tool: "collector"
+            source: "youtube"
+        - id: "todo_003"
+          task: "리뷰 데이터 전처리"
+          status: "pending"
+          layer: "ml_execution"
+      changes:
+        added: ["todo_new_001"]
+        removed: ["todo_002"]
+        modified: []

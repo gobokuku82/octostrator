@@ -1,0 +1,58 @@
+{
+  "analysis_type": "sentiment",
+  "analyzed_at": "2026-01-31T10:30:00",
+  "total_analyzed": 80,
+  "summary": {
+    "positive": 52,
+    "negative": 15,
+    "neutral": 13,
+    "positive_ratio": 0.65,
+    "negative_ratio": 0.19,
+    "neutral_ratio": 0.16
+  },
+  "sentiment_scores": {
+    "average": 0.72,
+    "median": 0.78,
+    "std": 0.23
+  },
+  "top_positive_aspects": [
+    {"aspect": "보습력", "count": 35, "score": 0.92},
+    {"aspect": "촉촉함", "count": 28, "score": 0.89},
+    {"aspect": "흡수력", "count": 22, "score": 0.85},
+    {"aspect": "가성비", "count": 18, "score": 0.81},
+    {"aspect": "포장", "count": 12, "score": 0.78}
+  ],
+  "top_negative_aspects": [
+    {"aspect": "향", "count": 12, "score": -0.65},
+    {"aspect": "자극", "count": 8, "score": -0.78},
+    {"aspect": "가격", "count": 6, "score": -0.52},
+    {"aspect": "효과없음", "count": 5, "score": -0.72}
+  ],
+  "detailed_results": [
+    {
+      "review_id": "nv_001",
+      "sentiment": "positive",
+      "score": 0.92,
+      "aspects": [
+        {"aspect": "보습력", "sentiment": "positive", "score": 0.95},
+        {"aspect": "촉촉함", "sentiment": "positive", "score": 0.90}
+      ]
+    },
+    {
+      "review_id": "nv_004",
+      "sentiment": "negative",
+      "score": -0.65,
+      "aspects": [
+        {"aspect": "효과", "sentiment": "negative", "score": -0.70}
+      ]
+    },
+    {
+      "review_id": "nv_005",
+      "sentiment": "negative",
+      "score": -0.78,
+      "aspects": [
+        {"aspect": "자극", "sentiment": "negative", "score": -0.85}
+      ]
+    }
+  ]
+}

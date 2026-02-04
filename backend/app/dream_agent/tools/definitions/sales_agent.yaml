@@ -1,0 +1,55 @@
+name: sales_agent
+description: 판매 데이터 분석 및 예측을 수행합니다
+tool_type: business
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.sales
+
+parameters:
+  - name: product_id
+    type: string
+    required: true
+    description: 제품 ID
+  - name: period
+    type: string
+    required: false
+    default: "3m"
+    description: 분석 기간
+  - name: forecast_days
+    type: integer
+    required: false
+    default: 30
+    description: 예측 기간 (일)
+  - name: include_seasonality
+    type: boolean
+    required: false
+    default: true
+    description: 계절성 분석 포함
+
+timeout_sec: 180
+max_retries: 2
+
+dependencies: []
+produces:
+  - sales_analysis
+  - forecast
+  - recommendations
+
+tags:
+  - sales
+  - business
+  - forecast
+  - analytics
+
+has_cost: true
+estimated_cost: 0.03
+
+examples:
+  - input:
+      product_id: "PROD001"
+      forecast_days: 30
+    output:
+      forecast:
+        - date: "2026-02-15"
+          predicted_sales: 1500

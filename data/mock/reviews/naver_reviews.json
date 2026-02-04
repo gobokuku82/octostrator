@@ -1,0 +1,118 @@
+{
+  "source": "naver",
+  "keyword": "라네즈",
+  "collected_at": "2026-01-31T10:00:00",
+  "total_count": 50,
+  "reviews": [
+    {
+      "id": "nv_001",
+      "platform": "naver",
+      "content": "라네즈 워터슬리핑마스크 진짜 좋아요! 자고 일어나면 피부가 촉촉해져요. 건조한 겨울에 필수템이에요.",
+      "author": "뷰티러버123",
+      "date": "2026-01-15",
+      "rating": 5,
+      "likes": 45,
+      "product": "라네즈 워터슬리핑마스크",
+      "helpful_count": 12
+    },
+    {
+      "id": "nv_002",
+      "platform": "naver",
+      "content": "가격 대비 괜찮은 것 같아요. 보습력은 좋은데 향이 좀 강한 편이에요.",
+      "author": "스킨케어매니아",
+      "date": "2026-01-14",
+      "rating": 4,
+      "likes": 23,
+      "product": "라네즈 워터뱅크 크림",
+      "helpful_count": 8
+    },
+    {
+      "id": "nv_003",
+      "platform": "naver",
+      "content": "민감성 피부인데 자극 없이 잘 맞아요. 재구매 의사 있습니다!",
+      "author": "센시티브걸",
+      "date": "2026-01-13",
+      "rating": 5,
+      "likes": 67,
+      "product": "라네즈 시카슬리핑마스크",
+      "helpful_count": 25
+    },
+    {
+      "id": "nv_004",
+      "platform": "naver",
+      "content": "기대했던 것보다 별로예요. 다른 브랜드 제품이 더 나은 것 같아요.",
+      "author": "솔직리뷰어",
+      "date": "2026-01-12",
+      "rating": 2,
+      "likes": 5,
+      "product": "라네즈 립슬리핑마스크",
+      "helpful_count": 2
+    },
+    {
+      "id": "nv_005",
+      "platform": "naver",
+      "content": "피부에 자극이 있어서 아쉬워요. 민감성 피부는 패치테스트 필수!",
+      "author": "피부고민러",
+      "date": "2026-01-11",
+      "rating": 2,
+      "likes": 15,
+      "product": "라네즈 워터뱅크 에센스",
+      "helpful_count": 6
+    },
+    {
+      "id": "nv_006",
+      "platform": "naver",
+      "content": "수분감이 정말 좋아요. 여름에도 가볍게 사용 가능할 것 같아요.",
+      "author": "여름피부",
+      "date": "2026-01-10",
+      "rating": 5,
+      "likes": 38,
+      "product": "라네즈 워터뱅크 블루히알루로닉 크림",
+      "helpful_count": 15
+    },
+    {
+      "id": "nv_007",
+      "platform": "naver",
+      "content": "텍스처가 가볍고 흡수가 빨라요. 기름진 피부에도 좋을 것 같아요.",
+      "author": "지성피부맨",
+      "date": "2026-01-09",
+      "rating": 4,
+      "likes": 29,
+      "product": "라네즈 워터뱅크 세럼",
+      "helpful_count": 10
+    },
+    {
+      "id": "nv_008",
+      "platform": "naver",
+      "content": "선물용으로 샀는데 포장도 예쁘고 받는 분이 좋아하셨어요!",
+      "author": "선물고수",
+      "date": "2026-01-08",
+      "rating": 5,
+      "likes": 18,
+      "product": "라네즈 기프트세트",
+      "helpful_count": 7
+    },
+    {
+      "id": "nv_009",
+      "platform": "naver",
+      "content": "가성비 좋아요. 용량 대비 가격이 합리적이에요.",
+      "author": "알뜰살뜰",
+      "date": "2026-01-07",
+      "rating": 4,
+      "likes": 42,
+      "product": "라네즈 워터슬리핑마스크",
+      "helpful_count": 18
+    },
+    {
+      "id": "nv_010",
+      "platform": "naver",
+      "content": "향이 너무 강해서 호불호가 갈릴 것 같아요. 효과는 좋은데...",
+      "author": "향기민감러",
+      "date": "2026-01-06",
+      "rating": 3,
+      "likes": 11,
+      "product": "라네즈 립슬리핑마스크",
+      "helpful_count": 4
+    }
+  ]
+}

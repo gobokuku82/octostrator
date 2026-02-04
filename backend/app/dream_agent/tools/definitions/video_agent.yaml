@@ -1,0 +1,58 @@
+name: video_agent
+description: 마케팅 영상 및 숏폼 콘텐츠를 생성합니다
+tool_type: content
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.video
+
+parameters:
+  - name: storyboard
+    type: object
+    required: true
+    description: 스토리보드 데이터
+  - name: format
+    type: string
+    required: false
+    default: "short"
+    description: 영상 형식 (short, reels, tiktok, youtube)
+  - name: duration
+    type: integer
+    required: false
+    default: 30
+    description: 영상 길이 (초)
+  - name: style
+    type: string
+    required: false
+    default: "modern"
+    description: 영상 스타일 (modern, minimal, luxury)
+
+timeout_sec: 300
+max_retries: 2
+
+dependencies:
+  - storyboard_agent
+produces:
+  - video_url
+  - video_metadata
+  - thumbnail
+
+tags:
+  - video
+  - content
+  - marketing
+  - shortform
+  - reels
+
+has_cost: true
+estimated_cost: 0.10
+
+examples:
+  - input:
+      storyboard:
+        scenes: 5
+        theme: "보습 크림 소개"
+      format: "reels"
+    output:
+      video_url: "/outputs/video_20260202.mp4"
+      duration: 30

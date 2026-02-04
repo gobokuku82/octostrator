@@ -1,0 +1,43 @@
+name: keyword_extractor
+description: 텍스트에서 주요 키워드를 추출합니다
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.keyword
+
+parameters:
+  - name: texts
+    type: array
+    required: true
+    description: 키워드를 추출할 텍스트 목록
+  - name: top_k
+    type: integer
+    required: false
+    default: 10
+    description: 추출할 키워드 개수
+  - name: algorithm
+    type: string
+    required: false
+    default: "tfidf"
+    description: 키워드 추출 알고리즘 (tfidf, textrank, yake)
+
+timeout_sec: 60
+max_retries: 3
+
+dependencies: []
+produces:
+  - keywords
+  - keyword_scores
+
+tags:
+  - keyword
+  - analysis
+  - nlp
+
+examples:
+  - input:
+      texts: ["라네즈 워터뱅크 크림이 정말 촉촉해요"]
+      top_k: 5
+    output:
+      keywords: ["라네즈", "워터뱅크", "크림", "촉촉"]

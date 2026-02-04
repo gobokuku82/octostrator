@@ -1,0 +1,134 @@
+# Intent Keywords Configuration
+# 의도 파악을 위한 키워드 설정
+
+# ML 분석 관련 키워드 (언어별)
+ml_keywords:
+  ko:
+    - "분석"
+    - "리뷰"
+    - "데이터"
+    - "수집"
+    - "평가"
+    - "감성"
+    - "트렌드"
+    - "통계"
+    - "비교"
+    - "크롤링"
+  en:
+    - "analyze"
+    - "analysis"
+    - "review"
+    - "data"
+    - "collect"
+    - "crawl"
+    - "sentiment"
+    - "trend"
+    - "statistics"
+    - "compare"
+  jp:
+    - "分析"
+    - "レビュー"
+    - "データ"
+    - "収集"
+    - "評価"
+    - "感性"
+    - "トレンド"
+
+# 비즈니스 도구 관련 키워드 (언어별)
+biz_keywords:
+  ko:
+    - "보고서"
+    - "문서"
+    - "작성"
+    - "생성"
+    - "매출"
+    - "광고"
+    - "마케팅"
+    - "대시보드"
+    - "PPT"
+    - "PDF"
+    - "엑셀"
+  en:
+    - "report"
+    - "document"
+    - "generate"
+    - "create"
+    - "sales"
+    - "ad"
+    - "marketing"
+    - "dashboard"
+    - "ppt"
+    - "pdf"
+    - "excel"
+  jp:
+    - "レポート"
+    - "文書"
+    - "作成"
+    - "生成"
+    - "売上"
+    - "広告"
+
+# 데이터 소스 매핑 (키워드 → 소스명)
+data_sources:
+  amazon:
+    keywords:
+      ko: ["아마존", "아마죤"]
+      en: ["amazon"]
+      jp: ["アマゾン"]
+  oliveyoung:
+    keywords:
+      ko: ["올리브영", "올영"]
+      en: ["oliveyoung", "olive young"]
+      jp: ["オリーブヤング"]
+  youtube:
+    keywords:
+      ko: ["유튜브", "유투브"]
+      en: ["youtube"]
+      jp: ["ユーチューブ"]
+  tiktok:
+    keywords:
+      ko: ["틱톡"]
+      en: ["tiktok"]
+      jp: ["ティックトック"]
+  coupang:
+    keywords:
+      ko: ["쿠팡"]
+      en: ["coupang"]
+      jp: []
+  sephora:
+    keywords:
+      ko: ["세포라"]
+      en: ["sephora"]
+      jp: ["セフォラ"]
+
+# Intent 타입 정의
+intent_types:
+  ml_analysis:
+    description: "ML/데이터 분석 요청"
+    requires_ml: true
+    requires_biz: false
+  report_generation:
+    description: "보고서/문서 생성 요청"
+    requires_ml: false
+    requires_biz: true
+  full_pipeline:
+    description: "분석 + 보고서 전체 파이프라인"
+    requires_ml: true
+    requires_biz: true
+  simple_question:
+    description: "단순 질문/대화"
+    requires_ml: false
+    requires_biz: false
+
+# 기본 설정
+defaults:
+  # 소스가 명시되지 않았을 때 사용할 기본 소스
+  default_sources:
+    - amazon
+    - oliveyoung
+    - youtube
+    - tiktok
+  # 기본 신뢰도 임계값
+  confidence_threshold: 0.7
+  # Fallback intent 타입
+  fallback_intent_type: "simple_question"

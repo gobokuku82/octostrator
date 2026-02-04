@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-01-31T12:00:00",
+  "brand": "라네즈",
+  "campaign": "Winter Hydration 2026",
+  "target_platform": "instagram",
+  "ad_concepts": [
+    {
+      "concept_id": "ad_001",
+      "name": "촉촉한 아침의 비밀",
+      "tagline": "밤새 채우는 수분, 아침에 만나는 촉촉함",
+      "description": "라네즈 워터슬리핑마스크의 72시간 보습력을 강조하는 감성적 광고",
+      "image_prompts": [
+        {
+          "scene": 1,
+          "prompt": "Young Korean woman waking up in soft morning light, touching her glowing dewy skin, minimalist bedroom with white sheets and natural lighting, beauty advertisement style, high-end cosmetics aesthetic",
+          "aspect_ratio": "1:1",
+          "style": "photorealistic"
+        },
+        {
+          "scene": 2,
+          "prompt": "Close-up of Laneige Water Sleeping Mask jar with water droplets, morning dew aesthetic, soft blue gradient background, product photography, luxury cosmetics",
+          "aspect_ratio": "1:1",
+          "style": "product_shot"
+        },
+        {
+          "scene": 3,
+          "prompt": "Split screen before/after: left side tired dry skin, right side glowing hydrated skin, Korean beauty aesthetic, clean minimal design",
+          "aspect_ratio": "1:1",
+          "style": "infographic"
+        }
+      ],
+      "copy_texts": [
+        "자는 동안 피부에 수분 충전 완료 💧",
+        "72시간 보습, 아침이 달라집니다",
+        "#워터슬리핑마스크 #촉촉피부 #라네즈"
+      ],
+      "hashtags": ["라네즈", "워터슬리핑마스크", "수분폭탄", "촉촉피부", "겨울스킨케어", "슬리핑마스크추천"]
+    },
+    {
+      "concept_id": "ad_002",
+      "name": "립의 새로운 시작",
+      "tagline": "잠들기 전 5초, 깨어나면 완전한 입술",
+      "description": "립슬리핑마스크의 간편함과 효과를 강조하는 트렌디한 광고",
+      "image_prompts": [
+        {
+          "scene": 1,
+          "prompt": "Extreme close-up of soft pink lips with glossy finish, light reflection, beauty photography, Korean beauty style, soft focus background",
+          "aspect_ratio": "9:16",
+          "style": "beauty_shot"
+        },
+        {
+          "scene": 2,
+          "prompt": "Flat lay of Laneige Lip Sleeping Mask in Berry flavor with fresh berries scattered around, pink marble background, Instagram aesthetic",
+          "aspect_ratio": "1:1",
+          "style": "lifestyle"
+        }
+      ],
+      "copy_texts": [
+        "베리 향 가득, 촉촉함도 가득 🍓",
+        "전 세계 3초에 1개씩 팔리는 이유",
+        "입술 각질? 이젠 안녕!"
+      ],
+      "hashtags": ["립슬리핑마스크", "라네즈립마스크", "촉촉입술", "베리맛", "입술각질케어"]
+    }
+  ],
+  "video_script": {
+    "duration": 15,
+    "format": "instagram_reels",
+    "scenes": [
+      {"time": "0-3s", "visual": "Woman applying sleeping mask before bed", "audio": "Soft piano music", "text": ""},
+      {"time": "3-8s", "visual": "Time lapse of sleeping, product working animation", "audio": "Gentle music continues", "text": "밤새 72시간 보습 충전"},
+      {"time": "8-12s", "visual": "Morning wake up, touching glowing skin", "audio": "Music builds up", "text": "아침에 만나는 촉촉함"},
+      {"time": "12-15s", "visual": "Product shot with logo", "audio": "Music ends", "text": "라네즈 워터슬리핑마스크"}
+    ]
+  }
+}

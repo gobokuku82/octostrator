@@ -1,0 +1,44 @@
+name: sentiment_analyzer
+description: 리뷰 텍스트의 감성을 분석합니다 (긍정/부정/중립)
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.sentiment
+
+parameters:
+  - name: reviews
+    type: array
+    required: true
+    description: 분석할 리뷰 텍스트 목록
+  - name: language
+    type: string
+    required: false
+    default: "ko"
+    description: 리뷰 언어 (ko, en, ja)
+
+timeout_sec: 120
+max_retries: 3
+
+dependencies: []
+produces:
+  - sentiment_results
+  - sentiment_summary
+
+tags:
+  - sentiment
+  - analysis
+  - nlp
+  - kbeauty
+
+examples:
+  - input:
+      reviews: ["이 제품 정말 좋아요!", "별로예요"]
+    output:
+      sentiment_results:
+        - text: "이 제품 정말 좋아요!"
+          sentiment: positive
+          confidence: 0.95
+        - text: "별로예요"
+          sentiment: negative
+          confidence: 0.87

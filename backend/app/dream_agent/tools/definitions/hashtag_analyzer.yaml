@@ -1,0 +1,56 @@
+name: hashtag_analyzer
+description: 소셜 미디어 해시태그를 분석하고 바이럴 트렌드를 파악합니다
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.hashtag
+
+parameters:
+  - name: texts
+    type: array
+    required: true
+    description: 해시태그를 추출할 텍스트 목록
+  - name: platform
+    type: string
+    required: false
+    default: "instagram"
+    description: 대상 플랫폼 (instagram, tiktok, twitter)
+  - name: top_k
+    type: integer
+    required: false
+    default: 20
+    description: 추출할 상위 해시태그 개수
+  - name: include_related
+    type: boolean
+    required: false
+    default: true
+    description: 연관 해시태그 포함 여부
+
+timeout_sec: 90
+max_retries: 3
+
+dependencies: []
+produces:
+  - hashtags
+  - hashtag_frequency
+  - viral_score
+
+tags:
+  - hashtag
+  - analysis
+  - social
+  - viral
+  - marketing
+
+has_cost: false
+
+examples:
+  - input:
+      texts: ["촉촉한 #스킨케어 #데일리루틴"]
+      platform: "instagram"
+    output:
+      hashtags:
+        - tag: "스킨케어"
+          frequency: 150
+          viral_score: 0.85

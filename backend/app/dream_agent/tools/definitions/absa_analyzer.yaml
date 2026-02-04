@@ -1,0 +1,54 @@
+name: absa_analyzer
+description: Aspect-Based Sentiment Analysis로 속성별 감성을 분석합니다
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.absa
+
+parameters:
+  - name: reviews
+    type: array
+    required: true
+    description: 분석할 리뷰 텍스트 목록
+  - name: aspects
+    type: array
+    required: false
+    description: 분석할 속성 목록 (기본값 사용 시 자동 추출)
+  - name: language
+    type: string
+    required: false
+    default: "ko"
+    description: 리뷰 언어
+
+timeout_sec: 150
+max_retries: 3
+
+dependencies:
+  - preprocessor
+produces:
+  - aspect_sentiments
+  - aspect_summary
+  - detailed_analysis
+
+tags:
+  - absa
+  - sentiment
+  - analysis
+  - nlp
+  - aspect
+
+has_cost: true
+estimated_cost: 0.02
+
+examples:
+  - input:
+      reviews: ["발림성은 좋은데 향이 별로예요"]
+    output:
+      aspect_sentiments:
+        - aspect: "발림성"
+          sentiment: "positive"
+          confidence: 0.92
+        - aspect: "향"
+          sentiment: "negative"
+          confidence: 0.88

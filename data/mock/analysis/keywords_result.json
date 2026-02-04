@@ -1,0 +1,27 @@
+{
+  "analysis_type": "keyword_extraction",
+  "analyzed_at": "2026-01-31T10:30:00",
+  "total_documents": 80,
+  "keywords": [
+    {"keyword": "보습", "score": 0.95, "count": 45, "category": "효능"},
+    {"keyword": "촉촉", "score": 0.88, "count": 38, "category": "효능"},
+    {"keyword": "피부결", "score": 0.82, "count": 28, "category": "효능"},
+    {"keyword": "슬리핑마스크", "score": 0.80, "count": 25, "category": "제품"},
+    {"keyword": "자극", "score": 0.75, "count": 18, "category": "부작용"},
+    {"keyword": "가성비", "score": 0.70, "count": 15, "category": "가격"},
+    {"keyword": "향", "score": 0.68, "count": 14, "category": "향"},
+    {"keyword": "립마스크", "score": 0.65, "count": 12, "category": "제품"},
+    {"keyword": "민감성", "score": 0.62, "count": 10, "category": "피부타입"},
+    {"keyword": "재구매", "score": 0.60, "count": 9, "category": "구매의향"}
+  ],
+  "keyword_trends": {
+    "rising": ["시카", "진정", "수분폭탄"],
+    "stable": ["보습", "촉촉", "슬리핑마스크"],
+    "declining": ["미백", "안티에이징"]
+  },
+  "co_occurrence": [
+    {"pair": ["보습", "촉촉"], "count": 28, "pmi": 0.72},
+    {"pair": ["슬리핑마스크", "보습"], "count": 20, "pmi": 0.68},
+    {"pair": ["민감성", "자극"], "count": 8, "pmi": 0.55}
+  ]
+}

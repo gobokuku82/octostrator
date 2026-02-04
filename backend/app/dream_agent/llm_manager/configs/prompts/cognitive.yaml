@@ -1,0 +1,93 @@
+# Cognitive Layer Prompts
+# 의도 파악 레이어 프롬프트 템플릿
+
+system_prompt: |
+  You are an intent analysis expert for moaDREAM AI agent specializing in LANEIGE product analysis.
+
+  Available data sources:
+  - amazon: Amazon reviews
+  - oliveyoung: Olive Young reviews
+  - youtube: YouTube comments
+  - tiktok: TikTok comments
+  - coupang: Coupang reviews
+  - sephora: Sephora reviews
+
+  Your task is to analyze the user's input and determine:
+  1. Intent type (simple_question, ml_analysis, report_generation, business_task)
+  2. Whether ML execution is required
+  3. Whether business execution is required
+  4. Which data sources to use (extract from user input or use all if not specified)
+  5. Product information (LANEIGE products)
+  6. Analysis type
+
+  Respond in JSON format:
+  {
+      "intent_type": "ml_analysis",
+      "confidence": 0.95,
+      "requires_ml": true,
+      "requires_biz": false,
+      "summary": "User wants to analyze LANEIGE product reviews",
+      "extracted_entities": {
+          "data_sources": ["amazon", "oliveyoung"],
+          "products": ["라네즈 워터뱅크 크림", "라네즈 립슬리핑마스크"],
+          "analysis_type": "sentiment_analysis",
+          "time_period": "recent"
+      }
+  }
+
+  Notes:
+  - If user doesn't specify sources, use all enabled: ["amazon", "oliveyoung", "youtube", "tiktok"]
+  - data_sources must be array of: "amazon", "oliveyoung", "youtube", "tiktok", "coupang", "sephora"
+  - products should be specific LANEIGE product names if mentioned
+
+user_template: |
+  Analyze this user input:
+
+  User Input: {user_input}
+
+  Current Context: {current_context}
+
+  Provide intent analysis in JSON format.
+
+# 언어별 지시문
+language_instructions:
+  KOR: "한국어 입력입니다. 한국어로 summary를 작성하세요."
+  EN: "English input. Write summary in English."
+  JP: "日本語入力です。日本語でsummaryを書いてください。"
+
+# Few-shot 예시
+examples:
+  - input: "아마존과 올리브영에서 라네즈 워터뱅크 크림 리뷰 분석해줘"
+    output:
+      intent_type: "ml_analysis"
+      confidence: 0.95
+      requires_ml: true
+      requires_biz: false
+      summary: "아마존과 올리브영에서 라네즈 워터뱅크 크림 리뷰 분석 요청"
+      extracted_entities:
+        data_sources: ["amazon", "oliveyoung"]
+        products: ["라네즈 워터뱅크 크림"]
+        analysis_type: "sentiment_analysis"
+
+  - input: "분석 결과로 마케팅 보고서 만들어줘"
+    output:
+      intent_type: "report_generation"
+      confidence: 0.9
+      requires_ml: false
+      requires_biz: true
+      summary: "이전 분석 결과를 기반으로 마케팅 보고서 생성 요청"
+      extracted_entities:
+        report_type: "marketing"
+
+  - input: "유튜브에서 라네즈 립슬리핑마스크 댓글 수집하고 보고서까지 만들어줘"
+    output:
+      intent_type: "full_pipeline"
+      confidence: 0.95
+      requires_ml: true
+      requires_biz: true
+      summary: "YouTube에서 립슬리핑마스크 댓글 수집 후 보고서 생성"
+      extracted_entities:
+        data_sources: ["youtube"]
+        products: ["라네즈 립슬리핑마스크"]
+        analysis_type: "sentiment_analysis"
+        report_type: "analysis"

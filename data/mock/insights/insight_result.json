@@ -1,0 +1,60 @@
+{
+  "analysis_type": "insight_generation",
+  "generated_at": "2026-01-31T11:00:00",
+  "brand": "라네즈",
+  "period": "2026-01",
+  "insights": [
+    {
+      "id": "ins_001",
+      "type": "positive",
+      "category": "product_strength",
+      "title": "보습력에 대한 강한 긍정적 반응",
+      "content": "고객들은 라네즈 제품의 보습력에 대해 매우 긍정적으로 평가하고 있습니다. 특히 워터슬리핑마스크와 워터뱅크 라인의 보습 효과가 높은 평가를 받고 있습니다.",
+      "confidence": 0.92,
+      "evidence": ["리뷰 65% 보습 관련 긍정 언급", "보습 키워드 45회 언급"],
+      "impact": "high"
+    },
+    {
+      "id": "ins_002",
+      "type": "warning",
+      "category": "product_concern",
+      "title": "민감성 피부 고객의 자극 보고",
+      "content": "일부 민감성 피부 고객에서 자극 반응이 보고되고 있습니다. 특히 새로운 제품 라인 사용 시 패치테스트 권장이 필요합니다.",
+      "confidence": 0.78,
+      "evidence": ["자극 관련 부정 리뷰 8건", "민감성 피부 언급 시 주의 권고"],
+      "impact": "medium"
+    },
+    {
+      "id": "ins_003",
+      "type": "opportunity",
+      "category": "market_trend",
+      "title": "가성비 키워드 증가 추세",
+      "content": "최근 '가성비' 관련 언급이 증가하고 있어 합리적인 가격 정책이 구매 결정에 중요한 요소임을 시사합니다.",
+      "confidence": 0.85,
+      "evidence": ["가성비 언급 15회 (전월 대비 20% 증가)"],
+      "impact": "medium"
+    },
+    {
+      "id": "ins_004",
+      "type": "recommendation",
+      "category": "marketing",
+      "title": "슬리핑마스크 라인 마케팅 강화 권장",
+      "content": "슬리핑마스크 제품군의 높은 만족도를 활용한 마케팅 캠페인이 효과적일 것으로 예상됩니다.",
+      "confidence": 0.88,
+      "evidence": ["슬리핑마스크 평균 평점 4.5/5", "재구매 의향 높음"],
+      "impact": "high"
+    }
+  ],
+  "summary": "라네즈는 전반적으로 보습력에 대한 긍정적 평가가 우세합니다. 슬리핑마스크 라인이 특히 강점이며, 민감성 피부 고객 대응과 가성비 마케팅에 대한 전략적 접근이 필요합니다.",
+  "recommendations": [
+    "민감성 피부 고객을 위한 패치 테스트 권장 문구 추가",
+    "보습 효과 강조 마케팅 유효",
+    "슬리핑마스크 라인 중심 프로모션 기획",
+    "가성비 라인 또는 번들 상품 검토"
+  ],
+  "action_items": [
+    {"priority": "high", "action": "슬리핑마스크 캠페인 기획", "deadline": "2026-02-15"},
+    {"priority": "medium", "action": "민감성 피부 고객 대응 가이드라인 작성", "deadline": "2026-02-28"},
+    {"priority": "low", "action": "가성비 라인 시장 조사", "deadline": "2026-03-15"}
+  ]
+}

@@ -1,0 +1,57 @@
+name: ad_creative_agent
+description: 광고 크리에이티브 콘텐츠를 생성합니다
+tool_type: content
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.ad_creative
+
+parameters:
+  - name: product_info
+    type: object
+    required: true
+    description: 제품 정보 (이름, 특징, USP)
+  - name: target_audience
+    type: object
+    required: false
+    description: 타겟 고객 정보
+  - name: platform
+    type: string
+    required: false
+    default: "all"
+    description: 광고 플랫폼 (facebook, instagram, google, all)
+  - name: creative_type
+    type: string
+    required: false
+    default: "image"
+    description: 크리에이티브 타입 (image, carousel, video)
+
+timeout_sec: 180
+max_retries: 2
+
+dependencies:
+  - insight_generator
+produces:
+  - ad_copy
+  - ad_images
+  - campaign_suggestion
+
+tags:
+  - ad
+  - creative
+  - content
+  - marketing
+  - campaign
+
+has_cost: true
+estimated_cost: 0.08
+
+examples:
+  - input:
+      product_info:
+        name: "워터뱅크 크림"
+        usp: "72시간 보습"
+      platform: "instagram"
+    output:
+      ad_copy: "촉촉함이 72시간 지속되는 #워터뱅크크림"
+      campaign_suggestion: "인플루언서 협업 추천"

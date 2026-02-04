@@ -1,0 +1,60 @@
+name: competitor_analyzer
+description: 경쟁사 브랜드를 분석하고 SWOT 비교를 수행합니다
+tool_type: analysis
+version: "1.0.0"
+layer: ml_execution
+
+executor: ml_agent.competitor
+
+parameters:
+  - name: target_brand
+    type: string
+    required: true
+    description: 분석 대상 브랜드
+  - name: competitor_brands
+    type: array
+    required: true
+    description: 비교할 경쟁사 브랜드 목록
+  - name: analysis_type
+    type: string
+    required: false
+    default: "swot"
+    description: 분석 유형 (swot, positioning, pricing)
+  - name: data_source
+    type: string
+    required: false
+    default: "reviews"
+    description: 데이터 소스 (reviews, social, all)
+
+timeout_sec: 180
+max_retries: 2
+
+dependencies:
+  - review_collector
+  - sentiment_analyzer
+produces:
+  - competitor_analysis
+  - swot_matrix
+  - market_positioning
+
+tags:
+  - competitor
+  - analysis
+  - swot
+  - market
+  - strategy
+
+has_cost: true
+estimated_cost: 0.02
+
+examples:
+  - input:
+      target_brand: "라네즈"
+      competitor_brands: ["설화수", "이니스프리"]
+      analysis_type: "swot"
+    output:
+      swot_matrix:
+        strengths: ["보습력", "가성비"]
+        weaknesses: ["향"]
+        opportunities: ["글로벌 시장"]
+        threats: ["경쟁 심화"]

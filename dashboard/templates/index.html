@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Agent Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Dream Agent</h1>
+            <div class="header-right">
+                <span class="session-badge" id="sessionBadge">Session: -</span>
+                <span class="status-badge" id="connectionStatus">Disconnected</span>
+            </div>
+        </header>
+
+        <!-- Main Content: 3-Panel Layout -->
+        <main class="main">
+            <!-- Left Column: Progress + Todo -->
+            <div class="left-column">
+                <!-- Progress Section (Red) -->
+                <section class="panel-section progress-section">
+                    <div class="panel-header">
+                        <h3>Progress</h3>
+                        <span class="badge" id="progressCount">0</span>
+                    </div>
+                    <div class="progress-list" id="progressList">
+                        <p class="empty-state">실행 중인 작업이 없습니다.</p>
+                    </div>
+                </section>
+
+                <!-- Todo Section (Yellow) -->
+                <section class="panel-section todo-section">
+                    <div class="panel-header">
+                        <h3>Todo List</h3>
+                        <span class="badge" id="todoCount">0</span>
+                    </div>
+                    <div class="todo-list" id="todoList">
+                        <p class="empty-state">생성된 Todo가 없습니다.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Chat (Blue) -->
+            <section class="chat-section">
+                <div class="panel-header">
+                    <h3>Chat</h3>
+                    <div class="chat-controls">
+                        <button id="stopBtn" class="btn-stop" disabled>중지</button>
+                        <button id="clearBtn" class="btn-clear">초기화</button>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message system">
+                        <p>Dream Agent에 오신 것을 환영합니다. K-Beauty 트렌드 분석을 시작해보세요.</p>
+                    </div>
+                </div>
+
+                <form class="chat-input" id="chatForm">
+                    <input
+                        type="text"
+                        id="userInput"
+                        placeholder="메시지를 입력하세요..."
+                        autocomplete="off"
+                    >
+                    <button type="submit" id="sendBtn">전송</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

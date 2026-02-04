@@ -1,0 +1,149 @@
+# Data Sources Configuration
+# ML 레이어 데이터 소스 설정
+
+# 데이터 소스별 파일 경로
+sources:
+  amazon:
+    display_name: "Amazon Reviews"
+    file_path: "data/amazone/laneige_amazon_final.csv"
+    file_type: "csv"
+    encoding: "utf-8"
+    columns:
+      review_text: "review_text"
+      rating: "rating"
+      date: "date"
+      product: "product_name"
+    enabled: true
+
+  oliveyoung:
+    display_name: "Olive Young Reviews"
+    file_path: "data/oliveyoung/oliveyoung_reviews.csv"
+    file_type: "csv"
+    encoding: "utf-8"
+    columns:
+      review_text: "review_text"
+      rating: "rating"
+      date: "date"
+      product: "product_name"
+    enabled: true
+
+  youtube:
+    display_name: "YouTube Comments"
+    file_path: "data/youtube/laneige_youtube_comments.csv"
+    file_type: "csv"
+    encoding: "utf-8"
+    columns:
+      review_text: "comment_text"
+      rating: null  # YouTube has no rating
+      date: "published_at"
+      author: "author"
+    enabled: true
+
+  tiktok:
+    display_name: "TikTok Comments"
+    file_path: "data/tiktok/comments.csv"
+    file_type: "csv"
+    encoding: "utf-8"
+    columns:
+      review_text: "text"
+      rating: null
+      date: "created_at"
+      author: "user"
+    enabled: true
+
+  coupang:
+    display_name: "Coupang Reviews"
+    file_path: "data/coupang/reviews.csv"
+    file_type: "csv"
+    encoding: "utf-8"
+    columns:
+      review_text: "content"
+      rating: "rating"
+      date: "review_date"
+    enabled: false  # 아직 데이터 없음
+
+  sephora:
+    display_name: "Sephora Reviews"
+    file_path: "data/sephora/reviews.csv"
+    file_type: "csv"
+    encoding: "utf-8"
+    columns:
+      review_text: "review"
+      rating: "stars"
+      date: "submitted_at"
+    enabled: false  # 아직 데이터 없음
+
+# 출력 경로 설정
+output:
+  base_dir: "data/output"
+  ml_results_dir: "data/output/ml_results"
+  reports_dir: "data/output/reports"
+  dashboards_dir: "data/output/dashboards"
+  exports_dir: "data/output/exports"
+
+# 감성 분석 키워드
+sentiment:
+  positive_keywords:
+    ko:
+      - "좋"
+      - "최고"
+      - "완전"
+      - "촉촉"
+      - "추천"
+      - "강추"
+      - "대박"
+      - "짱"
+      - "사랑"
+      - "만족"
+    en:
+      - "good"
+      - "great"
+      - "amazing"
+      - "love"
+      - "best"
+      - "recommend"
+      - "excellent"
+      - "perfect"
+    jp:
+      - "良い"
+      - "最高"
+      - "おすすめ"
+      - "素晴らしい"
+
+  negative_keywords:
+    ko:
+      - "별로"
+      - "안좋"
+      - "싫"
+      - "비싸"
+      - "아쉽"
+      - "실망"
+      - "후회"
+      - "최악"
+    en:
+      - "bad"
+      - "worst"
+      - "hate"
+      - "expensive"
+      - "disappointed"
+      - "terrible"
+    jp:
+      - "悪い"
+      - "最悪"
+      - "残念"
+
+# 분석 설정
+analysis:
+  # 샘플링 설정
+  sample_size: 1000  # 분석에 사용할 최대 샘플 수
+  min_review_length: 10  # 최소 리뷰 길이 (글자 수)
+
+  # 감성 분석 임계값
+  sentiment_threshold:
+    positive: 0.6
+    negative: 0.4
+
+  # 키워드 추출 설정
+  keyword_extraction:
+    top_n: 20
+    min_frequency: 3

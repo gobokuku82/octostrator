@@ -1,0 +1,58 @@
+{
+  "source": "instagram",
+  "keyword": "라네즈",
+  "collected_at": "2026-01-31T10:00:00",
+  "total_count": 30,
+  "reviews": [
+    {
+      "id": "ig_001",
+      "platform": "instagram",
+      "content": "요즘 라네즈 립마스크에 푹 빠졌어요 촉촉함이 아침까지 유지돼서 완전 만족 #라네즈 #립슬리핑마스크 #촉촉입술",
+      "author": "@beauty_daily",
+      "date": "2026-01-15",
+      "likes": 234,
+      "comments": 15,
+      "hashtags": ["라네즈", "립슬리핑마스크", "촉촉입술", "겨울필수템"]
+    },
+    {
+      "id": "ig_002",
+      "platform": "instagram",
+      "content": "워터슬리핑마스크 첫 사용 리뷰! 발림성 좋고 다음날 피부가 달라졌어요 #라네즈 #슬리핑마스크 #스킨케어",
+      "author": "@skincare_queen",
+      "date": "2026-01-14",
+      "likes": 567,
+      "comments": 42,
+      "hashtags": ["라네즈", "슬리핑마스크", "스킨케어", "피부좋아지는법"]
+    },
+    {
+      "id": "ig_003",
+      "platform": "instagram",
+      "content": "면세점에서 득템한 라네즈 세트 여행갈 때 딱이에요 #라네즈 #면세점쇼핑 #여행템",
+      "author": "@travel_beauty",
+      "date": "2026-01-13",
+      "likes": 189,
+      "comments": 8,
+      "hashtags": ["라네즈", "면세점쇼핑", "여행템", "뷰티하울"]
+    },
+    {
+      "id": "ig_004",
+      "platform": "instagram",
+      "content": "솔직히 기대보다 별로였어요... 광고만큼 효과가 있진 않은 것 같아요 #라네즈 #솔직후기 #스킨케어리뷰",
+      "author": "@honest_review",
+      "date": "2026-01-12",
+      "likes": 78,
+      "comments": 23,
+      "hashtags": ["라네즈", "솔직후기", "스킨케어리뷰"]
+    },
+    {
+      "id": "ig_005",
+      "platform": "instagram",
+      "content": "건성 피부 구원템 찾았어요!! 라네즈 크림 진짜 촉촉해요 #건성피부 #라네즈 #보습크림",
+      "author": "@dry_skin_tips",
+      "date": "2026-01-11",
+      "likes": 445,
+      "comments": 31,
+      "hashtags": ["건성피부", "라네즈", "보습크림", "겨울스킨케어"]
+    }
+  ]
+}

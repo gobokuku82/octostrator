@@ -1,0 +1,188 @@
+# Tool Settings Configuration
+# Biz 레이어 도구 설정
+
+# ML 도구 설정
+ml_tools:
+  collector:
+    display_name: "데이터 수집기"
+    timeout_sec: 60
+    max_retries: 3
+    batch_size: 500
+    rate_limit:
+      requests_per_minute: 30
+
+  preprocessor:
+    display_name: "데이터 전처리기"
+    timeout_sec: 30
+    max_retries: 2
+    settings:
+      remove_duplicates: true
+      remove_empty: true
+      normalize_text: true
+
+  analyzer:
+    display_name: "데이터 분석기"
+    timeout_sec: 120
+    max_retries: 2
+    settings:
+      analysis_types:
+        - sentiment
+        - keyword
+        - trend
+      model: "kobert"  # kobert | multilingual-bert | rule-based
+
+  insight:
+    display_name: "인사이트 생성기"
+    timeout_sec: 60
+    max_retries: 2
+    settings:
+      max_insights: 10
+      include_recommendations: true
+
+# Biz 도구 설정
+biz_tools:
+  report_agent:
+    display_name: "리포트 에이전트"
+    timeout_sec: 120
+    max_retries: 2
+    requires_approval: false
+    settings:
+      default_format: "markdown"
+      supported_formats:
+        - markdown
+        - pdf
+        - pptx
+        - html
+        - docx
+      templates_dir: "templates/reports"
+      default_template: "standard"
+
+  dashboard_agent:
+    display_name: "대시보드 에이전트"
+    timeout_sec: 180
+    max_retries: 2
+    requires_approval: true
+    approval_type: "preview"
+    settings:
+      default_layout: "standard"
+      chart_library: "plotly"
+      supported_layouts:
+        - standard
+        - executive
+        - detailed
+
+  storyboard_agent:
+    display_name: "스토리보드 에이전트"
+    timeout_sec: 180
+    max_retries: 2
+    requires_approval: true
+    approval_type: "preview"
+    settings:
+      supported_platforms:
+        - instagram
+        - youtube
+        - tiktok
+        - tv_ad
+      default_duration_sec: 30
+      styles:
+        - modern
+        - classic
+        - playful
+        - luxury
+
+  video_agent:
+    display_name: "비디오 에이전트"
+    timeout_sec: 600  # 10분
+    max_retries: 1
+    requires_approval: true
+    approval_type: "cost"
+    has_cost: true
+    cost_per_call_usd: 2.5
+    settings:
+      default_resolution: "1080p"
+      supported_resolutions:
+        - 720p
+        - 1080p
+        - 4k
+      default_fps: 30
+      backend: "runpod"  # runpod | local
+
+  ad_creative_agent:
+    display_name: "광고 크리에이티브 에이전트"
+    timeout_sec: 60
+    max_retries: 3
+    requires_approval: true
+    approval_type: "result"
+    settings:
+      supported_platforms:
+        - instagram
+        - facebook
+        - tiktok
+        - youtube
+        - naver
+      tones:
+        - professional
+        - casual
+        - playful
+        - luxury
+      languages:
+        - ko
+        - en
+        - ja
+        - zh
+
+  sales_agent:
+    display_name: "영업 자료 에이전트"
+    timeout_sec: 90
+    max_retries: 2
+    requires_approval: false
+    settings:
+      output_formats:
+        - pptx
+        - pdf
+        - docx
+
+# Biz Execution 설정
+biz_execution:
+  # Stub 모드 플래그
+  # Phase 0: true (스텁 모드 - LLM 호출 없이 고정 응답 반환)
+  # Phase 2: false (전체 모드 - LLM 통합 완전 구현)
+  stub_mode: true
+
+# 공통 설정
+common:
+  # LLM 설정
+  llm:
+    default_model: "gpt-4o-mini"
+    fallback_model: "gpt-3.5-turbo"
+    max_tokens:
+      cognitive: 500
+      planning: 1000
+      response: 800
+    temperature:
+      cognitive: 0.3
+      planning: 0.5
+      response: 0.7
+
+  # 재시도 설정
+  retry:
+    max_attempts: 3
+    backoff_factor: 2
+    initial_delay_sec: 1
+
+  # 캐싱 설정
+  cache:
+    enabled: true
+    ttl_seconds: 3600
+    max_size: 100
+
+# 승인 설정
+approval:
+  # 자동 승인 타임아웃 (초)
+  auto_approve_timeout_sec: 300
+  # 비용 승인 임계값 (USD)
+  cost_approval_threshold_usd: 1.0
+  # 승인 필요 작업 타입
+  require_approval_for:
+    - cost
+    - preview

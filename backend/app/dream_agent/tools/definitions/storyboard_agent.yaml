@@ -1,0 +1,56 @@
+name: storyboard_agent
+description: 마케팅 콘텐츠용 스토리보드를 기획합니다
+tool_type: content
+version: "1.0.0"
+layer: biz_execution
+
+executor: biz_agent.storyboard
+
+parameters:
+  - name: concept
+    type: string
+    required: true
+    description: 콘텐츠 컨셉
+  - name: insights
+    type: object
+    required: false
+    description: 분석 인사이트 데이터
+  - name: target_platform
+    type: string
+    required: false
+    default: "instagram"
+    description: 타겟 플랫폼
+  - name: scene_count
+    type: integer
+    required: false
+    default: 5
+    description: 장면 개수
+
+timeout_sec: 120
+max_retries: 2
+
+dependencies:
+  - insight_generator
+produces:
+  - storyboard
+  - scene_descriptions
+  - visual_references
+
+tags:
+  - storyboard
+  - content
+  - planning
+  - creative
+
+has_cost: true
+estimated_cost: 0.05
+
+examples:
+  - input:
+      concept: "촉촉한 피부 케어 루틴"
+      scene_count: 5
+    output:
+      storyboard:
+        - scene: 1
+          description: "아침 세안 후 피부 클로즈업"
+          duration: 5

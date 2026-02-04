@@ -1,0 +1,219 @@
+# Planning Layer Prompts
+# 계획 수립 레이어 프롬프트 템플릿
+
+system_prompt: |
+  You are a planning expert for moaDREAM AI agent specializing in LANEIGE product analysis.
+
+  Available data sources: amazon, oliveyoung, youtube, tiktok, coupang, sephora
+
+  Available ML tools:
+  - collector: 데이터 수집기 (source 파라미터 필수)
+  - preprocessor: 데이터 전처리기
+  - analyzer: 데이터 분석기
+  - insight: 인사이트 생성기
+  - insight_with_trends: K-Beauty 트렌드 RAG 기반 인사이트 생성기 (트렌드/마케팅/글로벌 분석 요청 시 사용)
+
+  Available Biz tools:
+  - report_agent: 리포트 에이전트 (markdown, pdf, pptx 지원)
+  - dashboard_agent: 대시보드 에이전트 [승인 필요]
+  - storyboard_agent: 스토리보드 에이전트 [승인 필요]
+  - video_agent: 비디오 에이전트 [승인 필요, 비용 발생]
+  - ad_creative_agent: 광고 크리에이티브 에이전트 [승인 필요]
+  - sales_agent: 영업 자료 에이전트
+
+  IMPORTANT Todo Generation Rules:
+  1. For each data source in intent.extracted_entities.data_sources, create a SEPARATE collector todo
+  2. Each collector todo MUST have metadata: {"tool": "collector", "source": "amazon"|"oliveyoung"|"youtube"|"tiktok", "tool_params": {"keyword": "검색어"}}
+  3. CRITICAL: You MUST extract keywords from user input and include them in tool_params.keyword for collector todos
+     - If intent.extracted_entities.keywords exists, use the first keyword
+     - Otherwise, extract the product/topic name from user input (e.g., "레티놀 세럼", "라네즈 크림")
+  4. After all collectors, create preprocessing, analysis, and insight todos
+  5. layer MUST be one of: "ml_execution", "biz_execution"
+  6. Consider dependencies between todos
+
+  Respond in JSON format with plan and todos.
+
+user_template: |
+  Create an execution plan for this request:
+
+  User Input: {user_input}
+
+  Intent Analysis:
+  {intent}
+
+  Current Context: {current_context}
+
+  Generate a detailed plan with Todo items in JSON format.
+
+# 응답 스키마
+response_schema:
+  plan_description: "string - 계획 요약"
+  total_steps: "int - 총 단계 수"
+  estimated_complexity: "string - low|medium|high"
+  workflow_type: "string - linear|parallel|mixed"
+  ml_pipeline: "array - ML 파이프라인 순서"
+  biz_pipeline: "array - Biz 파이프라인 순서"
+  todos: "array - Todo 항목 목록"
+
+# Todo 스키마
+todo_schema:
+  task: "string - 작업 설명"
+  layer: "string - ml_execution|biz_execution"
+  priority: "int - 1-10 (10이 가장 높음)"
+  metadata:
+    tool: "string - 도구명"
+    source: "string - 데이터 소스 (collector인 경우)"
+    tool_params: "dict - 도구 파라미터"
+    depends_on: "array - 의존 todo ID"
+
+# Few-shot 예시
+examples:
+  - input: "아마존과 올리브영에서 라네즈 리뷰 분석해서 보고서 만들어줘"
+    output:
+      plan_description: "Collect LANEIGE reviews from Amazon and Olive Young, analyze sentiment, and generate report"
+      total_steps: 6
+      estimated_complexity: "medium"
+      workflow_type: "linear"
+      ml_pipeline: ["collect_amazon", "collect_oliveyoung", "preprocess", "analyze", "insight"]
+      biz_pipeline: ["generate_report"]
+      todos:
+        - task: "아마존에서 라네즈 리뷰 수집"
+          layer: "ml_execution"
+          priority: 10
+          metadata:
+            tool: "collector"
+            source: "amazon"
+            tool_params:
+              keyword: "라네즈"
+        - task: "올리브영에서 라네즈 리뷰 수집"
+          layer: "ml_execution"
+          priority: 10
+          metadata:
+            tool: "collector"
+            source: "oliveyoung"
+            tool_params:
+              keyword: "라네즈"
+        - task: "수집된 리뷰 데이터 전처리"
+          layer: "ml_execution"
+          priority: 8
+          metadata:
+            tool: "preprocessor"
+        - task: "리뷰 감성 분석 수행"
+          layer: "ml_execution"
+          priority: 7
+          metadata:
+            tool: "analyzer"
+            analysis_type: "sentiment"
+        - task: "분석 결과 인사이트 도출"
+          layer: "ml_execution"
+          priority: 6
+          metadata:
+            tool: "insight"
+        - task: "분석 보고서 생성"
+          layer: "biz_execution"
+          priority: 5
+          metadata:
+            tool: "report_agent"
+            report_type: "analysis"
+            format: "markdown"
+
+  - input: "리뷰 분석 결과를 바탕으로 마케팅 영상 콘텐츠를 제작해줘"
+    output:
+      plan_description: "Analyze reviews and create marketing video content with storyboard"
+      total_steps: 6
+      estimated_complexity: "high"
+      workflow_type: "linear"
+      ml_pipeline: ["collect", "preprocess", "analyze", "insight"]
+      biz_pipeline: ["storyboard", "video"]
+      todos:
+        - task: "리뷰 데이터 수집"
+          layer: "ml_execution"
+          priority: 10
+          metadata:
+            tool: "collector"
+            source: "oliveyoung"
+            tool_params:
+              keyword: "라네즈"
+        - task: "수집된 리뷰 데이터 전처리"
+          layer: "ml_execution"
+          priority: 8
+          metadata:
+            tool: "preprocessor"
+        - task: "리뷰 감성 분석 수행"
+          layer: "ml_execution"
+          priority: 7
+          metadata:
+            tool: "analyzer"
+            analysis_type: "sentiment"
+        - task: "분석 결과 인사이트 도출"
+          layer: "ml_execution"
+          priority: 6
+          metadata:
+            tool: "insight"
+        - task: "마케팅 영상 스토리보드 생성"
+          layer: "biz_execution"
+          priority: 5
+          metadata:
+            tool: "storyboard_agent"
+            content_type: "instagram"
+            style: "modern"
+        - task: "마케팅 영상 콘텐츠 생성"
+          layer: "biz_execution"
+          priority: 4
+          metadata:
+            tool: "video_agent"
+            resolution: "1080p"
+            style: "realistic"
+
+  - input: "인스타그램용 숏폼 영상 만들어줘"
+    output:
+      plan_description: "Create short-form video content for Instagram"
+      total_steps: 2
+      estimated_complexity: "medium"
+      workflow_type: "linear"
+      ml_pipeline: []
+      biz_pipeline: ["storyboard", "video"]
+      todos:
+        - task: "숏폼 영상 스토리보드 생성"
+          layer: "biz_execution"
+          priority: 10
+          metadata:
+            tool: "storyboard_agent"
+            content_type: "instagram_reels"
+            style: "trendy"
+        - task: "숏폼 영상 콘텐츠 생성"
+          layer: "biz_execution"
+          priority: 5
+          metadata:
+            tool: "video_agent"
+            resolution: "1080p"
+            style: "dynamic"
+
+# 도구별 기본 파라미터
+tool_defaults:
+  collector:
+    limit: 1000
+    include_metadata: true
+  preprocessor:
+    remove_duplicates: true
+    normalize_text: true
+  analyzer:
+    analysis_type: "comprehensive"
+  insight:
+    max_insights: 10
+  insight_with_trends:
+    max_insights: 10
+    include_kbeauty_trends: true
+    language: "ko"
+  report_agent:
+    format: "markdown"
+    template: "standard"
+  storyboard_agent:
+    content_type: "instagram"
+    style: "modern"
+    scene_count: 5
+  video_agent:
+    resolution: "1080p"
+    fps: 30
+    style: "realistic"
+    use_mock: false
