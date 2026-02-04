@@ -79,8 +79,9 @@ class TodoItem(BaseModel):
     task: str
     task_type: str = "general"  # 작업 타입 (collect, analyze, report 등)
 
-    # 실행 정보
-    layer: Literal["cognitive", "planning", "ml_execution", "biz_execution", "response"]
+    # 실행 정보 (4-Layer Architecture)
+    layer: Literal["cognitive", "planning", "execution", "response"]
+    executor_type: Optional[Literal["ml", "biz", "data"]] = None  # execution layer일 때만 사용
     status: Literal["pending", "in_progress", "completed", "failed", "blocked", "skipped", "needs_approval", "cancelled"] = "pending"
     priority: int = Field(default=5, ge=0, le=10)
 
@@ -103,3 +104,28 @@ class TodoItem(BaseModel):
         json_encoders = {
             datetime: lambda v: v.isoformat()
         }
+
+    # ============================================================
+    # Migration Helpers (레거시 호환성)
+    # ============================================================
+
+    @property
+    def legacy_layer(self) -> str:
+        """기존 5-layer 형식으로 반환 (ml_execution, biz_execution 등)"""
+        if self.layer == "execution" and self.executor_type:
+            return f"{self.executor_type}_execution"
+        return self.layer
+
+    @classmethod
+    def from_legacy_layer(cls, legacy_layer: str, **kwargs) -> "TodoItem":
+        """기존 5-layer 값으로부터 생성 (마이그레이션용)"""
+        layer_mapping = {
+            "ml_execution": ("execution", "ml"),
+            "biz_execution": ("execution", "biz"),
+            "data_execution": ("execution", "data"),
+            "cognitive": ("cognitive", None),
+            "planning": ("planning", None),
+            "response": ("response", None),
+        }
+        layer, executor_type = layer_mapping.get(legacy_layer, (legacy_layer, None))
+        return cls(layer=layer, executor_type=executor_type, **kwargs)
